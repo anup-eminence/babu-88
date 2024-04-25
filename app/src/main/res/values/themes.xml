@@ -7,6 +7,13 @@
 
     <style name="Theme.Babu88" parent="Base.Theme.Babu88" />
 
+    <style name="Theme.RemoveSplashScreenTheme" parent="Base.Theme.Babu88">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="roundedCorners20dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
     <style name="CustomTabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorGravity">stretch</item>
         <item name="tabIndicatorAnimationDuration">2500</item>
