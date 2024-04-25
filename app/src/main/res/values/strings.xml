@@ -8,4 +8,6 @@
     <string name="bengali">Bengali</string>
     <string name="nepalese">Nepalese</string>
     <string name="hindi">Hindi</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

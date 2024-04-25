@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#DADADA</color>
     <color name="text_grey">#ACACAC</color>
+    <color name="base_color_yellow">#ffce01</color>
+    <color name="base_color_blue">#0066d1</color>
 </resources>
