@@ -1,9 +1,10 @@
-package com.sona.babu88
+package com.sona.babu88.ui.fishing
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sona.babu88.model.FishingList
 import com.sona.babu88.databinding.ItemFishingBinding
 
 class FishingAdapter : RecyclerView.Adapter<FishingAdapter.ViewHolder>() {

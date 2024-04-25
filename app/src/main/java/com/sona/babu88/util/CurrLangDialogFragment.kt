@@ -1,4 +1,4 @@
-package com.sona.babu88.utils
+package com.sona.babu88.util
 
 import android.os.Bundle
 import android.view.LayoutInflater

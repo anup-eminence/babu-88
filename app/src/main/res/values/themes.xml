@@ -14,6 +14,8 @@
     <style name="roundedCorners20dp" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
+    </style>
+
     <style name="CustomTabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorGravity">stretch</item>
         <item name="tabIndicatorAnimationDuration">2500</item>
