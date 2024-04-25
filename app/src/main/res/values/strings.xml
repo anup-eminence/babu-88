@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Babu 88</string>
+    <string name="currency_and_language">Currency And Language</string>
+    <string name="inr">₹ INR</string>
+    <string name="npr">रू NPR</string>
+    <string name="bdt">৳ BDT</string>
+    <string name="english">English</string>
+    <string name="bengali">Bengali</string>
+    <string name="nepalese">Nepalese</string>
+    <string name="hindi">Hindi</string>
 </resources>

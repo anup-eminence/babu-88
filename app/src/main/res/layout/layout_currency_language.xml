@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp"
+    android:background="@drawable/bg_dialog"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/currency_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/currency_and_language"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/image_wrong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_wrong"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_wrong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/currency_language"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/text_grey" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/text_grey"
+        app:layout_constraintEnd_toEndOf="@id/image_wrong"
+        app:layout_constraintStart_toStartOf="@id/currency_language"
+        app:layout_constraintTop_toBottomOf="@id/currency_language" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_bdt"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/ic_country_bdt"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toBottomOf="@id/view1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_bdt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="@string/bdt"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_bdt"
+        app:layout_constraintStart_toEndOf="@id/image_bdt"
+        app:layout_constraintTop_toTopOf="@id/image_bdt" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/bdt_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_4_corner_border"
+        android:padding="5dp"
+        android:text="@string/english"
+        android:textAllCaps="true"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_bdt"
+        app:layout_constraintEnd_toStartOf="@id/bdt_bengali"
+        app:layout_constraintStart_toEndOf="@id/tv_bdt"
+        app:layout_constraintTop_toTopOf="@id/image_bdt" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/bdt_bengali"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_4_corner_border"
+        android:padding="5dp"
+        android:text="@string/bengali"
+        android:textAllCaps="true"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_bdt"
+        app:layout_constraintEnd_toEndOf="@id/image_wrong"
+        app:layout_constraintStart_toEndOf="@id/bdt_english"
+        app:layout_constraintTop_toTopOf="@id/image_bdt" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/text_grey"
+        app:layout_constraintEnd_toEndOf="@id/image_wrong"
+        app:layout_constraintStart_toStartOf="@id/currency_language"
+        app:layout_constraintTop_toBottomOf="@id/image_bdt" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_inr"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_country_inr"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toBottomOf="@id/view2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_inr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="@string/inr"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_inr"
+        app:layout_constraintStart_toEndOf="@id/image_inr"
+        app:layout_constraintTop_toTopOf="@id/image_inr" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/inr_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_4_corner_border"
+        android:padding="5dp"
+        android:text="@string/english"
+        android:textAllCaps="true"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_inr"
+        app:layout_constraintEnd_toStartOf="@id/inr_hindi"
+        app:layout_constraintStart_toEndOf="@id/tv_inr"
+        app:layout_constraintTop_toTopOf="@id/image_inr" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/inr_hindi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_4_corner_border"
+        android:padding="5dp"
+        android:text="@string/hindi"
+        android:textAllCaps="true"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_inr"
+        app:layout_constraintEnd_toEndOf="@id/image_wrong"
+        app:layout_constraintStart_toEndOf="@id/inr_english"
+        app:layout_constraintTop_toTopOf="@id/image_inr" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/text_grey"
+        app:layout_constraintEnd_toEndOf="@id/image_wrong"
+        app:layout_constraintStart_toStartOf="@id/currency_language"
+        app:layout_constraintTop_toBottomOf="@id/image_inr" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_npr"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_country_npr"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toBottomOf="@id/view3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_npr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="@string/npr"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_npr"
+        app:layout_constraintStart_toEndOf="@id/image_npr"
+        app:layout_constraintTop_toTopOf="@id/image_npr" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/npr_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_4_corner_border"
+        android:padding="5dp"
+        android:text="@string/english"
+        android:textAllCaps="true"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_npr"
+        app:layout_constraintEnd_toStartOf="@id/npr_nepalese"
+        app:layout_constraintStart_toEndOf="@id/tv_npr"
+        app:layout_constraintTop_toTopOf="@id/image_npr" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/npr_nepalese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_4_corner_border"
+        android:padding="5dp"
+        android:text="@string/nepalese"
+        android:textAllCaps="true"
+        android:textColor="@color/text_grey"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/image_npr"
+        app:layout_constraintEnd_toEndOf="@id/image_wrong"
+        app:layout_constraintStart_toEndOf="@id/npr_english"
+        app:layout_constraintTop_toTopOf="@id/image_npr" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
