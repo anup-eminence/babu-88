@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/heebo_bold"
+        android:text="@string/login"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_wrong"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_wrong"
+        app:layout_constraintBottom_toBottomOf="@id/tv_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_login"
+        app:tint="@color/text_grey" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/text_grey"
+        app:layout_constraintEnd_toEndOf="@id/image_wrong"
+        app:layout_constraintStart_toStartOf="@id/tv_login"
+        app:layout_constraintTop_toBottomOf="@id/tv_login" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/heebo_bold"
+        android:text="@string/username"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view1" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_8_black_corner_border"
+        android:fontFamily="@font/heebo_medium"
+        android:hint="@string/fill_up_here"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_username" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/heebo_bold"
+        android:text="@string/password"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_username" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_8_black_corner_border"
+        android:fontFamily="@font/heebo_medium"
+        android:hint="@string/fill_up_here"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_password" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/heebo_bold"
+        android:text="@string/forgot_password"
+        android:textColor="@color/text_grey"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/bg_8_shape_black"
+        android:fontFamily="@font/heebo_bold"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/login"
+        android:textColor="@color/base_color_yellow"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/text_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_dont_have_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/heebo_medium"
+        android:text="@string/don_t_have_an_account"
+        android:textColor="@color/text_grey"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/bg_8_shape_yellow"
+        android:fontFamily="@font/heebo_bold"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/sign_up"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dont_have_account" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,4 +10,31 @@
     <string name="hindi">Hindi</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="download_app">Download App</string>
+    <string name="referrals">Referrals</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="fill_up_here">Fill up here</string>
+    <string name="promotion">Promotion</string>
+    <string name="refer_and_earn">Refer and Earn</string>
+    <string name="betting_pass">Betting Pass</string>
+    <string name="ipl_2024_">IPL 2024 Special Betting Pass</string>
+    <string name="agent_affiliate">Agent Affiliate</string>
+    <string name="games">Games</string>
+    <string name="cricket">Cricket</string>
+    <string name="live_casino">Live Casino</string>
+    <string name="slot_games">Slot Games</string>
+    <string name="table_games">Table Games</string>
+    <string name="sports_book">Sportsbook</string>
+    <string name="fishing">Fishing</string>
+    <string name="crash">Crash</string>
+    <string name="others">Others</string>
+    <string name="language">Language</string>
+    <string name="faq">FAQ</string>
+    <string name="live_chat">Live Chat</string>
+    <string name="logout">Logout</string>
 </resources>
