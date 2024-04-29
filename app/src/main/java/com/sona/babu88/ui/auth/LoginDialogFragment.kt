@@ -1,4 +1,4 @@
-package com.sona.babu88.util
+package com.sona.babu88.ui.auth
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
@@ -10,6 +10,7 @@ import androidx.core.text.color
 import androidx.fragment.app.DialogFragment
 import com.sona.babu88.R
 import com.sona.babu88.databinding.LayoutLoginBinding
+import com.sona.babu88.util.setWidthPercent
 
 class LoginDialogFragment : DialogFragment() {
     private lateinit var binding: LayoutLoginBinding
