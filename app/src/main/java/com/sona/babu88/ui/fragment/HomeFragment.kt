@@ -1,6 +1,8 @@
 package com.sona.babu88.ui.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +49,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener {
     }
 
     private fun initView() {
+        binding.tvMarquee.isSelected = true
         val hotGamesFragment = HotGamesFragment()
         this.replaceFragment(binding.container.id, hotGamesFragment, false, "hot_games")
     }
