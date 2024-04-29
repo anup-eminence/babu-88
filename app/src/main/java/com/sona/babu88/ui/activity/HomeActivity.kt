@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sona.babu88.R
 import com.sona.babu88.databinding.ActivityHomeBinding
+import com.sona.babu88.ui.drawer.NavUtils
+import com.sona.babu88.ui.drawer.NavigationDrawerAdapter
+import com.sona.babu88.ui.drawer.NavigationItem
 import com.sona.babu88.ui.fragment.HomeFragment
-import com.sona.babu88.ui.fragment.NavUtils
-import com.sona.babu88.ui.fragment.NavigationDrawerAdapter
-import com.sona.babu88.ui.fragment.NavigationItem
 import com.sona.babu88.util.CurrLangDialogFragment
 
 class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, NavigationDrawerAdapter.NavDrawerAdapterClickListener {

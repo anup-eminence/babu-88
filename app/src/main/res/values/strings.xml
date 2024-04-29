@@ -37,6 +37,16 @@
     <string name="faq">FAQ</string>
     <string name="live_chat">Live Chat</string>
     <string name="logout">Logout</string>
+    <string name="all">All</string>
+    <string name="search_games">Search games</string>
+    <string name="new_">New</string>
+    <string name="text_marquee">Scam Alert: Dear members, please be aware, do not share login details, payment receipt or OTP to anybody else. Any enquiry please direct contact us via livechat at the right bottom. Thanks for your continued trust in BABU88 ! \t\t\t\t\t\t Welcome to BABU88: Bangladesh\'s #1 Cricket Exchange and Betting Platform</string>
+    <string name="rewards">Rewards</string>
+    <string name="bet_history">Bet History</string>
+    <string name="withdrawal">Withdrawal</string>
+    <string name="home">Home</string>
+    <string name="deposit">Deposit</string>
+    <string name="account">Account</string>
     <string name="register_now">Register Now</string>
     <string name="fill_up_here_pass">Fill up Password here\n</string>
     <string name="password_cnf">Confirm Password</string>
