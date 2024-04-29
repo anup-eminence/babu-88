@@ -47,4 +47,20 @@
     <string name="home">Home</string>
     <string name="deposit">Deposit</string>
     <string name="account">Account</string>
+    <string name="register_now">Register Now</string>
+    <string name="fill_up_here_pass">Fill up Password here\n</string>
+    <string name="password_cnf">Confirm Password</string>
+    <string name="cnf_pass">Confirm the password</string>
+    <string name="next">Next</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="currency">Currency</string>
+    <string name="mendatory_field">This is a mandatory field</string>
+    <string name="error_field">Must Contain at least 6 to 11 character</string>
+    <string name="password_match_error">Password not matched</string>
+    <string name="user_name_invalid">Username must contain letters &amp; numbers only</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="phone">Phone Number</string>
+    <string name="referal_code">" Referral Code"</string>
+    <string name="terms_and_conditions">I am of legal age and I agree with the <b><u>Terms and Condition</u></b></string>
+    <string name="complete_registration">Complete Registration</string>
 </resources>
