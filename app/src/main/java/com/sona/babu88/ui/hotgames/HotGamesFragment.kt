@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.databinding.FragmentHotGamesBinding
 import com.sona.babu88.model.FishingList
-import com.sona.babu88.util.LoginDialogFragment
+import com.sona.babu88.ui.auth.LoginDialogFragment
+import com.sona.babu88.ui.auth.register.RegisterDialogFragment
 
 class HotGamesFragment : Fragment(), HotGamesAdapter.OnItemClickListener,
-    LoginDialogFragment.OnItemClickListener {
+    LoginDialogFragment.OnItemClickListener, RegisterDialogFragment.RegisterDialogListener {
     private lateinit var binding: FragmentHotGamesBinding
     private lateinit var hotGamesAdapter: HotGamesAdapter
     private var fishingList = arrayListOf<FishingList>()
     private lateinit var loginSignupDialog: LoginDialogFragment
+    private lateinit var registerDialogFragment: RegisterDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class HotGamesFragment : Fragment(), HotGamesAdapter.OnItemClickListener,
         setHotGamesData()
         hotGamesAdapter.setHotGamesData(fishingList)
         loginSignupDialog = LoginDialogFragment()
+        registerDialogFragment = RegisterDialogFragment(this@HotGamesFragment)
         loginSignupDialog.onItemClickListener(this@HotGamesFragment)
         loginSignupDialog.isCancelable = false
     }
@@ -65,7 +68,9 @@ class HotGamesFragment : Fragment(), HotGamesAdapter.OnItemClickListener,
     }
 
     override fun onItemClickListener() {
-        loginSignupDialog.show(requireActivity().supportFragmentManager, "")
+        if (loginSignupDialog != null && loginSignupDialog.isVisible.not()) {
+            loginSignupDialog.show(requireActivity().supportFragmentManager, "")
+        }
     }
 
     override fun dialogDismiss() {
@@ -73,6 +78,21 @@ class HotGamesFragment : Fragment(), HotGamesAdapter.OnItemClickListener,
     }
 
     override fun onLoginClick() {}
-    override fun onSignUpClick() {}
+
+    override fun onSignUpClick() {
+        loginSignupDialog.dismiss()
+        registerDialogFragment.show(childFragmentManager, "register")
+    }
+
     override fun onForgotPasswordClick() {}
+
+
+    override fun moveToLogin() {
+        if (loginSignupDialog != null && loginSignupDialog.isVisible.not()) {
+            loginSignupDialog.show(
+                requireActivity().supportFragmentManager,
+                loginSignupDialog.javaClass.name
+            )
+        }
+    }
 }
