@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.HomeFragment">
+    tools:context=".ui.home.HomeFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -235,8 +235,69 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false"
-                app:layout_constraintBottom_toTopOf="@id/image"
+                app:layout_constraintBottom_toTopOf="@id/tv_featured_games"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewTab" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_featured_games"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/featured_games"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:fontFamily="@font/heebo_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/featured_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:fadeScrollbars="false"
+                android:paddingBottom="8dp"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbarThumbHorizontal="@color/yellow"
+                android:scrollbarTrackHorizontal="@color/grey"
+                android:scrollbars="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_featured_games"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_home_featured_games"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_casino_games"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/casino_games"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:fontFamily="@font/heebo_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/featured_recyclerView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/casino_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:fadeScrollbars="false"
+                android:paddingBottom="8dp"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbarThumbHorizontal="@color/yellow"
+                android:scrollbarTrackHorizontal="@color/grey"
+                android:scrollbars="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_casino_games"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_hot_games" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image"
@@ -246,7 +307,7 @@
                 android:src="@drawable/img1_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container" />
+                app:layout_constraintTop_toBottomOf="@id/casino_recyclerView" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_download"

@@ -39,6 +39,7 @@
                 layout="@layout/login_register_view"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/bg_bottom_nav"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:itemActiveIndicatorStyle="@style/Theme.BottomNavigationView.ActiveIndicator"
                 app:itemIconSize="20dp"
                 app:itemIconTint="@drawable/bottom_nav_color"

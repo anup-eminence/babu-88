@@ -19,10 +19,12 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     private lateinit var detailsAdapter: DetailsAdapter
     private var homeTabList = arrayListOf<HomeTab>()
     private var detailsList = arrayListOf<DetailsList>()
+    private var title = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            title = it.getString("title").toString()
         }
     }
 
@@ -47,8 +49,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         setDetailsAdapter()
         setDetailsData()
         detailsAdapter.setDetailsData(detailsList)
-
-        binding.tvTitle.text = "Table Games"
+        binding.tvTitle.text = title
     }
 
     private fun setOnClickListener() {

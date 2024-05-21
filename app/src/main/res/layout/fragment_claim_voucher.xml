@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.rewards.ClaimVoucherFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_claim_voucher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:fontFamily="@font/heebo_bold"
+        android:gravity="center"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="12dp"
+        android:text="@string/claim_voucher"
+        android:textColor="@color/base_color_yellow"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_apply_voucher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="@string/apply_voucher"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:fontFamily="@font/heebo_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_claim_voucher" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_voucher_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_8_black_corner_border"
+        android:hint="Voucher Code"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_apply_voucher" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/bg_8_black_corner_border"
+        android:backgroundTint="@color/base_color_blue"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/submit"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:fontFamily="@font/heebo_bold"
+        app:layout_constraintTop_toBottomOf="@id/et_voucher_code" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,6 @@
-package com.sona.babu88.ui.fragment
+package com.sona.babu88.ui.home
 
 import android.os.Bundle
-import android.text.TextUtils
-import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.databinding.FragmentHomeBinding
+import com.sona.babu88.model.FishingList
 import com.sona.babu88.model.HomeTab
 import com.sona.babu88.ui.adapter.ViewPagerAdapter
 import com.sona.babu88.ui.casino.CasinoFragment
@@ -24,11 +23,16 @@ import com.sona.babu88.util.autoScroll
 import com.sona.babu88.util.provideViewPagerList
 import com.sona.babu88.util.replaceFragment
 
-class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener {
+class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
+    FeaturedGamesAdapter.OnFeaturedItemClickListener, CasinoGamesAdapter.OnCasinoItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapterVP: ViewPagerAdapter
     private lateinit var homeTabAdapter: HomeTabAdapter
+    private lateinit var casinoGamesAdapter: CasinoGamesAdapter
+    private lateinit var featuredGamesAdapter: FeaturedGamesAdapter
     private var homeTabList = arrayListOf<HomeTab>()
+    private var fishingList = arrayListOf<FishingList>()
+    private var featuredGameList = arrayListOf<FeaturedGameList>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +48,10 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener {
         setViewPager()
         setTabAdapter()
         setTabData()
+        setFeaturedGamesAdapter()
+        setFeaturedGamesData()
+        setCasinoGamesAdapter()
+        setCasinoGamesData()
         homeTabAdapter.setTabData(homeTabList)
         initView()
     }
@@ -126,4 +134,50 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener {
             }
         }
     }
+
+    private fun setFeaturedGamesAdapter() {
+        binding.featuredRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        featuredGamesAdapter = FeaturedGamesAdapter()
+        featuredGamesAdapter.setOnFeaturedItemClickListener(this@HomeFragment)
+        binding.featuredRecyclerView.adapter = featuredGamesAdapter
+    }
+
+    private fun setFeaturedGamesData() {
+        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game1))
+        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game2))
+        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game3))
+        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game4))
+        featuredGamesAdapter.setFeaturedGamesData(featuredGameList)
+    }
+
+    override fun onFeaturedItemClickListener() {
+
+    }
+
+    private fun setCasinoGamesAdapter() {
+        binding.casinoRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        casinoGamesAdapter = CasinoGamesAdapter()
+        casinoGamesAdapter.setOnCasinoItemClickListener(this@HomeFragment)
+        binding.casinoRecyclerView.adapter = casinoGamesAdapter
+    }
+
+    private fun setCasinoGamesData() {
+        fishingList.add(FishingList(R.drawable.img_home_1))
+        fishingList.add(FishingList(R.drawable.img_home_2))
+        fishingList.add(FishingList(R.drawable.img_home_3))
+        fishingList.add(FishingList(R.drawable.img_home_4))
+        fishingList.add(FishingList(R.drawable.img_home_5))
+        fishingList.add(FishingList(R.drawable.img_home_6))
+        fishingList.add(FishingList(R.drawable.img_home_7))
+        fishingList.add(FishingList(R.drawable.img_home_8))
+        fishingList.add(FishingList(R.drawable.img_home_9))
+        fishingList.add(FishingList(R.drawable.img_home_10))
+        fishingList.add(FishingList(R.drawable.img_home_11))
+        fishingList.add(FishingList(R.drawable.img_home_12))
+        casinoGamesAdapter.setCasinoGamesData(fishingList)
+    }
+
+    override fun onCasinoItemClickListener() {}
 }

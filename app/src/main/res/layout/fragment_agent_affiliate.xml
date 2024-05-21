@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.agentaffiliatte.AgentAffiliateFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_joinbanner"
+                android:paddingHorizontal="25dp"
+                android:paddingTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_how_to_join"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="25dp"
+                    android:gravity="center"
+                    android:text="@string/how_to_join_be_a_babu88_agent_affiliate"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_yellow"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_step1"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/ic_step_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_how_to_join" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_step_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/click_on_the_button_below_and_fill_in_the_google_form"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_step1" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_step2"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/ic_step_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_step_1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_step_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/babu88_managers_will_contact_you_after_you_submit_the_google_form_n_so_be_patience"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_step2" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_step3"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/ic_step_3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_step_2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_step_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/after_receiving_the_babu88_agent_account_you_can_now_invite_players_and_start_earning"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_step3" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_join"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/click_here_to_join"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_step_3" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="25dp"
+                    android:gravity="center"
+                    android:text="@string/an_agent_account_may_only_service_the_country_of_the_site_the_account_is_registered_if_an_agent_wishes_to_service_other_countries_please_reach_out_to_our_agent_managers_after_registration"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_join" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_comm_calculation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_commission_section"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_steps">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_comm_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="35dp"
+                    android:gravity="center"
+                    android:text="@string/babu88_commission_calculation"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_yellow"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_comm_calculation"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="12dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/img_commission_formula"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_comm_section" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/example"
+                    android:textColor="@color/base_color_yellow"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_comm_calculation" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_comm_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="50dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/img_commission_table"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_example" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_link_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_link_section"
+                android:paddingHorizontal="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_comm_calculation">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_babu88_back_up_links"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/babu88_back_up_links"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_babu88_back_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/babu88_know_how_frustrating_it_can_be_when_a_website_goes_down_use_these_alternative_links_to_access_our_site_while_we_work_on_fixing_the_issue"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_babu88_back_up_links" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_babu_play"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/www_babuplay_com"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_babu88_back_up" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_babu88"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/www_babu88_app"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_babu_play" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_babu88_a"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/www_babu88a_com"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_babu88" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_babu88_b"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/www_babu88b_com"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_babu88_a" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_babu88_c"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/www_babu88c_com"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_babu88_b" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_join_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_join_banner"
+                android:paddingHorizontal="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_link_section">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_join_babu88"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:gravity="center"
+                    android:text="@string/join_babu88"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_yellow"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_exclusive_offer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="25dp"
+                    android:gravity="center"
+                    android:text="@string/exclusive_official_agent_affiliate_program_and_earn_more_money"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_join_babu88" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_india_number_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/india_number_1_cricket_exchangeand_betting_platform"
+                    android:textColor="@color/base_color_yellow"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_exclusive_offer" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_earn_40_commission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/earn_40_commission_for_life_bring_more_members_earn_more_money"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_india_number_1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_join_babu88"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="25dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/join_babu88_now"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_earn_40_commission" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_grey_dark"
+                android:padding="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_join_section">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fadeScrollbars="false"
+                    android:paddingBottom="15dp"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbarThumbHorizontal="@color/grey"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_agent_affiliate" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_joinbanner"
+                android:paddingHorizontal="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_rv">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_what_are"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="35dp"
+                    android:gravity="center"
+                    android:text="@string/what_are_you_waiting_for"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_yellow"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_be_babu88_agent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="@string/be_a_babu88_agent_affiliate_and_start_earning"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_what_are" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_india_number_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/india_number_1_cricket_exchange_and_betting_platform"
+                    android:textColor="@color/base_color_yellow"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/heebo_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_be_babu88_agent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_join_babu88_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="25dp"
+                    android:background="@drawable/bg_blue_shape_corner"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
+                    android:text="@string/join_babu88_now"
+                    android:textAllCaps="true"
+                    android:textColor="@color/base_color_blue"
+                    android:textSize="22sp"
+                    app:fontFamily="@font/heebo_bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_india_number_2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

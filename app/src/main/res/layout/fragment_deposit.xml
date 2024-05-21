@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.deposit_withdrawal.DepositFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="25dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_payment_methods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/heebo_medium"
+                android:text="@string/payment_methods"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_deposit_channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/heebo_medium"
+                android:text="@string/deposit_channel"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_payment_methods" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_cashout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_8_black_corner_border"
+                android:fontFamily="@font/heebo_medium"
+                android:padding="8dp"
+                android:text="@string/cashout"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_deposit_channel" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_send_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@drawable/bg_8_black_corner_border"
+                android:fontFamily="@font/heebo_medium"
+                android:padding="8dp"
+                android:text="@string/send_money"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/btn_cashout"
+                app:layout_constraintTop_toBottomOf="@id/tv_deposit_channel" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/text_grey"
+                app:layout_constraintTop_toBottomOf="@id/btn_cashout" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_deposit_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/heebo_medium"
+                android:text="@string/deposit_amount"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="₹"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:fontFamily="@font/heebo_medium"
+                app:layout_constraintBottom_toBottomOf="@id/et_deposit_amount"
+                app:layout_constraintStart_toStartOf="@id/et_deposit_amount"
+                app:layout_constraintTop_toTopOf="@id/et_deposit_amount" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_deposit_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_8_black_corner_border"
+                android:fontFamily="@font/heebo_medium"
+                android:hint="Min ₹ 100.00 - Max ₹ 50,000.00"
+                android:paddingVertical="8dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="8dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_deposit_amount" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_clear"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="12dp"
+                android:src="@drawable/ic_wrong"
+                app:layout_constraintBottom_toBottomOf="@id/et_deposit_amount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/et_deposit_amount"
+                app:tint="@color/text_grey" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/amount_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/et_deposit_amount"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_deosit_amount" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/text_grey"
+                app:layout_constraintTop_toBottomOf="@id/amount_recyclerView" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_deposit_bonus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/heebo_medium"
+                android:text="@string/deposit_bonus"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_deposit_bonus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_8_black_corner_border"
+                android:fontFamily="@font/heebo_medium"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:text="No Bonus"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_deposit_bonus" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_clear_bonus"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="12dp"
+                android:src="@drawable/ic_wrong"
+                app:layout_constraintBottom_toBottomOf="@id/txt_deposit_bonus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_deposit_bonus"
+                app:tint="@color/text_grey" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_deposit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_8_shape_blue"
+                android:fontFamily="@font/heebo_bold"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/deposit"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_deposit_bonus" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

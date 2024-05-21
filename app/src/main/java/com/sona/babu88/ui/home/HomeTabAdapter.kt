@@ -1,4 +1,4 @@
-package com.sona.babu88.ui.fragment
+package com.sona.babu88.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
