@@ -189,4 +189,10 @@
     <string name="apply_voucher">Apply Voucher</string>
     <string name="winner_s_list">Winner\'s List</string>
     <string name="winning_record">Winning Record</string>
+    <string name="promotion_period">PROMOTION PERIOD</string>
+    <string name="deposit_now">Deposit Now</string>
+    <string name="deposit_details">Deposit Details</string>
+    <string name="bonus_amount">Bonus Amount</string>
+    <string name="target_amount">target Amount</string>
+    <string name="confirm">Confirm</string>
 </resources>

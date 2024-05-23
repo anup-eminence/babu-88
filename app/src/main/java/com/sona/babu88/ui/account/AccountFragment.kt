@@ -40,7 +40,7 @@ class AccountFragment : Fragment(), AccountParentAdapter.OnItemClickListener {
         binding.apply {
             binding.ivRefresh.setOnClickListener { }
             imgBettingPass.setOnClickListener { listener?.onAccountClick("Betting Pass") }
-            imgRewards.setOnClickListener { listener?.onAccountClick("Rewards")}
+            imgRewards.setOnClickListener { listener?.onAccountClick("Rewards") }
             imgReferral.setOnClickListener { listener?.onAccountClick("Referral") }
             imgDeposit.setOnClickListener { listener?.onAccountClick("Deposit") }
             imgWithdrawal.setOnClickListener { listener?.onAccountClick("Withdrawal") }
@@ -57,10 +57,10 @@ class AccountFragment : Fragment(), AccountParentAdapter.OnItemClickListener {
 
     private fun setParentAdapterData() {
         val parentList = arrayListOf<ParentList>()
-        parentList.add(ParentList("History", R.drawable.ic_language, listOf(ChildList("Bet History"), ChildList("Turnover History"), ChildList("Wallet History"))))
-        parentList.add(ParentList("Special", R.drawable.ic_language, listOf(ChildList("Refer and Earn"), ChildList("Betting Pass"), ChildList("Agent Affiliate"))))
+        parentList.add(ParentList("History", R.drawable.ic_history, listOf(ChildList("Bet History"), ChildList("Turnover History"), ChildList("Wallet History"))))
+        parentList.add(ParentList("Special", R.drawable.ic_special, listOf(ChildList("Refer and Earn"), ChildList("Betting Pass"), ChildList("Agent Affiliate"))))
         parentList.add(ParentList("Rewards", R.drawable.ic_rewards2, listOf(ChildList("Claim Voucher"), ChildList("Lucky Spin"), ChildList("Daily Check In "), ChildList("Coin Grab"))))
-        parentList.add(ParentList("Social", R.drawable.ic_language, listOf(ChildList("LIVE CHAT"), ChildList("Facebook"), ChildList("Instagram"), ChildList("Telegram"), ChildList("Twitter"), ChildList("YouTube"))))
+        parentList.add(ParentList("Social", R.drawable.ic_social, listOf(ChildList("LIVE CHAT"), ChildList("Facebook"), ChildList("Instagram"), ChildList("Telegram"), ChildList("Twitter"), ChildList("YouTube"))))
         parentList.add(ParentList("Settings", R.drawable.ic_settings, listOf(ChildList("Bank Details"), ChildList("Profile"), ChildList("Change password"))))
         parentAdapter.setPAData(parentList)
     }
