@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Handler
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
@@ -126,3 +129,29 @@ data class ViewPagerItem(
     val id: Int,
     val img: Int
 )
+
+fun Context.showExitAlert(positiveClick: () -> Unit) {
+    val builder = AlertDialog.Builder(this)
+    builder.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_logo))
+    builder.setMessage("Are you sure you want to exit?")
+
+    builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+        positiveClick()
+    }
+    builder.setNegativeButton(android.R.string.no) { dialog, which ->
+        dialog.dismiss()
+    }
+    builder.show()
+}
+
+fun View.onBackPress(doWork: () -> Unit) {
+    this.isFocusableInTouchMode = true
+    this.requestFocus()
+    this.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+            doWork()
+            return@OnKeyListener true
+        }
+        false
+    })
+}

@@ -76,7 +76,7 @@
             android:backgroundTint="@color/base_color_yellow"
             android:gravity="center"
             android:paddingVertical="8dp"
-            android:text="@string/apply_now"
+            android:text="@string/deposit_now"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:fontFamily="@font/heebo_bold"

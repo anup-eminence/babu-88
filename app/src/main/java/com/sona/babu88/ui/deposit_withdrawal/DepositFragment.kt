@@ -6,11 +6,14 @@ import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.databinding.CustomDepositDialogBinding
 import com.sona.babu88.databinding.FragmentDepositBinding
 
 class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
@@ -18,6 +21,7 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
     private lateinit var depositAmountAdapter: DepositAmountAdapter
     private var depositAmountList = arrayListOf<DepositAmountList>()
     private var totalAmount = 0
+    private var selectedTextView: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +58,19 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
                 etDepositAmount.text?.clear()
                 totalAmount = 0
             }
+            btnCashout.setOnClickListener { selectTextView(btnCashout) }
+            btnSendMoney.setOnClickListener { selectTextView(btnSendMoney) }
+            btnDeposit.setOnClickListener { showCustomDialog() }
+        }
+    }
+
+    private fun selectTextView(textView: TextView) {
+        selectedTextView?.setBackgroundResource(R.drawable.bg_8_black_corner_border)
+        if (selectedTextView == textView) {
+            selectedTextView = null
+        } else {
+            textView.setBackgroundResource(R.drawable.bg_8_yellow_border)
+            selectedTextView = textView
         }
     }
 
@@ -86,5 +103,24 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
     private fun getFormattedText(text: String): SpannableStringBuilder {
         return SpannableStringBuilder().append(text)
             .color(ContextCompat.getColor(requireContext(), R.color.light_red)) { append(" *") }
+    }
+
+    private fun showCustomDialog() {
+        CustomDepositDialogBinding.inflate(LayoutInflater.from(requireContext())).apply {
+            val depositFloat = binding.etDepositAmount.text.toString().toFloatOrNull() ?: 0.0f
+            val bonusFloat = binding.txtDepositBonus.text.toString().toFloatOrNull() ?: 0.0f
+
+            depositAmount.text = "₹ %.2f".format(depositFloat)
+            bonusAmount.text = "₹ %.2f".format(bonusFloat)
+            targetAmount.text = "₹ %.2f".format(depositFloat + bonusFloat)
+
+            val builder = AlertDialog.Builder(requireContext())
+                .setView(root)
+                .setCancelable(false)
+                .create()
+            ivClose.setOnClickListener { builder.dismiss() }
+            btnConfirm.setOnClickListener { builder.dismiss() }
+            builder.show()
+        }
     }
 }

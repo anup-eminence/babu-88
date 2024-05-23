@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -121,9 +122,9 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
 
     override fun onAccountClick(title: String) {
         when(title) {
-            "Bet History" -> { setFragment(HistoryFragment(), binding.container.id) }
-            "Turnover History" -> { setFragment(HistoryFragment(), binding.container.id) }
-            "Wallet History" -> { setFragment(HistoryFragment(), binding.container.id) }
+            "Bet History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "0"), binding.container.id) }
+            "Turnover History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "1"), binding.container.id) }
+            "Wallet History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "2"), binding.container.id) }
             "Claim Voucher" -> { setFragment(ClaimVoucherFragment(), binding.container.id) }
             "Lucky Spin" -> { setFragment(LuckySpinFragment(), binding.container.id) }
             "Daily Check In" -> { setFragment(RewardsFragment(), binding.container.id) }
@@ -141,8 +142,15 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
             "Profile" -> { setFragment(MyProfileFragment(), binding.container.id) }
             "Change password" -> { setFragment(ChangePasswordFragment(), binding.container.id) }
             "Deposit" -> { setFragment(DepositWithdrawalFragment(), binding.container.id) }
-            "Withdrawal" -> { setFragment(DepositWithdrawalFragment(), binding.container.id) }
+            "Withdrawal" -> { setFragment(setFragmentArguments(DepositWithdrawalFragment(), "tab", "1"), binding.container.id) }
             "Rewards" -> { setFragment(RewardsFragment(), binding.container.id) }
         }
+    }
+
+    private fun setFragmentArguments(fragment: Fragment, key: String, value: String): Fragment {
+        val args = Bundle()
+        args.putString(key, value)
+        fragment.arguments = args
+        return fragment
     }
 }

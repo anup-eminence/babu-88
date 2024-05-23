@@ -12,10 +12,13 @@ import com.sona.babu88.databinding.FragmentDepositWithdrawalBinding
 class DepositWithdrawalFragment : Fragment() {
     private lateinit var binding: FragmentDepositWithdrawalBinding
     private lateinit var dwViewPagerAdapter: DWViewPagerAdapter
+    private var tabPosition = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {}
+        arguments?.let {
+            tabPosition = it.getString("tab").toString()
+        }
     }
 
     override fun onCreateView(
@@ -52,5 +55,10 @@ class DepositWithdrawalFragment : Fragment() {
                 tab?.position?.let { binding.viewPager.currentItem = it }
             }
         })
+
+        if (tabPosition == "1"){
+            binding.tabLayout.getTabAt(1)?.select()
+            binding.viewPager.setCurrentItem(1,false)
+        }
     }
 }

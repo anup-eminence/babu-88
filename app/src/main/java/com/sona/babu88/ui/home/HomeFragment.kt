@@ -1,5 +1,6 @@
 package com.sona.babu88.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,9 +20,12 @@ import com.sona.babu88.ui.hotgames.HotGamesFragment
 import com.sona.babu88.ui.slot.SlotFragment
 import com.sona.babu88.ui.sports.SportsFragment
 import com.sona.babu88.ui.table.TableFragment
+import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.autoScroll
+import com.sona.babu88.util.onBackPress
 import com.sona.babu88.util.provideViewPagerList
 import com.sona.babu88.util.replaceFragment
+import com.sona.babu88.util.showExitAlert
 
 class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     FeaturedGamesAdapter.OnFeaturedItemClickListener, CasinoGamesAdapter.OnCasinoItemClickListener {
@@ -33,6 +37,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     private var homeTabList = arrayListOf<HomeTab>()
     private var fishingList = arrayListOf<FishingList>()
     private var featuredGameList = arrayListOf<FeaturedGameList>()
+    private var listener: OnAccountListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,12 +59,23 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         setCasinoGamesData()
         homeTabAdapter.setTabData(homeTabList)
         initView()
+        setOnClickListener()
+        view.onBackPress { requireContext().showExitAlert(positiveClick = { activity?.finish() }) }
     }
 
     private fun initView() {
         binding.tvMarquee.isSelected = true
         val hotGamesFragment = HotGamesFragment()
         this.replaceFragment(binding.container.id, hotGamesFragment, false, "hot_games")
+    }
+
+    private fun setOnClickListener() {
+        binding.apply {
+            imgBettingPass.setOnClickListener { listener?.onAccountClick("Betting Pass") }
+            imgRewards.setOnClickListener { listener?.onAccountClick("Rewards") }
+            imgBetHistory.setOnClickListener { listener?.onAccountClick("Bet History") }
+            imgWithdrawal.setOnClickListener { listener?.onAccountClick("Withdrawal") }
+        }
     }
 
     private fun setViewPager() {
@@ -180,4 +196,18 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     }
 
     override fun onCasinoItemClickListener() {}
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnAccountListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnAccountListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
 }

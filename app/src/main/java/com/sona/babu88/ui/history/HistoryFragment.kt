@@ -15,10 +15,13 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var historyVPAdapter: HistoryVPAdapter
     private var currentViewPagerItem = 0
+    private var tabPosition = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {}
+        arguments?.let {
+            tabPosition = it.getString("tab").toString()
+        }
     }
 
     override fun onCreateView(
@@ -67,5 +70,13 @@ class HistoryFragment : Fragment() {
                 tab?.position?.let { binding.viewPager.currentItem = it }
             }
         })
+
+        if (tabPosition == "1") {
+            binding.tabLayout.getTabAt(1)?.select()
+            binding.viewPager.setCurrentItem(1, false)
+        } else if (tabPosition == "2") {
+            binding.tabLayout.getTabAt(2)?.select()
+            binding.viewPager.setCurrentItem(2, false)
+        }
     }
 }

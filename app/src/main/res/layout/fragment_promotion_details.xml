@@ -4,213 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_dialog"
     tools:context=".ui.promotiondetails.PromotionDetailsFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/heebo_bold"
+        android:singleLine="true"
+        android:text="KAMA LO SLOT 50000"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_wrong"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_title"
+        app:tint="@color/text_grey" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/text_grey"
+        app:layout_constraintEnd_toEndOf="@id/iv_close"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".ui.activity.HomeActivity">
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_grey_dark">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/img_logo"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_logo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image"
+                android:id="@+id/iv_image"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="150dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/img_promotion_details"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img_logo" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_promotion_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/promotion_period"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:fontFamily="@font/heebo_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_image" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="2024-05-05 - 2024-05-06"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:fontFamily="@font/heebo_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_promotion_period" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_promotion_detail"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="12sp"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:fontFamily="@font/heebo_bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_champion_prediction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:text="Champion prediction"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:fontFamily="@font/heebo_bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_indian"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_corner_solid_shape"
-                    android:gravity="center"
-                    android:paddingVertical="8dp"
-                    android:text="Indian premier league"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:fontFamily="@font/heebo_bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_champion_prediction" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="12dp"
-                    android:background="@drawable/bg_corner_solid_shape2"
-                    app:layout_constraintEnd_toEndOf="@id/tv_indian"
-                    app:layout_constraintStart_toStartOf="@id/tv_indian"
-                    app:layout_constraintTop_toBottomOf="@id/tv_indian">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_champion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="25dp"
-                        android:text="Champion"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        app:fontFamily="@font/heebo_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_mumbai"
-                        android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginHorizontal="12dp"
-                        android:layout_marginTop="25dp"
-                        android:background="@drawable/ic_shape"
-                        android:gravity="center"
-                        android:text="Mumbai Indians"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        app:fontFamily="@font/heebo_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_champion" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="60dp"
-                        android:layout_marginTop="15dp"
-                        android:nestedScrollingEnabled="false"
-                        android:paddingHorizontal="5dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_mumbai"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/item_promotion_details" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/btn_next"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="30dp"
-                        android:background="@color/base_color_yellow"
-                        android:gravity="center"
-                        android:paddingVertical="8dp"
-                        android:text="@string/next"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        app:fontFamily="@font/heebo_bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/recyclerView"
-                        app:layout_constraintStart_toStartOf="@id/recyclerView"
-                        app:layout_constraintTop_toBottomOf="@id/recyclerView" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="20dp"
-                    android:background="@drawable/bg_corner_solid_shape2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/cl_layout"
-                    app:layout_constraintStart_toStartOf="@id/cl_layout"
-                    app:layout_constraintTop_toBottomOf="@id/cl_layout">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_term_condition"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_down_ar"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="10dp"
-                        android:text="Term &amp; Consitions"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        app:fontFamily="@font/heebo_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_term_condition"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="20dp"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_term_condition">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/text_term_condition"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp"
-                            android:text="@string/text_term_condition"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            app:fontFamily="@font/heebo_regular"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@id/tv_date"
+                tools:text="@string/text_term_condition" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

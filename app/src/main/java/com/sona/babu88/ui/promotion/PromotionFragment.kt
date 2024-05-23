@@ -1,20 +1,24 @@
 package com.sona.babu88.ui.promotion
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.databinding.FragmentPromotionBinding
+import com.sona.babu88.ui.promotiondetails.PromotionDetailsFragment
+import com.sona.babu88.util.OnAccountListener
 
 class PromotionFragment : Fragment(), PromotionAdapter.OnItemClickListener {
     private lateinit var binding: FragmentPromotionBinding
     private lateinit var promotionAdapter: PromotionAdapter
     private var promotionList = arrayListOf<PromotionList>()
+    private lateinit var promotionTabAdapter: PromotionTabAdapter
+    private var promotionTabList = arrayListOf<PromotionTabList>()
+    private var listener: OnAccountListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +38,9 @@ class PromotionFragment : Fragment(), PromotionAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setPromotionAdapter()
         setPromotionData()
-        setUpSpinner()
         promotionAdapter.setPromotionData(promotionList)
+        setTabAdapter()
+        setTabData()
     }
 
     private fun setPromotionAdapter() {
@@ -53,31 +58,54 @@ class PromotionFragment : Fragment(), PromotionAdapter.OnItemClickListener {
     }
 
     override fun onBtnDetailsClickListener() {
-//        PromotionDetailsFragment()
+        val dialog = PromotionDetailsFragment()
+        dialog.isCancelable = false
+        dialog.show(childFragmentManager, "promotion")
     }
 
-    override fun onBtnApplyNowClickListener() {}
+    override fun onBtnApplyNowClickListener() { listener?.onAccountClick("Deposit") }
 
-    private fun setUpSpinner() {
-        val list = ArrayList<String>()
-        provideSpinnerList().forEach { list.add(it.title!!) }
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, list)
-        binding.spinner.adapter = adapter
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+    private fun setTabAdapter() {
+        binding.recyclerViewTab.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        promotionTabAdapter = PromotionTabAdapter()
+//        promotionTabAdapter.setOnTabListener(this@PromotionFragment)
+        binding.recyclerViewTab.adapter = promotionTabAdapter
+    }
+
+    private fun setTabData() {
+        promotionTabList.add(PromotionTabList("All"))
+        promotionTabList.add(PromotionTabList("Welcome Offer"))
+        promotionTabList.add(PromotionTabList("SLOT"))
+        promotionTabList.add(PromotionTabList("FH"))
+        promotionTabList.add(PromotionTabList("EGAME"))
+        promotionTabList.add(PromotionTabList("GAMESHOW"))
+        promotionTabList.add(PromotionTabList("T10"))
+        promotionTabList.add(PromotionTabList("PremiumMatch"))
+        promotionTabList.add(PromotionTabList("Live"))
+        promotionTabList.add(PromotionTabList("TABLE"))
+        promotionTabList.add(PromotionTabList("VIRTUAL"))
+        promotionTabList.add(PromotionTabList("LOTTO"))
+        promotionTabList.add(PromotionTabList("BINGO"))
+        promotionTabList.add(PromotionTabList("CRASH"))
+        promotionTabList.add(PromotionTabList("P2P"))
+        promotionTabList.add(PromotionTabList("ESPORTS"))
+        promotionTabList.add(PromotionTabList("Sports"))
+        promotionTabList.add(PromotionTabList("PremiumFancy"))
+        promotionTabAdapter.setTabData(promotionTabList)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnAccountListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnAccountListener")
         }
     }
 
-    private fun provideSpinnerList(): List<SpinnerListPromotion> {
-        return listOf(
-            SpinnerListPromotion(title = "All"),
-            SpinnerListPromotion(title = "All"),
-            SpinnerListPromotion(title = "All")
-        )
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 }
-
-data class SpinnerListPromotion(
-    val title: String?
-)
