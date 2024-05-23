@@ -122,6 +122,7 @@ fun provideViewPagerList(): List<ViewPagerItem> {
     )
 }
 
+
 data class ViewPagerItem(
     val id: Int,
     val img: Int

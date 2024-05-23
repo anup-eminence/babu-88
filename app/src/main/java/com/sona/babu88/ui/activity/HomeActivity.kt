@@ -3,6 +3,7 @@ package com.sona.babu88.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sona.babu88.R
+import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.ActivityHomeBinding
 import com.sona.babu88.ui.account.AccountFragment
 import com.sona.babu88.ui.bank.BankDetailsFragment
@@ -36,6 +38,8 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
     private lateinit var binding : ActivityHomeBinding
     private lateinit var langDialog: CurrLangDialogFragment
 
+    private val homeViewModel : HomeViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -52,6 +56,28 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
         binding.bottomNav.selectedItemId = R.id.nav_home
         setBottomNav()
         binding.layoutToolBar.toolbarImage.setOnClickListener { setFragment(HomeFragment(),binding.container.id) } //temp... added
+
+        observer()
+
+    }
+
+    private fun observer() {
+       /* homeViewModel.getGameList(
+            provider = "ALL",
+            category = "SLOT",
+            page = 1
+        )*/
+
+        homeViewModel.getSpecialGameList()
+
+        homeViewModel.gameList.observe(this){
+            println(">>>>>gameList ${it.data}")
+
+        }
+
+        homeViewModel.specialGameList.observe(this){
+            println(">>>>>>specialGameList ${it.data}")
+        }
     }
 
     override fun onCloseCLick() {
