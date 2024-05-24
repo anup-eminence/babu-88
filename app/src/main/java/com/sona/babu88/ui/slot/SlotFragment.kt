@@ -1,20 +1,30 @@
 package com.sona.babu88.ui.slot
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentSlotBinding
 import com.sona.babu88.model.SlotList
+import com.sona.babu88.ui.activity.HomeActivity
+import com.sona.babu88.util.OnAccountListener
+import com.sona.babu88.util.OnSelectedFragmentListener
+import com.sona.babu88.util.hideProgress
+import com.sona.babu88.util.showProgress
 import com.sona.babu88.util.showToast
 
 class SlotFragment : Fragment(), SlotAdapter.OnItemClickListener {
     private lateinit var binding: FragmentSlotBinding
     private lateinit var slotAdapter: SlotAdapter
-    private var slotList = arrayListOf<SlotList>()
+    private val homeViewModel : HomeViewModel by viewModels()
+    private var listener: OnSelectedFragmentListener ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,35 +42,79 @@ class SlotFragment : Fragment(), SlotAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
         setSlotAdapter()
-        setSlotData()
-        slotAdapter.setSlotData(slotList)
+        observer()
+    }
+
+    private fun observer() {
+        homeViewModel.getGameList(provider = "ALL", category = "SLOT", page = 1)
+
+        homeViewModel.gameList.observe(requireActivity()){
+            println(">>>>>gameList ${it.data}")
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress()
+                    slotAdapter.setSlotData(getProviderList(it.data?.providers))
+                }
+
+                is ApiResult.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun getProviderList(providers: List<String>?): List<SlotList> {
+        val slotList = arrayListOf<SlotList>()
+        providers?.forEach {
+            slotList.add(SlotList(findImage(it), it, R.drawable.ic_hot))
+        }
+        return slotList
+    }
+
+    private fun findImage(type: String): Int {
+        return when (type.lowercase()) {
+            "pp" -> R.drawable.pp
+            "pt" -> R.drawable.pt
+            "jili" -> R.drawable.jili
+            "jdb" -> R.drawable.jdb
+            "fc" -> R.drawable.fc
+            "rt" -> R.drawable.rt
+            "evoplay" -> R.drawable.evoplay
+            else -> -1
+        }
     }
 
     private fun setSlotAdapter() {
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
         slotAdapter = SlotAdapter()
+        slotAdapter.setOnItemClickListener(this@SlotFragment)
         binding.recyclerView.adapter = slotAdapter
     }
 
-    private fun setSlotData() {
-        slotList.add(SlotList(R.drawable.img_slot_1, "Pragmatic",R.drawable.ic_hot))
-        slotList.add(SlotList(R.drawable.img_slot_2, "JILI", R.drawable.ic_new))
-        slotList.add(SlotList(R.drawable.img_slot_3, "JDB",R.drawable.ic_hot))
-        slotList.add(SlotList(R.drawable.img_slot_4, "PT", R.drawable.ic_new))
-        slotList.add(SlotList(R.drawable.img_slot_5, "Habanero",R.drawable.ic_hot))
-        slotList.add(SlotList(R.drawable.img_slot_6, "Red Tiger", R.drawable.ic_new))
-        slotList.add(SlotList(R.drawable.img_slot_7, "Play N'Go",R.drawable.ic_hot))
-        slotList.add(SlotList(R.drawable.img_slot_1, "spade", R.drawable.ic_new))
-        slotList.add(SlotList(R.drawable.img_slot_2, "One Game",R.drawable.ic_hot))
-        slotList.add(SlotList(R.drawable.img_slot_3, "NetEnt", R.drawable.ic_new))
-        slotList.add(SlotList(R.drawable.img_slot_4, "PG Soft", R.drawable.ic_hot))
-        slotList.add(SlotList(R.drawable.img_slot_5, "NoLimit",R.drawable.ic_new))
-        slotList.add(SlotList(R.drawable.img_slot_6, "Relax Gaming", R.drawable.ic_hot))
-        slotList.add(SlotList(R.drawable.img_slot_7, "Booongo",R.drawable.ic_new))
+    override fun onItemClickListener(item: SlotList?) {
+        item?.text?.let { listener?.onFragmentClickListener(title = "SLOT", params = it) }
     }
 
-    override fun onItemClickListener() {
-        requireContext().showToast("Clicked...")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnSelectedFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnSelectedFragmentListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 }

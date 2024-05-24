@@ -5,26 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentDetailsBinding
-import com.sona.babu88.model.DetailsList
 import com.sona.babu88.model.HomeTab
+import com.sona.babu88.util.hideProgress
+import com.sona.babu88.util.showProgress
 
 class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     DetailsAdapter.OnItemClickListener {
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var detailsTabAdapter: DetailsTabAdapter
     private lateinit var detailsAdapter: DetailsAdapter
-    private var homeTabList = arrayListOf<HomeTab>()
-    private var detailsList = arrayListOf<DetailsList>()
+    private val homeViewModel : HomeViewModel by viewModels()
     private var title = ""
+    private var params = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             title = it.getString("title").toString()
+            params = it.getString("params").toString()
         }
     }
 
@@ -43,19 +48,63 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     }
 
     private fun initView() {
-        setTabAdapter()
-        setTabData()
-        detailsTabAdapter.setTabData(homeTabList)
-        setDetailsAdapter()
-        setDetailsData()
-        detailsAdapter.setDetailsData(detailsList)
         binding.tvTitle.text = title
+        setTabAdapter()
+        setDetailsAdapter()
+        observer(params)
+        selectedTabPosition(params)
     }
 
     private fun setOnClickListener() {
         binding.apply {
             leftArrow.setOnClickListener {  }
             rightArrow.setOnClickListener {  }
+        }
+    }
+
+    private fun observer(params: String) {
+        homeViewModel.getGameList(provider = params, category = "SLOT", page = 1)
+
+        homeViewModel.gameList.observe(requireActivity()){
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress()
+                    detailsTabAdapter.setTabData(getProviderList(it.data?.providers))
+                    detailsAdapter.setDetailsData(it.data?.allImages)
+                    detailsTabAdapter.selectedPosition = selectedTabPosition(params)
+                    useTabPosition(params)
+                }
+
+                is ApiResult.Error -> {
+
+                }
+            }
+        }
+    }
+
+    private fun getProviderList(providers: List<String>?): List<HomeTab> {
+        val tabList = arrayListOf<HomeTab>()
+        tabList.add(0, HomeTab(0, ""))
+        providers?.forEach {
+            tabList.add(HomeTab(findImage(it), it))
+        }
+        return tabList
+    }
+
+    private fun findImage(type: String): Int {
+        return when (type.lowercase()) {
+            "pp" -> R.drawable.pp
+            "pt" -> R.drawable.pt
+            "jili" -> R.drawable.jili
+            "jdb" -> R.drawable.jdb
+            "fc" -> R.drawable.fc
+            "rt" -> R.drawable.rt
+            "evoplay" -> R.drawable.evoplay
+            else -> -1
         }
     }
 
@@ -67,20 +116,9 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         binding.recyclerViewTab.adapter = detailsTabAdapter
     }
 
-    private fun setTabData() {
-        homeTabList.add(HomeTab(0, ""))
-        homeTabList.add(HomeTab(R.drawable.img_slot_1, "JILI"))
-        homeTabList.add(HomeTab(R.drawable.img_slot_2, "KingMaker"))
-        homeTabList.add(HomeTab(R.drawable.img_slot_3, "Spade"))
-        homeTabList.add(HomeTab(R.drawable.img_slot_3, "JILI"))
-        homeTabList.add(HomeTab(R.drawable.img_slot_4, "KingMaker"))
-        homeTabList.add(HomeTab(R.drawable.img_slot_5, "Spade"))
-        homeTabList.add(HomeTab(R.drawable.img_slot_6, "Spade"))
-        homeTabList.add(HomeTab(R.drawable.img_slot_7, "JILI"))
-    }
-
-    override fun onTabItemClickListener(position: Int) {
-
+    override fun onTabItemClickListener(item: HomeTab?) {
+        if (item?.text.isNullOrEmpty().not()) item?.text?.let { observer(it) }
+        else observer("ALL")
     }
 
     private fun setDetailsAdapter() {
@@ -90,46 +128,37 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         binding.recyclerView.adapter = detailsAdapter
     }
 
-    private fun setDetailsData() {
-        detailsList.add(DetailsList(R.drawable.img_home_1, "7up7down", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_2, "Sic Bo", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_3, "Teen Patti", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_4, "Call Break", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_5, "iRIch Bingo", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_6, "Rummy", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_7, "Dragon & ", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_8, "Ander BAh", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_9, "Poker King", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_10, "AK47", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_11, "Dice", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_12, "Tongits Go", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_1, "7up7down", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_2, "Sic Bo", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_3, "Teen Patti", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_4, "Call Break", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_5, "iRIch Bingo", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_6, "Rummy", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_7, "Dragon & ", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_8, "Ander BAh", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_9, "Poker King", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_10, "AK47", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_11, "Dice", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_12, "Tongits Go", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_1, "7up7down", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_2, "Sic Bo", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_3, "Teen Patti", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_4, "Call Break", hot = false, new = true))
-        detailsList.add(DetailsList(R.drawable.img_home_5, "iRIch Bingo", hot = true, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_6, "Rummy", hot = false, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_7, "Dragon & ", hot = false, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_8, "Ander BAh", hot = false, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_9, "Poker King", hot = false, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_10, "AK47", hot = false, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_11, "Dice", hot = false, new = false))
-        detailsList.add(DetailsList(R.drawable.img_home_12, "Tongits Go", hot = false, new = false))
-    }
-
     override fun onItemClickListener() {
 
+    }
+
+//    private fun selectedTabPosition(params: String) {
+//        when (params.lowercase()) {
+//            "pp" -> binding.recyclerViewTab.scrollToPosition(0)
+//            "pt" -> binding.recyclerViewTab.scrollToPosition(1)
+//            "jili" -> binding.recyclerViewTab.scrollToPosition(2)
+//            "jdb" -> binding.recyclerViewTab.scrollToPosition(3)
+//            "fc" -> binding.recyclerViewTab.scrollToPosition(4)
+//            "rt" -> binding.recyclerViewTab.scrollToPosition(5)
+//            "evoplay" -> binding.recyclerViewTab.scrollToPosition(6)
+//        }
+//    }
+
+    private fun selectedTabPosition(params: String): Int {
+        return when (params.lowercase()) {
+            "" -> 0
+            "pp" -> 1
+            "pt" -> 2
+            "jili" -> 3
+            "jdb" -> 4
+            "fc" -> 5
+            "rt" -> 6
+            "evoplay" -> 7
+            else -> 0
+        }
+    }
+
+    private fun useTabPosition(params: String) {
+        binding.recyclerViewTab.scrollToPosition(selectedTabPosition(params))
     }
 }

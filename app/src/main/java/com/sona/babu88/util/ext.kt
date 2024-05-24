@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.sona.babu88.R
+import com.sona.babu88.ui.activity.HomeActivity
 
 fun DialogFragment.setWidthPercent(percentage: Int) {
     val percent = percentage.toFloat() / 100
@@ -155,4 +156,12 @@ fun View.onBackPress(doWork: () -> Unit) {
         }
         false
     })
+}
+
+fun Fragment.showProgress() {
+    (activity as HomeActivity).showProgress()
+}
+
+fun Fragment.hideProgress() {
+    (activity as HomeActivity).hideProgress()
 }

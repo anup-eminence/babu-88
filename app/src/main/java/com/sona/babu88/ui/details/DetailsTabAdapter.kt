@@ -12,7 +12,7 @@ import com.sona.babu88.util.hide
 import com.sona.babu88.util.show
 
 class DetailsTabAdapter : RecyclerView.Adapter<DetailsTabAdapter.ViewHolder>() {
-    private var selectedPosition = 0
+    var selectedPosition = -1
     private var lastSelectedPosition = -1
     var list = emptyList<HomeTab?>()
     private var onTabItemClickListener: OnTabItemClickListener? = null
@@ -51,26 +51,26 @@ class DetailsTabAdapter : RecyclerView.Adapter<DetailsTabAdapter.ViewHolder>() {
             text.text = item?.text
         }
 
-//        holder.binding.root.setOnClickListener {
-//            lastSelectedPosition = selectedPosition
-//            selectedPosition = holder.adapterPosition
-//            onTabItemClickListener?.onTabItemClickListener(position)
-//            notifyItemChanged(lastSelectedPosition)
-//            notifyItemChanged(selectedPosition)
-//        }
-//        if (selectedPosition == holder.adapterPosition) {
-//            holder.binding.image.setBackgroundDrawable(
-//                ContextCompat.getDrawable(
-//                    holder.binding.root.context,
-//                    R.drawable.bg_4_corner_shape_dark_grey
-//                )
-//            )
-//        } else {
-//            holder.binding.image.setBackgroundDrawable(null)
-//        }
+        holder.binding.root.setOnClickListener {
+            lastSelectedPosition = selectedPosition
+            selectedPosition = holder.adapterPosition
+            onTabItemClickListener?.onTabItemClickListener(item)
+            notifyItemChanged(lastSelectedPosition)
+            notifyItemChanged(selectedPosition)
+        }
+        if (selectedPosition == holder.adapterPosition) {
+            holder.binding.clImage.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    holder.binding.root.context,
+                    R.drawable.bg_20_rounded_yellow
+                )
+            )
+        } else {
+            holder.binding.clImage.setBackgroundDrawable(null)
+        }
     }
 
     interface OnTabItemClickListener {
-        fun onTabItemClickListener(position: Int)
+        fun onTabItemClickListener(item: HomeTab?)
     }
 }

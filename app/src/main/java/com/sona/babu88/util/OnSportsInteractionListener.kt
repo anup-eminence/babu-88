@@ -7,3 +7,7 @@ interface OnSportsInteractionListener {
 interface OnAccountListener {
     fun onAccountClick(title: String)
 }
+
+interface OnSelectedFragmentListener{
+    fun onFragmentClickListener(title: String, params: String)
+}
