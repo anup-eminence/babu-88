@@ -34,8 +34,11 @@ import com.sona.babu88.ui.rewards.ClaimVoucherFragment
 import com.sona.babu88.ui.rewards.RewardsFragment
 import com.sona.babu88.util.CurrLangDialogFragment
 import com.sona.babu88.util.OnAccountListener
+import com.sona.babu88.util.OnSelectedFragmentListener
+import com.sona.babu88.util.hide
+import com.sona.babu88.util.show
 
-class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, NavigationDrawerAdapter.NavDrawerAdapterClickListener, OnAccountListener {
+class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, NavigationDrawerAdapter.NavDrawerAdapterClickListener, OnAccountListener, OnSelectedFragmentListener {
     private lateinit var binding : ActivityHomeBinding
     private lateinit var langDialog: CurrLangDialogFragment
 
@@ -178,5 +181,25 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
         args.putString(key, value)
         fragment.arguments = args
         return fragment
+    }
+
+    private fun setArguments(fragment: Fragment, title: String, params: String): Fragment {
+        val args = Bundle()
+        args.putString("title", title)
+        args.putString("params", params)
+        fragment.arguments = args
+        return fragment
+    }
+
+    override fun onFragmentClickListener(title: String, params: String) {
+        setFragment(setArguments(DetailsFragment(), title, params), binding.container.id)
+    }
+
+    fun hideProgress() {
+        binding.progressBar.hide()
+    }
+
+    fun showProgress() {
+        binding.progressBar.show()
     }
 }

@@ -48,11 +48,11 @@ class SlotAdapter : RecyclerView.Adapter<SlotAdapter.ViewHolder>() {
         }
 
         holder.binding.root.setOnClickListener {
-            onItemClickListener?.onItemClickListener()
+            onItemClickListener?.onItemClickListener(item)
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener()
+        fun onItemClickListener(item: SlotList?)
     }
 }

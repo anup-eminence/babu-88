@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sona.babu88.api.model.response.GameImage
 import com.sona.babu88.databinding.ItemDetailsRvBinding
-import com.sona.babu88.model.DetailsList
 import com.sona.babu88.util.hide
 import com.sona.babu88.util.show
 
 class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
-    var list = emptyList<DetailsList?>()
+    var list = emptyList<GameImage?>()
 
     private var onItemClickListener: OnItemClickListener? = null
 
-    fun setDetailsData(itemList: List<DetailsList?>?) {
+    fun setDetailsData(itemList: List<GameImage?>?) {
         if (itemList != null) {
             list = itemList
         }
@@ -44,14 +44,9 @@ class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
         holder.binding.apply {
             if (item != null) {
                 Glide.with(root.context).load(item.image).into(image)
-                tvName.text = item.text
-                if (item.hot) {
-                    imageHot.show()
-                    tvNew.hide()
-                } else if (item.new) {
-                    imageHot.hide()
-                    tvNew.show()
-                }
+                tvName.text = item.name
+                imageHot.show()
+                tvNew.hide()
             }
         }
 
