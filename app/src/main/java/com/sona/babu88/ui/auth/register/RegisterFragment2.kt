@@ -33,8 +33,33 @@ class RegisterFragment2(
         setTextItem()
 
         binding.completeBtn.setOnClickListener {
-            registerDialogListener.dismissRegisterDialog()
+            if (validateInputFields()){
+                registerDialogListener.makeApiCall(
+                    selectedPhone = binding.etPhoneNumber.text.toString().trim(),
+                    selectedReferral = binding.etReferalCode.text.toString().trim(),
+                    email = binding.etEmail.text?.trim().toString()
+                )
+            }
         }
+    }
+
+    private fun validateInputFields(): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+        if (binding.etPhoneNumber.text.isNullOrEmpty() || binding.etPhoneNumber.text!!.length < 9) {
+            binding.etPhoneNumber.error = "Invalid Phone Number"
+            return false
+        }
+        if (binding.etVerificationCode.text.isNullOrEmpty()) {
+            binding.etVerificationCode.error = "Enter Otp"
+            return false
+        }
+
+        if (binding.etEmail.text.isNullOrEmpty() || !binding.etEmail.text!!.matches(emailRegex)) {
+            binding.etEmail.error = "Enter Valid Email"
+            return false
+        }
+
+        return true
     }
 
     private fun setTextItem() {

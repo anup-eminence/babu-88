@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -164,4 +165,12 @@ fun Fragment.showProgress() {
 
 fun Fragment.hideProgress() {
     (activity as HomeActivity).hideProgress()
+}
+
+fun Fragment.hideKeyboard() {
+    val view = activity?.currentFocus
+    if (view != null) {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 }

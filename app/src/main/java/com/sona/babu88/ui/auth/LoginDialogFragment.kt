@@ -10,6 +10,7 @@ import androidx.core.text.color
 import androidx.fragment.app.DialogFragment
 import com.sona.babu88.R
 import com.sona.babu88.databinding.LayoutLoginBinding
+import com.sona.babu88.util.hideKeyboard
 import com.sona.babu88.util.setWidthPercent
 
 class LoginDialogFragment : DialogFragment() {
@@ -60,14 +61,21 @@ class LoginDialogFragment : DialogFragment() {
             }
 
             btnLogin.setOnClickListener {
+                hideKeyboard()
                 if (isValidate()) {
-                    onItemClickListener?.onLoginClick()
+                    onItemClickListener?.onLoginClick(
+                       usernName =  etUsername.text.toString(),
+                        passWord = etPassword.text.toString()
+                    )
                 } else {
                     isValidate()
                 }
             }
 
-            btnSignUp.setOnClickListener { onItemClickListener?.onSignUpClick() }
+            btnSignUp.setOnClickListener {
+                dismiss()
+                onItemClickListener?.onSignUpClick()
+            }
             tvForgotPassword.setOnClickListener { onItemClickListener?.onForgotPasswordClick() }
         }
     }
@@ -78,10 +86,14 @@ class LoginDialogFragment : DialogFragment() {
 
     private fun isValidate(): Boolean {
         binding.apply {
-            if (etUsername.text.isNullOrEmpty() && etPassword.text.isNullOrEmpty()) {
+            if (etUsername.text.isNullOrEmpty()) {
                 etUsername.error = "This is a mandatory field"
+               return false
+            }
+
+            if ( etPassword.text.isNullOrEmpty()){
                 etPassword.error = "This is a mandatory field"
-                etUsername.requestFocus()
+                return false
             }
             return true
         }
@@ -89,7 +101,7 @@ class LoginDialogFragment : DialogFragment() {
 
     interface OnItemClickListener {
         fun dialogDismiss()
-        fun onLoginClick()
+        fun onLoginClick(usernName : String , passWord :String)
         fun onSignUpClick()
         fun onForgotPasswordClick()
     }

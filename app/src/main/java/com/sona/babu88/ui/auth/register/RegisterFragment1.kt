@@ -11,9 +11,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.request.CurrencyRequest
+import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.AuthViewModel
 import com.sona.babu88.databinding.RegisterPage1Binding
 import com.sona.babu88.ui.auth.adapter.RegisterVPAdapter
+import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.hide
 import com.sona.babu88.util.show
 import com.sona.babu88.util.showToast
@@ -24,6 +30,8 @@ class RegisterFragment1(
 ) : Fragment() {
 
     private lateinit var binding: RegisterPage1Binding
+
+    private val authViewModel : AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,7 +78,11 @@ class RegisterFragment1(
 
         binding.nextBtn.setOnClickListener {
             if (isValidUserName() && isValidPassword() && isValidCnfPassWord()) {
-                registerDialogListener.moveToNextRegisterPage()
+                registerDialogListener.moveToNextRegisterPage(
+                    binding.etUsername.text.toString().trim(),
+                    selectedPassword = binding.etPassword.text.toString().trim(),
+                    selectedCurrency = binding.spinner.selectedItem.toString()
+                )
             }
         }
     }
@@ -167,36 +179,81 @@ class RegisterFragment1(
     }
 
     private fun setUpSpinner() {
-        val list = ArrayList<String>()
-        provideSpinnerList().forEach {
-            list.add(it.title!!)
-        }
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_dropdown_item, list
+        val request = AppConstant.getTimeStamp()
+        val currencyRequest = CurrencyRequest(
+            timeStamp = request[AppConstant.TIMESTAMP].toString(),
+            secretKey = request[AppConstant.SECRET_KEY].toString()
         )
-        binding.spinner.adapter = adapter
-        binding.spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                binding.flag.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        provideSpinnerList()[position].img!!
-                    )
-                )
+        authViewModel.registerUserCurrency.observe(viewLifecycleOwner){
+            when(it) {
+               is ApiResult.Loading -> {}
+               is ApiResult.Success -> {
+                   val list = ArrayList<String>()
+                   it.data?.forEach {curr->
+                       list.add(curr.name)
+                       val adapter = ArrayAdapter(
+                           requireContext(),
+                           android.R.layout.simple_spinner_dropdown_item, list
+                       )
+                       binding.spinner.adapter = adapter
+                       binding.spinner.onItemSelectedListener = object :
+                           AdapterView.OnItemSelectedListener {
+                           override fun onItemSelected(
+                               parent: AdapterView<*>?,
+                               view: View?,
+                               position: Int,
+                               id: Long
+                           ) {
+                               binding.flag.setImageDrawable(
+                                   ContextCompat.getDrawable(
+                                       requireContext(),
+                                       getCurrencyLogo(list[position])
+                                   )
+                               )
+                           }
+
+                           override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                           }
+
+                       }
+                   }
+               }
+               is ApiResult.Error -> {
+                   val list = ArrayList<String>()
+                   provideSpinnerList().forEach { curr ->
+                       list.add(curr.title!!)
+                       val adapter = ArrayAdapter(
+                           requireContext(),
+                           android.R.layout.simple_spinner_dropdown_item, list
+                       )
+                       binding.spinner.adapter = adapter
+                       binding.spinner.onItemSelectedListener = object :
+                           AdapterView.OnItemSelectedListener {
+                           override fun onItemSelected(
+                               parent: AdapterView<*>?,
+                               view: View?,
+                               position: Int,
+                               id: Long
+                           ) {
+                               binding.flag.setImageDrawable(
+                                   ContextCompat.getDrawable(
+                                       requireContext(),
+                                       provideSpinnerList()[position].img!!
+                                   )
+                               )
+                           }
+
+                           override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                           }
+
+                       }
+                   }
+               }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
         }
+        authViewModel.getRegisterCurrency(currencyRequest)
     }
 
     private fun getFormattedText(text: String): SpannableStringBuilder {
@@ -207,18 +264,30 @@ class RegisterFragment1(
     private fun provideSpinnerList(): List<SpinnerListRegister> {
         return listOf(
             SpinnerListRegister(
-                img = R.drawable.ic_country_inr,
-                title = "INR"
-            ),
-            SpinnerListRegister(
                 img = R.drawable.ic_country_bdt,
                 title = "BDT"
-            ),
-            SpinnerListRegister(
-                img = R.drawable.ic_country_npr,
-                title = "NPR"
             )
         )
+    }
+
+    private fun getCurrencyLogo(title: String?): Int {
+        return when (title?.uppercase()) {
+            "BDT" -> {
+                R.drawable.ic_country_bdt
+            }
+
+            "NPR" -> {
+                R.drawable.ic_country_npr
+            }
+
+            "INR" -> {
+                R.drawable.ic_country_inr
+            }
+
+            else -> {
+                R.drawable.ic_country_inr
+            }
+        }
     }
 }
 

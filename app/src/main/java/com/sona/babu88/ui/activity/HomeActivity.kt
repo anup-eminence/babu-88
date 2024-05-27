@@ -1,20 +1,29 @@
 package com.sona.babu88.ui.activity
 
+import MySharedPreferences
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.auth.CheckUserLogin
 import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.AuthViewModel
 import com.sona.babu88.databinding.ActivityHomeBinding
 import com.sona.babu88.ui.account.AccountFragment
+import com.sona.babu88.ui.auth.LoginDialogFragment
+import com.sona.babu88.ui.auth.register.RegisterDialogFragment
 import com.sona.babu88.ui.bank.BankDetailsFragment
 import com.sona.babu88.ui.bettingpass.BettingPassFragment
 import com.sona.babu88.ui.changepassword.ChangePasswordFragment
@@ -32,22 +41,38 @@ import com.sona.babu88.ui.promotion.PromotionFragment
 import com.sona.babu88.ui.refer_earn.ReferEarnFragment
 import com.sona.babu88.ui.rewards.ClaimVoucherFragment
 import com.sona.babu88.ui.rewards.RewardsFragment
+import com.sona.babu88.util.AppConstant
+import com.sona.babu88.util.AppConstant.TOKEN
 import com.sona.babu88.util.CurrLangDialogFragment
 import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.OnSelectedFragmentListener
 import com.sona.babu88.util.hide
+import com.sona.babu88.util.hideKeyboard
 import com.sona.babu88.util.show
+import com.sona.babu88.util.showToast
 
-class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, NavigationDrawerAdapter.NavDrawerAdapterClickListener, OnAccountListener, OnSelectedFragmentListener {
+class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, NavigationDrawerAdapter.NavDrawerAdapterClickListener, OnAccountListener, OnSelectedFragmentListener,
+    LoginDialogFragment.OnItemClickListener, RegisterDialogFragment.RegisterDialogListener {
     private lateinit var binding : ActivityHomeBinding
     private lateinit var langDialog: CurrLangDialogFragment
 
     private val homeViewModel : HomeViewModel by viewModels()
+    private val authViewModel : AuthViewModel by viewModels()
+    private lateinit var loginSignupDialog: LoginDialogFragment
+    private lateinit var registerDialogFragment: RegisterDialogFragment
+
+    companion object {
+        var userLogedIn = MutableLiveData<Boolean>()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        loginSignupDialog = LoginDialogFragment()
+        registerDialogFragment = RegisterDialogFragment(this@HomeActivity)
+        loginSignupDialog.onItemClickListener(this@HomeActivity)
         setFragment(HomeFragment(),binding.container.id)
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         langDialog = CurrLangDialogFragment()
@@ -62,6 +87,36 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
         binding.layoutToolBar.toolbarImage.setOnClickListener { setFragment(HomeFragment(),binding.container.id) } //temp... added
 
         observer()
+        loginUser()
+    }
+
+
+    private fun loginUser() {
+        if (MySharedPreferences.readString(TOKEN, "").isNullOrEmpty()) {
+            binding.login.root.show()
+            binding.bottomNav.hide()
+            binding.layoutToolBar.clCountry.show()
+            binding.layoutToolBar.ivMessage.hide()
+        } else {
+            binding.login.root.hide()
+            binding.bottomNav.show()
+            binding.layoutToolBar.clCountry.hide()
+            binding.layoutToolBar.ivMessage.show()
+        }
+        binding.login.signUp.setOnClickListener {
+            if (registerDialogFragment != null && !registerDialogFragment.isVisible){
+                registerDialogFragment.show(supportFragmentManager,"login_signup")
+            }
+        }
+        binding.login.login.setOnClickListener {
+            if (loginSignupDialog != null && !loginSignupDialog.isVisible){
+                loginSignupDialog.show(supportFragmentManager,"login_signup")
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
     }
 
@@ -71,6 +126,19 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
             category = "SLOT",
             page = 1
         )*/
+
+        CheckUserLogin.checkUserLogin.observe(this){
+            println(">>>>it user $it")
+        }
+
+        userLogedIn.observe(this) {
+            if (it) {
+              //  CheckUserLogin.startLoginCheck()
+            } else {
+                CheckUserLogin.stopLoginCheck()
+            }
+        }
+
 
         homeViewModel.getSpecialGameList()
 
@@ -174,6 +242,16 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
             "Deposit" -> { setFragment(DepositWithdrawalFragment(), binding.container.id) }
             "Withdrawal" -> { setFragment(setFragmentArguments(DepositWithdrawalFragment(), "tab", "1"), binding.container.id) }
             "Rewards" -> { setFragment(RewardsFragment(), binding.container.id) }
+            "LOG_OUT" -> {
+                MySharedPreferences.writeString(TOKEN,"")
+                binding.bottomNav.hide()
+                binding.bottomNav.selectedItemId = R.id.nav_home
+                binding.login.root.show()
+                binding.layoutToolBar.clCountry.show()
+                binding.layoutToolBar.ivMessage.hide()
+                setFragment(HomeFragment(),binding.container.id )
+                println(">>>>>>>success logout")
+            }
         }
     }
 
@@ -201,5 +279,54 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
 
     fun showProgress() {
         binding.progressBar.show()
+    }
+
+    override fun dialogDismiss() {
+        loginSignupDialog?.dismiss()
+    }
+
+    override fun onLoginClick(usernName: String, passWord: String) {
+        authViewModel.authenticateUser(
+            userId = usernName,
+            passWord = passWord
+        )
+        authViewModel.authenticateUser.observe(this){
+            when(it) {
+                is ApiResult.Loading -> {
+                    println(">>>>>>>loading")
+                }
+                is ApiResult.Success -> {
+                    if (it.data?.login == true) {
+                        MySharedPreferences.writeString(TOKEN, it.data?.user?.token ?: "")
+                        loginSignupDialog.dismiss()
+                        binding.bottomNav.show()
+                        binding.login.root.hide()
+                        binding.layoutToolBar.clCountry.hide()
+                        binding.layoutToolBar.ivMessage.show()
+                        userLogedIn.postValue(true)
+                        recreate()
+                    } else {
+                        this.showToast("Login Failed")
+                    }
+                    println(">>>>>>>success ${it.data}")
+                }
+                is ApiResult.Error -> {
+                    println(">>>>>>erroro ${it.message}")
+                    this.showToast(it.message.toString())
+                }
+            }
+        }
+    }
+
+    override fun onSignUpClick() {
+        registerDialogFragment.show(supportFragmentManager,"register")
+    }
+
+    override fun onForgotPasswordClick() {
+
+    }
+
+    override fun moveToLogin() {
+        loginSignupDialog.show(supportFragmentManager,"login")
     }
 }

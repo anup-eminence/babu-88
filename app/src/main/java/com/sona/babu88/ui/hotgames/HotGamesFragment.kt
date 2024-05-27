@@ -77,7 +77,11 @@ class HotGamesFragment : Fragment(), HotGamesAdapter.OnItemClickListener,
         loginSignupDialog.dismiss()
     }
 
-    override fun onLoginClick() {}
+    override fun onLoginClick(usernName: String, passWord: String) {
+
+    }
+
+
 
     override fun onSignUpClick() {
         loginSignupDialog.dismiss()

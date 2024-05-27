@@ -12,6 +12,7 @@ import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.auth.AuthUtils
 import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.AuthViewModel
 import com.sona.babu88.databinding.ActivitySplashBinding
 import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.showToast
@@ -19,7 +20,7 @@ import com.sona.babu88.util.showToast
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,18 +30,25 @@ class SplashActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
 
         val responseDecrypt = AuthUtils.decryptData(
-            "oxeqeWUMyIhlheaHyy9LLCf0mdAOgEibUPIYJ3GBwI+oaFm4XjJEUEtuQyjEIpIU"
+"DZZyZioH9X5uacvWSaEHleJNleZi8UE38bvRmDWDoAMw8x0E5lhSfQPLYvBXQl1VAam3S4A7Z55LGT5AbgGATczZ54O8m2S2/H8077vh7GWZPLM0fagVWv79bHEzG1ZEw6Re6UqOHLpEk3q9kqJXdwoExSzxkok1BnggMfG6iT8yhz9ICGQF8rV+Uw/YVtAi"
         )
 
+
         val decryptBody = AuthUtils.decryptData(
-            "9UMdQVN6D6RuyfxSdE6pWbKPP5WIGql1eTpO9aOR5C/WE9S7eaXpl5xLFB+62fj0weLJar8WF5hS7ekTBN16aA=="
-            ,
+            "9UMdQVN6D6RuyfxSdE6pWfpySX3tVw7KFzNs8inMkT5H6m/SqF5438z93daRDBsORX9Hh7Ra4OEcnjboH4bbOA==",
             "UFJGSFguW1Q0MjdPWF0xfQ=="
         )
         println(">>>>>>>.responseDecrypt $responseDecrypt")
         println(">>>>>>>.encryptData $decryptBody")
-        if (MySharedPreferences.readString(AppConstant.TOKEN,"").isNullOrEmpty()){
-            homeViewModel.authenticateUser(
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }, 2000)
+
+       /* if (MySharedPreferences.readString(AppConstant.TOKEN,"").isNullOrEmpty()){
+            authViewModel.authenticateUser(
                 "ryzen2",
                 "Abcd1234",
                 "localhost",
@@ -52,9 +60,9 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }, 2000)
-        }
+        }*/
 
-        homeViewModel.authenticateUser.observe(this){
+        authViewModel.authenticateUser.observe(this){
           when(it) {
               is ApiResult.Loading -> {
                   println(">>>>>>>loading")

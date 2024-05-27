@@ -8,6 +8,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 class DecryptionInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalResponse = chain.proceed(chain.request())
+        println(">>>>>originalResponse ${originalResponse.body}")
 
         if (!originalResponse.isSuccessful) {
             return originalResponse
@@ -19,7 +20,7 @@ class DecryptionInterceptor : Interceptor {
 
         val contentType = originalResponse.header("Content-Type")
         val decryptedResponseBody = decryptedBody.toString()
-
+        println(">>>>decryptedResponse $decryptedResponseBody")
         return originalResponse.newBuilder()
             .body(decryptedResponseBody.toResponseBody(contentType?.toMediaTypeOrNull()))
             .build()

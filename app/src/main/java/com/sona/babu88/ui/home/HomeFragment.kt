@@ -1,5 +1,6 @@
 package com.sona.babu88.ui.home
 
+import MySharedPreferences
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,11 +21,14 @@ import com.sona.babu88.ui.hotgames.HotGamesFragment
 import com.sona.babu88.ui.slot.SlotFragment
 import com.sona.babu88.ui.sports.SportsFragment
 import com.sona.babu88.ui.table.TableFragment
+import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.autoScroll
+import com.sona.babu88.util.hide
 import com.sona.babu88.util.onBackPress
 import com.sona.babu88.util.provideViewPagerList
 import com.sona.babu88.util.replaceFragment
+import com.sona.babu88.util.show
 import com.sona.babu88.util.showExitAlert
 
 class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
@@ -61,6 +65,12 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         initView()
         setOnClickListener()
         view.onBackPress { requireContext().showExitAlert(positiveClick = { activity?.finish() }) }
+
+        if (MySharedPreferences.readString(AppConstant.TOKEN,"").isNullOrEmpty().not()){
+            binding.clHome.show()
+        } else {
+            binding.clHome.hide()
+        }
     }
 
     private fun initView() {
@@ -106,6 +116,11 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         homeTabList.add(HomeTab(R.drawable.ic_sports, "Sports"))
         homeTabList.add(HomeTab(R.drawable.ic_fishing, "Fishing"))
         homeTabList.add(HomeTab(R.drawable.ic_crash, "Crash"))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        homeTabList.clear()
     }
 
     override fun onTabItemClickListener(position: Int) {
