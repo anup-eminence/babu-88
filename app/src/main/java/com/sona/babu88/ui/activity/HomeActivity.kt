@@ -128,13 +128,14 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
     override fun onAdapterItemClick(item: NavigationItem) {
         binding.drawerLayout.closeDrawers()
         when (item.name) {
-            "Cricket", "Live Casino", "Slot Games", "Table Games", "Sportsbook", "Fishing", "Crash" -> {
-                val bundle = Bundle()
-                val df = DetailsFragment()
-                bundle.putString("title", item.name)
-                df.arguments = bundle
-                setFragment(df, binding.container.id)
-            }
+            "Cricket" -> setFragment(setArguments(DetailsFragment(), params = arrayListOf("Cricket", "", "ALL", "0")), binding.container.id)
+            "Live Casino" -> setFragment(setArguments(DetailsFragment(), params = arrayListOf("Casino", "LIVE", "ALL", "1")), binding.container.id)
+            "Slot Games" -> setFragment(setArguments(DetailsFragment(), params = arrayListOf("SLOT", "SLOT", "ALL", "2")), binding.container.id)
+            "Table Games" -> setFragment(setArguments(DetailsFragment(), params = arrayListOf("Table Games", "TABLE", "ALL", "3")), binding.container.id)
+            "Sportsbook" -> setFragment(setArguments(DetailsFragment(), params = arrayListOf("Sports", "", "ALL", "4")), binding.container.id)
+            "Fishing" -> setFragment(setArguments(DetailsFragment(), params = arrayListOf("Fishing", "FH", "ALL", "5")), binding.container.id)
+            "Crash" -> setFragment(setArguments(DetailsFragment(), params = arrayListOf("Crash", "", "ALL", "6")), binding.container.id)
+
             "Promotion" -> { setFragment(PromotionFragment(), binding.container.id)
                 binding.bottomNav.selectedItemId = R.id.nav_promotion
             }
@@ -145,7 +146,7 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
             "Agent Affiliate" -> { startActivity(Intent(this, AgentAffiliateActivity::class.java)) }
             "Language" -> { langDialog.show(supportFragmentManager, "language") }
             "FAQ" -> { setFragment(FAQFragment(), binding.container.id) }
-            "Logout" -> { startActivity(Intent(this, NewActivity::class.java)) }
+            "Logout" -> {  }
         }
     }
 
@@ -183,16 +184,15 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
         return fragment
     }
 
-    private fun setArguments(fragment: Fragment, title: String, params: String): Fragment {
+    private fun setArguments(fragment: Fragment, params: ArrayList<String>): Fragment {
         val args = Bundle()
-        args.putString("title", title)
-        args.putString("params", params)
+        args.putStringArrayList("params", params)
         fragment.arguments = args
         return fragment
     }
 
-    override fun onFragmentClickListener(title: String, params: String) {
-        setFragment(setArguments(DetailsFragment(), title, params), binding.container.id)
+    override fun onFragmentClickListener(params: ArrayList<String>) {
+        setFragment(setArguments(DetailsFragment(), params), binding.container.id)
     }
 
     fun hideProgress() {

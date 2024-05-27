@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sona.babu88.databinding.ItemCasinoBinding
 import com.sona.babu88.model.FishingList
-import com.sona.babu88.databinding.ItemFishingBinding
 
 class CasinoAdapter : RecyclerView.Adapter<CasinoAdapter.ViewHolder>() {
     var list = emptyList<FishingList?>()
@@ -47,11 +46,11 @@ class CasinoAdapter : RecyclerView.Adapter<CasinoAdapter.ViewHolder>() {
         }
 
         holder.binding.root.setOnClickListener {
-            onItemClickListener?.onItemClickListener()
+            onItemClickListener?.onItemClickListener(item)
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener()
+        fun onItemClickListener(item: FishingList?)
     }
 }

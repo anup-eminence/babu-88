@@ -9,5 +9,5 @@ interface OnAccountListener {
 }
 
 interface OnSelectedFragmentListener{
-    fun onFragmentClickListener(title: String, params: String)
+    fun onFragmentClickListener(params: ArrayList<String>)
 }

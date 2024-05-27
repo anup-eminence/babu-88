@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.GameListResponse
 import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentDetailsBinding
 import com.sona.babu88.model.HomeTab
+import com.sona.babu88.util.hide
 import com.sona.babu88.util.hideProgress
+import com.sona.babu88.util.show
 import com.sona.babu88.util.showProgress
 
 class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
@@ -23,13 +26,21 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     private lateinit var detailsAdapter: DetailsAdapter
     private val homeViewModel : HomeViewModel by viewModels()
     private var title = ""
-    private var params = ""
+    private var category = ""
+    private var providers = ""
+    private val titleList = listOf("Cricket", "Casino", "Slot", "Table Games", "Sports", "Fishing", "Crash")
+    private val categoryList = listOf("", "LIVE", "SLOT", "TABLE", "", "FH", "")
+    private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            title = it.getString("title").toString()
-            params = it.getString("params").toString()
+            it.getStringArrayList("params")?.let { params ->
+                title = params[0]
+                category = params[1]
+                providers = params[2]
+                currentIndex = params[3].toInt()
+            }
         }
     }
 
@@ -51,19 +62,29 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         binding.tvTitle.text = title
         setTabAdapter()
         setDetailsAdapter()
-        observer(params)
-        selectedTabPosition(params)
+        observer(providers, category)
+        selectedTabPosition(category, providers)
     }
 
     private fun setOnClickListener() {
         binding.apply {
-            leftArrow.setOnClickListener {  }
-            rightArrow.setOnClickListener {  }
+            leftArrow.setOnClickListener {
+                if (currentIndex > 0) {
+                    currentIndex--
+                    updateData()
+                }
+            }
+            rightArrow.setOnClickListener {
+                if (currentIndex < titleList.size - 1) {
+                    currentIndex++
+                    updateData()
+                }
+            }
         }
     }
 
-    private fun observer(params: String) {
-        homeViewModel.getGameList(provider = params, category = "SLOT", page = 1)
+    private fun observer(providers: String, category: String) {
+        homeViewModel.getGameList(provider = providers, category = category, page = 1)
 
         homeViewModel.gameList.observe(requireActivity()){
             when (it) {
@@ -72,11 +93,12 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
                 }
 
                 is ApiResult.Success -> {
+                    checkVisibleOrNot(it.data)
                     this.hideProgress()
                     detailsTabAdapter.setTabData(getProviderList(it.data?.providers))
                     detailsAdapter.setDetailsData(it.data?.allImages)
-                    detailsTabAdapter.selectedPosition = selectedTabPosition(params)
-                    useTabPosition(params)
+                    detailsTabAdapter.selectedPosition = selectedTabPosition(category, providers)
+                    useTabPosition(providers)
                 }
 
                 is ApiResult.Error -> {
@@ -96,14 +118,21 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     }
 
     private fun findImage(type: String): Int {
-        return when (type.lowercase()) {
-            "pp" -> R.drawable.pp
-            "pt" -> R.drawable.pt
-            "jili" -> R.drawable.jili
-            "jdb" -> R.drawable.jdb
-            "fc" -> R.drawable.fc
-            "rt" -> R.drawable.rt
-            "evoplay" -> R.drawable.evoplay
+        return when (type) {
+            "PP" -> R.drawable.pp
+            "PT" -> R.drawable.pt
+            "JILI" -> R.drawable.jili
+            "JDB" -> R.drawable.jdb
+            "FC" -> R.drawable.fc
+            "RT" -> R.drawable.rt
+            "EVOPLAY" -> R.drawable.evoplay
+            "SEXY" -> R.drawable.sexy_
+            "EVO" -> R.drawable.evo
+            "BETGAMES" -> R.drawable.betgames
+            "ROYALGAMING" -> R.drawable.royalgaming_
+            "EZUGI" -> R.drawable.ezugi
+            "SPRIBE" -> R.drawable.crash_spribe
+            "KM" -> R.drawable.km
             else -> -1
         }
     }
@@ -117,8 +146,8 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     }
 
     override fun onTabItemClickListener(item: HomeTab?) {
-        if (item?.text.isNullOrEmpty().not()) item?.text?.let { observer(it) }
-        else observer("ALL")
+        if (item?.text.isNullOrEmpty().not()) item?.text?.let { observer(it, category) }
+        else observer("ALL", category)
     }
 
     private fun setDetailsAdapter() {
@@ -132,33 +161,76 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
 
     }
 
-//    private fun selectedTabPosition(params: String) {
-//        when (params.lowercase()) {
-//            "pp" -> binding.recyclerViewTab.scrollToPosition(0)
-//            "pt" -> binding.recyclerViewTab.scrollToPosition(1)
-//            "jili" -> binding.recyclerViewTab.scrollToPosition(2)
-//            "jdb" -> binding.recyclerViewTab.scrollToPosition(3)
-//            "fc" -> binding.recyclerViewTab.scrollToPosition(4)
-//            "rt" -> binding.recyclerViewTab.scrollToPosition(5)
-//            "evoplay" -> binding.recyclerViewTab.scrollToPosition(6)
-//        }
-//    }
+    private fun selectedTabPosition(category: String, provider: String): Int {
+        return when (category) {
+            "SLOT" -> when (provider) {
+                "" -> 0
+                "PP" -> 1
+                "PT" -> 2
+                "JILI" -> 3
+                "JDB" -> 4
+                "FC" -> 5
+                "RT" -> 6
+                "EVOPLAY" -> 7
+                else -> 0
+            }
 
-    private fun selectedTabPosition(params: String): Int {
-        return when (params.lowercase()) {
-            "" -> 0
-            "pp" -> 1
-            "pt" -> 2
-            "jili" -> 3
-            "jdb" -> 4
-            "fc" -> 5
-            "rt" -> 6
-            "evoplay" -> 7
-            else -> 0
+            "LIVE" -> when (provider) {
+                "" -> 0
+                "SEXY" -> 1
+                "EVO" -> 2
+                "PP" -> 3
+                "PT" -> 4
+                "BETGAMES" -> 5
+                "ROYALGAMING" -> 6
+                "EZUGI" -> 7
+                "EVOPLAY" -> 8
+                else -> 0
+            }
+
+            "FH" -> when (provider) {
+                "" -> 0
+                "JDB" -> 1
+                "FC" -> 2
+                "JILI" -> 3
+                else -> 0
+            }
+
+            "TABLE" -> when (provider) {
+                "" -> 0
+                "JILI" -> 1
+                "FC" -> 2
+                "SPRIBE" -> 3
+                "KM" -> 4
+                "RT" -> 5
+                else -> 0
+            }
+
+            else -> -1
         }
     }
 
-    private fun useTabPosition(params: String) {
-        binding.recyclerViewTab.scrollToPosition(selectedTabPosition(params))
+    private fun useTabPosition(providers: String) {
+        binding.recyclerViewTab.scrollToPosition(selectedTabPosition(category, providers))
+    }
+
+    private fun updateData() {
+        binding.tvTitle.text = titleList[currentIndex]
+        category = categoryList[currentIndex]
+        observer("ALL", categoryList[currentIndex])
+    }
+
+    private fun checkVisibleOrNot(data: GameListResponse?) {
+        binding.apply {
+            if (data?.providers.isNullOrEmpty()) recyclerViewTab.hide()
+            else recyclerViewTab.show()
+            if (data?.allImages.isNullOrEmpty()) {
+                tvNoData.show()
+                recyclerView.hide()
+            } else {
+                tvNoData.hide()
+                recyclerView.show()
+            }
+        }
     }
 }

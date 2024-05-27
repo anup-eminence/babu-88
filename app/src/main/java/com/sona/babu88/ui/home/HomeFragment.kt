@@ -97,6 +97,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     }
 
     private fun setTabData() {
+        homeTabList.clear()
         homeTabList.add(HomeTab(R.drawable.ic_hot_home, "Hot Games"))
         homeTabList.add(HomeTab(R.drawable.ic_cricket, "Cricket"))
         homeTabList.add(HomeTab(R.drawable.ic_casino, "Casino"))
