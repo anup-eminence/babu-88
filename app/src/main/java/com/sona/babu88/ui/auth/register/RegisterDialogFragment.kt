@@ -6,10 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager.widget.ViewPager
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.RetrofitUtil
+import com.sona.babu88.api.model.request.RegisterUserRequest
+import com.sona.babu88.data.viewmodel.AuthViewModel
 import com.sona.babu88.databinding.RegisterDialogFragmentBinding
 import com.sona.babu88.ui.auth.adapter.RegisterVPAdapter
+import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.setWidthPercent
+import com.sona.babu88.util.showToast
 
 class RegisterDialogFragment(
     private val registerDialogListener: RegisterDialogListener
@@ -17,7 +24,15 @@ class RegisterDialogFragment(
 
     private lateinit var binding: RegisterDialogFragmentBinding
     private lateinit var vpAdapter: RegisterVPAdapter
+    private val authViewModel : AuthViewModel by viewModels()
     var PAGE = 0
+
+    var selectedUserName = ""
+    var selectedPassword = ""
+    var selectedCurrency = ""
+    var selectedPhoneNumber = ""
+    var selectedReffalCode = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,7 +83,7 @@ class RegisterDialogFragment(
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                if (position == 0){
+                if (position == 0) {
                     PAGE = 0
                 }
             }
@@ -94,7 +109,49 @@ class RegisterDialogFragment(
         registerDialogListener.moveToLogin()
     }
 
-    override fun moveToNextRegisterPage() {
+    override fun makeApiCall(selectedPhone: String, selectedReferral: String, email: String) {
+
+        authViewModel.registerUser.observe(viewLifecycleOwner){
+            when(it){
+                is ApiResult.Loading -> {}
+                is ApiResult.Success -> {
+                    dismiss()
+                    it.data?.message?.let { msg ->
+                        requireContext().showToast(msg)
+                    }
+                }
+                is ApiResult.Error -> {
+                    requireContext().showToast("Registration Failed")
+                }
+            }
+        }
+
+        val request = AppConstant.getTimeStamp()
+        val registerUserRequest = RegisterUserRequest(
+            userId = selectedUserName.lowercase(),
+            userName = selectedUserName.lowercase(),
+            passWord = selectedPassword,
+            mobileNumber = selectedPhone,
+            email = email,
+            refCode = "",
+            currency = selectedCurrency,
+            timeStamp = request[AppConstant.TIMESTAMP].toString(),
+            secretKey =  request[AppConstant.SECRET_KEY].toString()
+        )
+        authViewModel.registerUser(
+            registerUserRequest
+        )
+
+    }
+
+    override fun moveToNextRegisterPage(
+        selectedUserName: String,
+        selectedPassword: String,
+        selectedCurrency: String
+    ) {
+        this.selectedUserName = selectedUserName
+        this.selectedPassword = selectedPassword
+        this.selectedCurrency = selectedCurrency
         PAGE = 2
         binding.vp.setCurrentItem(1, true)
     }

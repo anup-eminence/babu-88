@@ -14,8 +14,7 @@ import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentCasinoBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.util.OnSelectedFragmentListener
-import com.sona.babu88.util.hideProgress
-import com.sona.babu88.util.showProgress
+
 
 class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
     private lateinit var binding: FragmentCasinoBinding
@@ -51,11 +50,10 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
         homeViewModel.gameList.observe(viewLifecycleOwner) {
             when(it){
                 is ApiResult.Loading -> {
-                    this.showProgress()
+
                 }
 
                 is ApiResult.Success -> {
-                    this.hideProgress()
                     casinoAdapter.setCasinoData(it.data?.providers?.let { it1 -> getAdapterList(it1) })
                 }
 

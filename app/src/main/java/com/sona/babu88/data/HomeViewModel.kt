@@ -8,8 +8,12 @@ import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.RetrofitUtil
 import com.sona.babu88.api.model.request.AuthenticateUserRequest
 import com.sona.babu88.api.model.request.GameListRequest
+import com.sona.babu88.api.model.request.PromoFilterRequest
+import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.SpecialGameListRequest
 import com.sona.babu88.api.model.response.GameListResponse
+import com.sona.babu88.api.model.response.PromoFilterResponse
+import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.SpecialGameListResponse
 import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.util.AppConstant.SECRET_KEY
@@ -19,48 +23,18 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private val _authenticatUser  = MutableLiveData<ApiResult<UserData?>>()
-    val authenticateUser : LiveData<ApiResult<UserData?>> get() = _authenticatUser
-
     private val _gameList  = MutableLiveData<ApiResult<GameListResponse?>>()
     val gameList : LiveData<ApiResult<GameListResponse?>> get() = _gameList
 
     private val _specialGameList  = MutableLiveData<ApiResult<SpecialGameListResponse?>>()
     val specialGameList : LiveData<ApiResult<SpecialGameListResponse?>> get() = _specialGameList
 
+    private val _promotionList  = MutableLiveData<ApiResult<PromotionListResponse?>>()
+    val promotionList : LiveData<ApiResult<PromotionListResponse?>> get() = _promotionList
 
-    fun authenticateUser(
-        userId: String?,
-        passWord: String?,
-        host: String?,
-        ipad: String?
-    ) {
-        viewModelScope.launch {
-            _authenticatUser.postValue(ApiResult.Loading())
-            try {
-                val response = RetrofitUtil.apiServies.authenticateUser(
-                    AuthenticateUserRequest(
-                        userId = userId,
-                        passWord = passWord,
-                        host = host,
-                        ipad = ipad
-                    )
-                )
-                if (response.isSuccessful && response.code() == 200 && response.body() != null){
-                    ApiResult.Success(response.body()).let { _authenticatUser.postValue(it) }
-                } else {
-                    _authenticatUser.postValue(ApiResult.Error("Something Went Wrong!"))
-                }
+    private val _promotionFilter  = MutableLiveData<ApiResult<List<PromoFilterResponse>?>>()
+    val promotionFilter : LiveData<ApiResult<List<PromoFilterResponse>?>> get() = _promotionFilter
 
-                println(">>>>>response ${response.isSuccessful}")
-                println(">>>>>response ${response.body()}")
-            }catch (e : Exception){
-                _authenticatUser.postValue(ApiResult.Error("Something Went Wrong!"))
-            }
-
-        }
-
-    }
 
 
     fun getGameList(
@@ -122,6 +96,68 @@ class HomeViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _specialGameList.postValue(ApiResult.Error("Something Went Wrong!"))
+            }
+        }
+    }
+
+
+    fun getPromotionList(
+        pageNo : Int
+    ) {
+        viewModelScope.launch {
+            try {
+             _promotionList.postValue(ApiResult.Loading())
+                val request = getTimeStamp()
+                val promoRequest = PromotionListRequest(
+                    timestamp = request[TIMESTAMP].toString(),
+                    secretKey = request[SECRET_KEY].toString(),
+                    pageNo = pageNo
+                )
+                val verifyUser = RetrofitUtil.apiServies.verifyUser(promoRequest)
+                if (verifyUser.isSuccessful){
+                    val promoResponse = RetrofitUtil.apiServies.getPromotionList(promoRequest)
+                    if (promoResponse.isSuccessful){
+                        _promotionList.postValue(ApiResult.Success(data = promoResponse.body()))
+                    } else {
+                        _promotionList.postValue(ApiResult.Error(message = "Something went wrong!"))
+                    }
+                }
+
+            }catch (e : Exception){
+                _promotionList.postValue(ApiResult.Error(message = "Something went wrong!"))
+            }
+
+            _promotionList.value?.data?.data?.forEach {
+                println(">>>>promotionList ${it.description}")
+            }
+        }
+    }
+
+    fun getPromoFilters() {
+        viewModelScope.launch {
+            _promotionFilter.postValue(ApiResult.Loading())
+            try {
+                val request = getTimeStamp()
+                val promoRequest = PromoFilterRequest(
+                    timeStamp = request[TIMESTAMP].toString(),
+                    secretKey = request[SECRET_KEY].toString()
+                )
+                val verifyUser = RetrofitUtil.apiServies.verifyUser(promoRequest)
+
+                if (verifyUser.isSuccessful){
+                    val promoFilter = RetrofitUtil.apiServies.getPromoFilters(promoRequest)
+                    if (promoFilter.isSuccessful){
+                       _promotionFilter.postValue(ApiResult.Success(promoFilter.body()))
+                    } else {
+                        _promotionFilter.postValue(ApiResult.Error("Something went Wrong!"))
+                    }
+                } else {
+                    _promotionFilter.postValue(ApiResult.Error("Something went Wrong!"))
+                }
+
+            } catch (e : Exception) {
+                e.printStackTrace()
+                _promotionFilter.postValue(ApiResult.Error("Something went Wrong!"))
             }
         }
     }

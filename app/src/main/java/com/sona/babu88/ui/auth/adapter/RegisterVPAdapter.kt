@@ -29,6 +29,15 @@ class RegisterVPAdapter(
     interface RegisterDialogListener {
         fun dismissRegisterDialog()
         fun moveToLoginPage()
-        fun moveToNextRegisterPage()
+        fun makeApiCall(
+            selectedPhone : String,
+            selectedReferral: String,
+            email : String
+        )
+        fun moveToNextRegisterPage(
+             selectedUserName : String,
+             selectedPassword : String,
+             selectedCurrency: String,
+        )
     }
 }

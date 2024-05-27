@@ -44,7 +44,9 @@ class AccountFragment : Fragment(), AccountParentAdapter.OnItemClickListener {
             imgReferral.setOnClickListener { listener?.onAccountClick("Referral") }
             imgDeposit.setOnClickListener { listener?.onAccountClick("Deposit") }
             imgWithdrawal.setOnClickListener { listener?.onAccountClick("Withdrawal") }
-            btnLogout.setOnClickListener { }
+            btnLogout.setOnClickListener {
+                listener?.onAccountClick("LOG_OUT")
+            }
         }
     }
 
