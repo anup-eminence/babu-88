@@ -1,5 +1,6 @@
 package com.sona.babu88.ui.cricket
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.databinding.FragmentCricketBinding
 import com.sona.babu88.model.FishingList
-import com.sona.babu88.util.showToast
+import com.sona.babu88.ui.activity.NewActivity
 
 class CricketFragment : Fragment(), CricketAdapter.OnItemClickListener {
     private lateinit var binding: FragmentCricketBinding
@@ -45,12 +46,11 @@ class CricketFragment : Fragment(), CricketAdapter.OnItemClickListener {
     }
 
     private fun setFishingData() {
-        fishingList.add(FishingList(R.drawable.img_cricket_1))
-        fishingList.add(FishingList(R.drawable.img_cricket_2))
-        fishingList.add(FishingList(R.drawable.img_cricket_3))
+        fishingList.add(FishingList(R.drawable.img_cricket_1_))
+        fishingList.add(FishingList(R.drawable.img_cricket_2_))
     }
 
     override fun onItemClickListener() {
-        requireContext().showToast("Clicked...")
+        startActivity(Intent(requireActivity(), NewActivity::class.java))
     }
 }

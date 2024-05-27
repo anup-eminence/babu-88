@@ -13,12 +13,9 @@ import com.sona.babu88.api.ApiResult
 import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentSlotBinding
 import com.sona.babu88.model.SlotList
-import com.sona.babu88.ui.activity.HomeActivity
-import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.OnSelectedFragmentListener
 import com.sona.babu88.util.hideProgress
 import com.sona.babu88.util.showProgress
-import com.sona.babu88.util.showToast
 
 class SlotFragment : Fragment(), SlotAdapter.OnItemClickListener {
     private lateinit var binding: FragmentSlotBinding
@@ -101,7 +98,7 @@ class SlotFragment : Fragment(), SlotAdapter.OnItemClickListener {
     }
 
     override fun onItemClickListener(item: SlotList?) {
-        item?.text?.let { listener?.onFragmentClickListener(title = "SLOT", params = it) }
+        item?.text?.let { listener?.onFragmentClickListener(params = arrayListOf("SLOT", "SLOT", it, "2")) }
     }
 
     override fun onAttach(context: Context) {

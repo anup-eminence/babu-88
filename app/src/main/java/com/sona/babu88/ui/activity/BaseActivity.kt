@@ -12,6 +12,7 @@ open class BaseActivity : AppCompatActivity() {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(container, fragment)
+        fragmentTransaction.addToBackStack("")
         fragmentTransaction.commit()
     }
 }

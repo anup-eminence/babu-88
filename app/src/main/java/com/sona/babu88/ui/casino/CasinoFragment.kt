@@ -1,5 +1,6 @@
 package com.sona.babu88.ui.casino
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +13,15 @@ import com.sona.babu88.api.ApiResult
 import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentCasinoBinding
 import com.sona.babu88.model.FishingList
-import com.sona.babu88.util.showToast
+import com.sona.babu88.util.OnSelectedFragmentListener
+import com.sona.babu88.util.hideProgress
+import com.sona.babu88.util.showProgress
 
 class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
     private lateinit var binding: FragmentCasinoBinding
     private lateinit var casinoAdapter: CasinoAdapter
-    private var fishingList = arrayListOf<FishingList>()
-
     private val homeViewModel : HomeViewModel by viewModels()
+    private var listener: OnSelectedFragmentListener?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,6 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setCasinoAdapter()
         getData()
-        casinoAdapter.setCasinoData(fishingList)
     }
 
     private fun getData() {
@@ -50,10 +51,11 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
         homeViewModel.gameList.observe(viewLifecycleOwner) {
             when(it){
                 is ApiResult.Loading -> {
-
+                    this.showProgress()
                 }
 
                 is ApiResult.Success -> {
+                    this.hideProgress()
                     casinoAdapter.setCasinoData(it.data?.providers?.let { it1 -> getAdapterList(it1) })
                 }
 
@@ -67,10 +69,15 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
     private fun setCasinoAdapter() {
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         casinoAdapter = CasinoAdapter()
+        casinoAdapter.setOnItemClickListener(this@CasinoFragment)
         binding.recyclerView.adapter = casinoAdapter
     }
 
-    private fun getAdapterList(provider : List<String>) : List<FishingList> {
+    override fun onItemClickListener(item: FishingList?) {
+        item?.title?.let { listener?.onFragmentClickListener(arrayListOf("Casino", "LIVE", it, "1")) }
+    }
+
+    private fun getAdapterList(provider : List<String>?) : List<FishingList> {
         val list = arrayListOf<FishingList>()
         provider?.forEach {
             list.add(FishingList(findImage(it),it))
@@ -120,7 +127,17 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
 
     }
 
-    override fun onItemClickListener() {
-        requireContext().showToast("Clicked...")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnSelectedFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnSelectedFragmentListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 }

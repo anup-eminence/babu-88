@@ -46,11 +46,11 @@ class FishingAdapter : RecyclerView.Adapter<FishingAdapter.ViewHolder>() {
         }
 
         holder.binding.root.setOnClickListener {
-            onItemClickListener?.onItemClickListener()
+            onItemClickListener?.onItemClickListener(item)
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener()
+        fun onItemClickListener(item: FishingList?)
     }
 }
