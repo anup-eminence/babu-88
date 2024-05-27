@@ -13,12 +13,8 @@ import com.sona.babu88.api.ApiResult
 import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentCasinoBinding
 import com.sona.babu88.model.FishingList
-import com.sona.babu88.util.hide
-import com.sona.babu88.util.show
-import com.sona.babu88.util.showToast
 import com.sona.babu88.util.OnSelectedFragmentListener
-import com.sona.babu88.util.hideProgress
-import com.sona.babu88.util.showProgress
+
 
 class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
     private lateinit var binding: FragmentCasinoBinding
@@ -62,7 +58,7 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
                 }
 
                 is ApiResult.Error -> {
-                    binding.progress.hide()
+
                 }
             }
         }
