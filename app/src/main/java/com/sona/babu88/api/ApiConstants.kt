@@ -12,4 +12,8 @@ object ApiConstants {
     const val GET_PROMOTION_FILTER = "$API_USER/getPromoFilter"
     const val GET_SIGNUP_CURRENCY = "$API_AGENT/getSignUPCurrencyList"
     const val VALIDATE_USER_SIGNUP = "$API_AGENT/validateUserSignUp"
+    const val GET_USER_DETAILS = "$API_USER/getUserDetails"
+    const val GET_EMAIL_VERIFICATION_CODE = "$API_USER/getEmailVerfiyCode"
+    const val VERIFICATION_EMAIL = "$API_USER/verifyEmailCode"
+    const val UPDATE_BIRTHDAY = "$API_USER/updateUserBirthday"
 }

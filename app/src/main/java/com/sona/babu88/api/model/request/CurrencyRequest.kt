@@ -9,3 +9,11 @@ data class CurrencyRequest(
     @SerializedName("secretKey")
     val secretKey: String
 )
+
+data class GeneralRequest(
+    @SerializedName("timeStamp")
+    val timeStamp: String?,
+
+    @SerializedName("secretKey")
+    val secretKey: String?
+)

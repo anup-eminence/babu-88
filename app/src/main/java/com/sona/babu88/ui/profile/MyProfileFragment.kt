@@ -1,6 +1,8 @@
 package com.sona.babu88.ui.profile
 
+import MySharedPreferences
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +11,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.core.text.underline
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.sona.babu88.R
+import com.sona.babu88.api.model.request.GeneralRequest
+import com.sona.babu88.data.viewmodel.AuthViewModel
 import com.sona.babu88.databinding.FragmentMyProfileBinding
+import com.sona.babu88.util.AppConstant
+import com.sona.babu88.util.AppConstant.USER_DATA
 
 class MyProfileFragment : Fragment() {
     private lateinit var binding: FragmentMyProfileBinding
+
+    private val authViewModel : AuthViewModel by viewModels()
+    private var userData : UserData?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +41,15 @@ class MyProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        observer()
+        userData = MySharedPreferences.getSavedObjectFromPreference(requireContext(),USER_DATA)
+    }
+
+    private fun observer() {
+        authViewModel.getUserDetails()
+        authViewModel.userDetails.observe(viewLifecycleOwner){
+            println(">>>>user ${it.data}")
+        }
     }
 
     private fun initView() {

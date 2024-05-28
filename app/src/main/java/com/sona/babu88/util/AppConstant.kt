@@ -7,6 +7,7 @@ object AppConstant {
     const val TOKEN = "token"
     const val TIMESTAMP = "timeStamp"
     const val SECRET_KEY = "secretKey"
+    const val USER_DATA = "user_data"
 
     fun getTimeStamp(): Map<String, String> {
         val resp = mapOf(
@@ -20,4 +21,6 @@ object AppConstant {
         val p = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         return (0 until 10).fold("") { acc, _ -> acc + p[(Math.random() * p.length).toInt()] }
     }
+
+
 }

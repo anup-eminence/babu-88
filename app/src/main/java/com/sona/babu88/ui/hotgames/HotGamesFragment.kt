@@ -69,7 +69,7 @@ class HotGamesFragment : Fragment(), HotGamesAdapter.OnItemClickListener,
 
     override fun onItemClickListener() {
         if (loginSignupDialog != null && loginSignupDialog.isVisible.not()) {
-            loginSignupDialog.show(requireActivity().supportFragmentManager, "")
+           // loginSignupDialog.show(requireActivity().supportFragmentManager, "")
         }
     }
 

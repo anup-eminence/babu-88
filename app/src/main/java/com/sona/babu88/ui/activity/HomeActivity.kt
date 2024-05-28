@@ -43,6 +43,7 @@ import com.sona.babu88.ui.rewards.ClaimVoucherFragment
 import com.sona.babu88.ui.rewards.RewardsFragment
 import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.AppConstant.TOKEN
+import com.sona.babu88.util.AppConstant.USER_DATA
 import com.sona.babu88.util.CurrLangDialogFragment
 import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.OnSelectedFragmentListener
@@ -298,6 +299,7 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
                 is ApiResult.Success -> {
                     if (it.data?.login == true) {
                         MySharedPreferences.writeString(TOKEN, it.data?.user?.token ?: "")
+                        MySharedPreferences.saveObjectToSharedPreference(this@HomeActivity,USER_DATA,it.data)
                         loginSignupDialog.dismiss()
                         binding.bottomNav.show()
                         binding.login.root.hide()
