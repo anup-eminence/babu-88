@@ -3,11 +3,14 @@ package com.sona.babu88.ui.details
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnScrollChangeListener
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.GameListResponse
@@ -18,19 +21,23 @@ import com.sona.babu88.util.hide
 import com.sona.babu88.util.hideProgress
 import com.sona.babu88.util.show
 import com.sona.babu88.util.showProgress
+import okhttp3.internal.addHeaderLenient
 
 class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     DetailsAdapter.OnItemClickListener {
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var detailsTabAdapter: DetailsTabAdapter
     private lateinit var detailsAdapter: DetailsAdapter
-    private val homeViewModel : HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private var title = ""
     private var category = ""
     private var providers = ""
-    private val titleList = listOf("Cricket", "Casino", "Slot", "Table Games", "Sports", "Fishing", "Crash")
+    private val titleList =
+        listOf("Cricket", "Casino", "Slot", "Table Games", "Sports", "Fishing", "Crash")
     private val categoryList = listOf("", "LIVE", "SLOT", "TABLE", "", "FH", "")
     private var currentIndex = 0
+    private var currentPage = 1
+    private var shouldLoadData = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +76,18 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     private fun setOnClickListener() {
         binding.apply {
             leftArrow.setOnClickListener {
+                currentPage = 1
+                shouldLoadData = true
+                detailsAdapter.clearData()
                 if (currentIndex > 0) {
                     currentIndex--
                     updateData()
                 }
             }
             rightArrow.setOnClickListener {
+                currentPage = 1
+                shouldLoadData = true
+                detailsAdapter.clearData()
                 if (currentIndex < titleList.size - 1) {
                     currentIndex++
                     updateData()
@@ -84,19 +97,27 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     }
 
     private fun observer(providers: String, category: String) {
-        homeViewModel.getGameList(provider = providers, category = category, page = 1)
+        homeViewModel.getGameList(provider = providers, category = category, page = currentPage)
 
-        homeViewModel.gameList.observe(requireActivity()){
+        homeViewModel.gameList.observe(requireActivity()) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress()
                 }
 
                 is ApiResult.Success -> {
-                    checkVisibleOrNot(it.data)
                     this.hideProgress()
-                    detailsTabAdapter.setTabData(getProviderList(it.data?.providers))
-                    detailsAdapter.setDetailsData(it.data?.allImages)
+                    if (it.data?.allImages?.isEmpty() == true) {
+                        shouldLoadData = false
+                    } else {
+                        if (currentPage == 1) detailsAdapter.clearData()
+                        detailsAdapter.setDetailsData(it.data?.allImages)
+                    }
+                    if (currentPage == 1) {
+                        shouldLoadData = true
+                        checkVisibleOrNot(it.data)
+                        detailsTabAdapter.setTabData(getProviderList(it.data?.providers))
+                    }
                     detailsTabAdapter.selectedPosition = selectedTabPosition(category, providers)
                     useTabPosition(providers)
                 }
@@ -106,6 +127,32 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
                 }
             }
         }
+
+        binding.nestedScroll.setOnScrollChangeListener(object :
+            NestedScrollView.OnScrollChangeListener {
+            override fun onScrollChange(
+                v: NestedScrollView,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
+            ) {
+                // on scroll change we are checking when users scroll as bottom.
+                println(">>>>shouldLoadData $shouldLoadData")
+                if ((scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) && shouldLoadData) {
+                    // in this method we are incrementing page number,
+                    // making progress bar visible and calling get data method.
+                    currentPage++;
+                    homeViewModel.getGameList(
+                        provider = providers,
+                        category = category,
+                        page = currentPage
+                    )
+                }
+            }
+
+
+        })
     }
 
     private fun getProviderList(providers: List<String>?): List<HomeTab> {
@@ -146,6 +193,10 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     }
 
     override fun onTabItemClickListener(item: HomeTab?) {
+        currentPage = 1
+        detailsAdapter.clearData()
+        shouldLoadData = true
+        println(">>>>clicked $shouldLoadData")
         if (item?.text.isNullOrEmpty().not()) item?.text?.let { observer(it, category) }
         else observer("ALL", category)
     }
