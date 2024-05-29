@@ -9,6 +9,9 @@ import com.sona.babu88.api.model.request.PromoFilterRequest
 import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.RegisterUserRequest
 import com.sona.babu88.api.model.request.SpecialGameListRequest
+import com.sona.babu88.api.model.request.TransactionPLRequest
+import com.sona.babu88.api.model.request.TransactionPLRequestFull
+import com.sona.babu88.api.model.request.TransactionRecordRequest
 import com.sona.babu88.api.model.request.UpdateBirthDayRequest
 import com.sona.babu88.api.model.request.VerifyEmailCodeRequest
 import com.sona.babu88.api.model.request.VerifyEmailRequest
@@ -57,6 +60,15 @@ interface ApiServies {
 
     @POST(ApiConstants.VALIDATE_USER_SIGNUP)
     suspend fun validateUserSignup(@Body registerUserRequest: RegisterUserRequest) : Response<RegisterUserResponse>
+
+    @POST(ApiConstants.GET_TRANSACTION_PL)
+    suspend fun getTransactionPl(@Body transactionPLRequest: TransactionPLRequest) : Response<Any>
+
+    @POST(ApiConstants.GET_TRANSACTION_PL_FULL)
+    suspend fun getTransactionPlFull(@Body transactionPLRequest: TransactionPLRequestFull) : Response<Any>
+
+    @POST(ApiConstants.GET_TRANSACTION_RECORD)
+    suspend fun getTransactionRecord(@Body transactionRecordRequest: TransactionRecordRequest) : Response<Any>
 
     @POST(ApiConstants.GET_USER_DETAILS)
     suspend fun getUserDetails(@Body generalRequest: GeneralRequest) : Response<UserDetailsResponse>

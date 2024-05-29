@@ -15,14 +15,12 @@ import androidx.fragment.app.viewModels
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.request.CurrencyRequest
-import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.data.viewmodel.AuthViewModel
 import com.sona.babu88.databinding.RegisterPage1Binding
 import com.sona.babu88.ui.auth.adapter.RegisterVPAdapter
 import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.hide
 import com.sona.babu88.util.show
-import com.sona.babu88.util.showToast
 
 
 class RegisterFragment1(
