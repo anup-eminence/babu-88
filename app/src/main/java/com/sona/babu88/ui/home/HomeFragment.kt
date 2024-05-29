@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.databinding.FragmentHomeBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.model.HomeTab
@@ -42,6 +43,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     private var fishingList = arrayListOf<FishingList>()
     private var featuredGameList = arrayListOf<FeaturedGameList>()
     private var listener: OnAccountListener? = null
+    private var userData : UserData?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,9 +76,11 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     }
 
     private fun initView() {
+        userData = MySharedPreferences.getSavedObjectFromPreference(requireContext(), AppConstant.USER_DATA)
         binding.tvMarquee.isSelected = true
         val hotGamesFragment = HotGamesFragment()
         this.replaceFragment(binding.container.id, hotGamesFragment, false, "hot_games")
+        binding.userName.text = userData?.user?.userName
     }
 
     private fun setOnClickListener() {

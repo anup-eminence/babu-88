@@ -149,19 +149,25 @@ class AuthViewModel : ViewModel() {
     }
 
     fun getEmailVerificationCode(
-        requestCode: VerifyEmailRequest
+        email : String?
     ) {
         viewModelScope.launch {
             _requestEmailCode.postValue(ApiResult.Loading())
 
             try {
+                val request = AppConstant.getTimeStamp()
+                val requestCode = VerifyEmailRequest(
+                    email = email,
+                    timeStamp = request[AppConstant.TIMESTAMP],
+                    secretKey = request[AppConstant.SECRET_KEY]
+                )
                 val verifyApi = RetrofitUtil.apiServies.verifyUser(requestCode)
                 if (verifyApi.isSuccessful) {
                     val codeResponse = RetrofitUtil.apiServies.getEmailVerificationCode(requestCode)
-                    if (codeResponse.isSuccessful) {
+                    if (codeResponse.isSuccessful && codeResponse.code() == 200) {
                         _requestEmailCode.postValue(ApiResult.Success(codeResponse.body()))
                     } else {
-                        _requestEmailCode.postValue(ApiResult.Error("Something Went Wrong!"))
+                        _requestEmailCode.postValue(ApiResult.Error(codeResponse.body()?.message))
                     }
                 }
             } catch (e: Exception) {
@@ -186,10 +192,10 @@ class AuthViewModel : ViewModel() {
                 val verifyApi = RetrofitUtil.apiServies.verifyUser(verifyCode)
                 if (verifyApi.isSuccessful) {
                     val codeResponse = RetrofitUtil.apiServies.verifyEmail(verifyCode)
-                    if (codeResponse.isSuccessful) {
+                    if (codeResponse.isSuccessful && codeResponse.code() == 200) {
                         _verifyEmail.postValue(ApiResult.Success(codeResponse.body()))
                     } else {
-                        _verifyEmail.postValue(ApiResult.Error("Something Went Wrong!"))
+                        _verifyEmail.postValue(ApiResult.Error(codeResponse.body()?.message))
                     }
                 }
             } catch (e: Exception) {
@@ -216,17 +222,15 @@ class AuthViewModel : ViewModel() {
                 val verifyApi = RetrofitUtil.apiServies.verifyUser(updateBirthday)
                 if (verifyApi.isSuccessful) {
                     val codeResponse = RetrofitUtil.apiServies.updateBirthDay(updateBirthday)
-                    if (codeResponse.isSuccessful) {
+                    if (codeResponse.isSuccessful && codeResponse.code() == 200) {
                         _updateBirthday.postValue(ApiResult.Success(codeResponse.body()))
                     } else {
-                        _updateBirthday.postValue(ApiResult.Error("Something Went Wrong!"))
+                        _updateBirthday.postValue(ApiResult.Error(codeResponse.body()?.message))
                     }
                 }
             } catch (e: Exception) {
                 _updateBirthday.postValue(ApiResult.Error("Something Went Wrong!"))
             }
         }
-
-
     }
 }
