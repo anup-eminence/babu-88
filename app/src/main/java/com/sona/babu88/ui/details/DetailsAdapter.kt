@@ -10,14 +10,20 @@ import com.sona.babu88.util.hide
 import com.sona.babu88.util.show
 
 class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
-    var list = emptyList<GameImage?>()
+    var list = mutableListOf<GameImage?>()
 
     private var onItemClickListener: OnItemClickListener? = null
 
     fun setDetailsData(itemList: List<GameImage?>?) {
+        val lastItem = list.size
         if (itemList != null) {
-            list = itemList
+            list.addAll(itemList)
         }
+        notifyItemRangeInserted(lastItem,list.size)
+    }
+
+    fun clearData() {
+        list.clear()
         notifyDataSetChanged()
     }
 

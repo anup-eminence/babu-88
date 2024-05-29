@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
 
 
         val decryptBody = AuthUtils.decryptData(
-            "9UMdQVN6D6RuyfxSdE6pWfpySX3tVw7KFzNs8inMkT5H6m/SqF5438z93daRDBsORX9Hh7Ra4OEcnjboH4bbOA==",
+            "ZK1Rv1jlfvz4bs1SuDGUJEbZh7oHjE5ZrEBSVaHM5AFwCJq+r8ca+Ju1xXuuT2cUbpl3QN2Ce+KNZ7pZGyLAMXEQ/I6nCthQ5y7J5BbHxHbt2bL2Eo4NtWv7jlDNnRtyIHPHWSSNXdye3hqzeQnBMQ==",
             "UFJGSFguW1Q0MjdPWF0xfQ=="
         )
         println(">>>>>>>.responseDecrypt $responseDecrypt")
