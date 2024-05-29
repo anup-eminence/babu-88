@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.sona.babu88.R
 import com.sona.babu88.ui.activity.HomeActivity
+import java.text.DateFormat
+import java.util.Calendar
 
 fun DialogFragment.setWidthPercent(percentage: Int) {
     val percent = percentage.toFloat() / 100
@@ -173,4 +175,19 @@ fun Fragment.hideKeyboard() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
+}
+
+fun getSeventhDayDate(): String {
+    val calendar = Calendar.getInstance()
+    // Get the current date
+    val currentDate = calendar.time
+    calendar.time = currentDate
+    calendar.add(Calendar.DAY_OF_YEAR, -7)
+    val seventhDay = calendar.time
+    return android.text.format.DateFormat.format("yyyy-MM-dd", seventhDay).toString()
+}
+
+fun getCurrrentDate() : String {
+    val calendar = Calendar.getInstance()
+    return android.text.format.DateFormat.format("yyy-MM-dd",calendar.time).toString()
 }

@@ -3,8 +3,6 @@ package com.sona.babu88.ui.activity
 import MySharedPreferences
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -41,14 +39,12 @@ import com.sona.babu88.ui.promotion.PromotionFragment
 import com.sona.babu88.ui.refer_earn.ReferEarnFragment
 import com.sona.babu88.ui.rewards.ClaimVoucherFragment
 import com.sona.babu88.ui.rewards.RewardsFragment
-import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.AppConstant.TOKEN
 import com.sona.babu88.util.AppConstant.USER_DATA
 import com.sona.babu88.util.CurrLangDialogFragment
 import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.OnSelectedFragmentListener
 import com.sona.babu88.util.hide
-import com.sona.babu88.util.hideKeyboard
 import com.sona.babu88.util.show
 import com.sona.babu88.util.showToast
 

@@ -16,4 +16,7 @@ object ApiConstants {
     const val GET_EMAIL_VERIFICATION_CODE = "$API_USER/getEmailVerfiyCode"
     const val VERIFICATION_EMAIL = "$API_USER/verifyEmailCode"
     const val UPDATE_BIRTHDAY = "$API_USER/updateUserBirthday"
+    const val GET_TRANSACTION_PL = "$API_USER/getTransactionPL"
+    const val GET_TRANSACTION_PL_FULL = "$API_USER/getTransactionPLFull"
+    const val GET_TRANSACTION_RECORD= "$API_USER/getTransactionsRecords"
 }
