@@ -195,4 +195,10 @@
     <string name="bonus_amount">Bonus Amount</string>
     <string name="target_amount">target Amount</string>
     <string name="confirm">Confirm</string>
+    <string name="not_verified"><u>Not Verified</u></string>
+    <string name="add_birthday"><u>Add Birthday</u></string>
+    <string name="request_otp">Request OTP</string>
+    <string name="minutes">Minutes</string>
+    <string name="verify_mobile_number">Verify Mobile Number</string>
+    <string name="verify_email">Verify Email</string>
 </resources>

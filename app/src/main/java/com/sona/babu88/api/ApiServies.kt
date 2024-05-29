@@ -4,17 +4,25 @@ import com.sona.babu88.api.auth.CheckUserLogin
 import com.sona.babu88.api.model.request.AuthenticateUserRequest
 import com.sona.babu88.api.model.request.CurrencyRequest
 import com.sona.babu88.api.model.request.GameListRequest
+import com.sona.babu88.api.model.request.GeneralRequest
 import com.sona.babu88.api.model.request.PromoFilterRequest
 import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.RegisterUserRequest
 import com.sona.babu88.api.model.request.SpecialGameListRequest
+import com.sona.babu88.api.model.request.UpdateBirthDayRequest
+import com.sona.babu88.api.model.request.VerifyEmailCodeRequest
+import com.sona.babu88.api.model.request.VerifyEmailRequest
 import com.sona.babu88.api.model.response.CurrencyResponse
+import com.sona.babu88.api.model.response.EmailVerificationResponse
+import com.sona.babu88.api.model.response.EmailVerifiedResponse
 import com.sona.babu88.api.model.response.GameListResponse
+import com.sona.babu88.api.model.response.GeneralResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
 import com.sona.babu88.api.model.response.SpecialGameListResponse
 import com.sona.babu88.api.model.response.UserData
+import com.sona.babu88.api.model.response.UserDetailsResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -49,5 +57,17 @@ interface ApiServies {
 
     @POST(ApiConstants.VALIDATE_USER_SIGNUP)
     suspend fun validateUserSignup(@Body registerUserRequest: RegisterUserRequest) : Response<RegisterUserResponse>
+
+    @POST(ApiConstants.GET_USER_DETAILS)
+    suspend fun getUserDetails(@Body generalRequest: GeneralRequest) : Response<UserDetailsResponse>
+
+    @POST(ApiConstants.GET_EMAIL_VERIFICATION_CODE)
+    suspend fun getEmailVerificationCode(@Body emailRequest: VerifyEmailRequest) : Response<EmailVerificationResponse>
+
+    @POST(ApiConstants.VERIFICATION_EMAIL)
+    suspend fun verifyEmail(@Body verifyEmailRequest: VerifyEmailCodeRequest) : Response<EmailVerifiedResponse>
+
+    @POST(ApiConstants.UPDATE_BIRTHDAY)
+    suspend fun updateBirthDay(@Body birthdayRequest: UpdateBirthDayRequest) : Response<GeneralResponse>
 }
 

@@ -37,4 +37,5 @@
     <color name="bg_blue">#18237F</color>
     <color name="bg_blue_2">#053883</color>
     <color name="text_clr">#594C5F</color>
+    <color name="not_verified">#F88E25</color>
 </resources>

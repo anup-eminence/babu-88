@@ -1,5 +1,6 @@
 package com.sona.babu88.ui.account
 
+import MySharedPreferences
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.databinding.FragmentAccountBinding
+import com.sona.babu88.util.AppConstant.USER_DATA
 import com.sona.babu88.util.OnAccountListener
 
 class AccountFragment : Fragment(), AccountParentAdapter.OnItemClickListener {
@@ -34,6 +37,8 @@ class AccountFragment : Fragment(), AccountParentAdapter.OnItemClickListener {
         setParentAdapter()
         setParentAdapterData()
         setOnClickListener()
+        val userData = MySharedPreferences.getSavedObjectFromPreference<UserData>(requireContext(),USER_DATA)
+        binding.userName.text = userData?.user?.userName
     }
 
     private fun setOnClickListener() {

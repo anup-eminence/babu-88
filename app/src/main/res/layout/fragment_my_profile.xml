@@ -49,12 +49,12 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/heebo_bold"
                 android:singleLine="true"
-                android:text="@string/username"
                 android:textColor="@color/blue"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_username" />
+                app:layout_constraintTop_toBottomOf="@id/tv_username"
+                tools:text="@string/username" />
 
             <View
                 android:id="@+id/view1"
@@ -83,29 +83,47 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/heebo_bold"
                 android:singleLine="true"
-                android:text="0123456789"
                 android:textColor="@color/blue"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@id/txt_primary_number_verified"
+                app:layout_constraintEnd_toStartOf="@id/cl_number_verified"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_primary_number" />
+                app:layout_constraintTop_toBottomOf="@id/tv_primary_number"
+                tools:text="0123456789" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_primary_number_verified"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_number_verified"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:drawableStart="@drawable/ic_right_tick"
-                android:drawablePadding="5dp"
-                android:fontFamily="@font/heebo_bold"
-                android:gravity="end"
-                android:singleLine="true"
-                android:text="@string/already_verified"
-                android:textColor="@color/blue"
-                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/txt_primary_number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txt_primary_number"
-                app:layout_constraintTop_toBottomOf="@id/tv_primary_number" />
+                app:layout_constraintTop_toTopOf="@id/txt_primary_number">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_primary_number_verified"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_right_tick"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/already_verified"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_primary_number_not_verified"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_warning"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/not_verified"
+                    android:textColor="@color/not_verified"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/view2"
@@ -135,29 +153,47 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/heebo_bold"
                 android:singleLine="true"
-                android:text="email@gmail.com"
                 android:textColor="@color/blue"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@id/txt_email_verified"
+                app:layout_constraintEnd_toStartOf="@id/cl_email_verified"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_email" />
+                app:layout_constraintTop_toBottomOf="@id/tv_email"
+                tools:text="email@gmail.com" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_email_verified"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_email_verified"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:drawableStart="@drawable/ic_right_tick"
-                android:drawablePadding="5dp"
-                android:fontFamily="@font/heebo_bold"
-                android:gravity="end"
-                android:singleLine="true"
-                android:text="@string/already_verified"
-                android:textColor="@color/blue"
-                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/txt_email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txt_email"
-                app:layout_constraintTop_toBottomOf="@id/tv_email" />
+                app:layout_constraintTop_toTopOf="@id/txt_email">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_email_verified"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_right_tick"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/already_verified"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_email_not_verified"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_warning"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/not_verified"
+                    android:textColor="@color/not_verified"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/view3"
@@ -181,16 +217,30 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_birthday"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/heebo_bold"
-                android:text=""
                 android:textColor="@color/blue"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_add_birthday"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_birthday" />
+                app:layout_constraintTop_toBottomOf="@id/tv_birthday"
+                tools:text="2024-05-29" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_add_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/heebo_bold"
+                android:text="@string/add_birthday"
+                android:textColor="@color/not_verified"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/txt_birthday"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_birthday"
+                app:layout_constraintTop_toTopOf="@id/txt_birthday"/>
 
             <View
                 android:id="@+id/view4"
@@ -218,12 +268,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/heebo_bold"
-                android:text="BDT"
                 android:textColor="@color/blue"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_currency" />
+                app:layout_constraintTop_toBottomOf="@id/tv_currency"
+                tools:text="BDT" />
 
             <View
                 android:id="@+id/view5"

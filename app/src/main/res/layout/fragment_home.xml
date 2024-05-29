@@ -60,13 +60,13 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/heebo_bold"
                     android:singleLine="true"
-                    android:text="User Name"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@id/amount"
                     app:layout_constraintEnd_toStartOf="@id/iv_refresh"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="User Name" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/amount"

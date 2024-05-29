@@ -43,6 +43,7 @@ import com.sona.babu88.ui.rewards.ClaimVoucherFragment
 import com.sona.babu88.ui.rewards.RewardsFragment
 import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.AppConstant.TOKEN
+import com.sona.babu88.util.AppConstant.USER_DATA
 import com.sona.babu88.util.CurrLangDialogFragment
 import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.OnSelectedFragmentListener
@@ -214,7 +215,7 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
             "Agent Affiliate" -> { startActivity(Intent(this, AgentAffiliateActivity::class.java)) }
             "Language" -> { langDialog.show(supportFragmentManager, "language") }
             "FAQ" -> { setFragment(FAQFragment(), binding.container.id) }
-            "Logout" -> {  }
+            "Logout" -> { logout() }
         }
     }
 
@@ -242,16 +243,7 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
             "Deposit" -> { setFragment(DepositWithdrawalFragment(), binding.container.id) }
             "Withdrawal" -> { setFragment(setFragmentArguments(DepositWithdrawalFragment(), "tab", "1"), binding.container.id) }
             "Rewards" -> { setFragment(RewardsFragment(), binding.container.id) }
-            "LOG_OUT" -> {
-                MySharedPreferences.writeString(TOKEN,"")
-                binding.bottomNav.hide()
-                binding.bottomNav.selectedItemId = R.id.nav_home
-                binding.login.root.show()
-                binding.layoutToolBar.clCountry.show()
-                binding.layoutToolBar.ivMessage.hide()
-                setFragment(HomeFragment(),binding.container.id )
-                println(">>>>>>>success logout")
-            }
+            "LOG_OUT" -> { logout() }
         }
     }
 
@@ -298,6 +290,7 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
                 is ApiResult.Success -> {
                     if (it.data?.login == true) {
                         MySharedPreferences.writeString(TOKEN, it.data?.user?.token ?: "")
+                        MySharedPreferences.saveObjectToSharedPreference(this@HomeActivity,USER_DATA,it.data)
                         loginSignupDialog.dismiss()
                         binding.bottomNav.show()
                         binding.login.root.hide()
@@ -328,5 +321,16 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
 
     override fun moveToLogin() {
         loginSignupDialog.show(supportFragmentManager,"login")
+    }
+
+    private fun logout() {
+        MySharedPreferences.writeString(TOKEN,"")
+        binding.bottomNav.hide()
+        binding.bottomNav.selectedItemId = R.id.nav_home
+        binding.login.root.show()
+        binding.layoutToolBar.clCountry.show()
+        binding.layoutToolBar.ivMessage.hide()
+        setFragment(HomeFragment(),binding.container.id )
+        println(">>>>>>>success logout")
     }
 }
