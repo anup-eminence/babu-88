@@ -69,7 +69,7 @@ class MyProfileFragment : Fragment() {
         binding.apply {
             tvText.text = getFormattedText(getString(R.string.to_protect_your_privacy_please_contact))
             txtUsername.text = user?.userName
-            txtPrimaryNumber.text = user?.number.toString()
+            txtMobile.text = user?.number.toString()
             txtEmail.text = user?.email
             txtCurrency.text = user?.currency
         }
@@ -106,6 +106,7 @@ class MyProfileFragment : Fragment() {
             txtEmailNotVerified.setOnClickListener { showCustomVerifyDialog(userData?.user?.email, "email") }
 //            txtPrimaryNumberNotVerified.setOnClickListener { showCustomVerifyDialog(userData?.user?.number.toString(), "number") }
             tvAddBirthday.setOnClickListener { showDatePickerDialog() }
+            ivEditProfile.setOnClickListener {  }
         }
     }
 
@@ -130,6 +131,7 @@ class MyProfileFragment : Fragment() {
                 }
             }
         }, year, month, day)
+        dpd.datePicker.maxDate = cal.timeInMillis
         dpd.show()
     }
 
@@ -149,8 +151,9 @@ class MyProfileFragment : Fragment() {
                     authViewModel.getEmailVerificationCode(email = email)
                     authViewModel.requestEmailCode.observe(requireActivity()){
                         when (it) {
-                            is ApiResult.Loading -> {}
+                            is ApiResult.Loading -> { progressBar.show() }
                             is ApiResult.Success -> {
+                                progressBar.hide()
                                 it.data?.message?.let { it1 -> requireContext().showToast(it1) }
                                 startCountdown(this)
                                 btnReqOtp.hide()
@@ -158,6 +161,7 @@ class MyProfileFragment : Fragment() {
                             }
 
                             is ApiResult.Error -> {
+                                progressBar.hide()
                                 it.message?.let { it1 -> requireContext().showToast(it1) }
                             }
                         }
@@ -175,13 +179,15 @@ class MyProfileFragment : Fragment() {
                         authViewModel.verifyEmail(code= txtVerificationCode.text.toString())
                         authViewModel.verifyEmail.observe(requireActivity()) {
                             when (it) {
-                                is ApiResult.Loading -> {}
+                                is ApiResult.Loading -> { progressBar.show() }
                                 is ApiResult.Success -> {
+                                    progressBar.hide()
                                     it.data?.message?.let { it1 -> requireContext().showToast(it1) }
                                     builder.dismiss()
                                 }
 
                                 is ApiResult.Error -> {
+                                    progressBar.hide()
                                     it.message?.let { it1 -> requireContext().showToast(it1) }
                                 }
                             }

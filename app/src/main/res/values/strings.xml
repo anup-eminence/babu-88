@@ -111,7 +111,7 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="my_profile">My Profile</string>
-    <string name="primary_number">Primary Number</string>
+    <string name="mobile">Mobile</string>
     <string name="already_verified">Already Verified</string>
     <string name="email">Email</string>
     <string name="birthday">Birthday</string>
@@ -201,4 +201,5 @@
     <string name="minutes">Minutes</string>
     <string name="verify_mobile_number">Verify Mobile Number</string>
     <string name="verify_email">Verify Email</string>
+    <string name="verification_code_valid_for">Verification Code Valid for</string>
 </resources>
