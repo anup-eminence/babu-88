@@ -122,11 +122,10 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
     }
 
     private fun observerDepositPromotionsList() {
-        depositViewModel.getDepositPromotionsList()
-
         depositViewModel.depositPromotions.observe(viewLifecycleOwner) {
-            println("PromotionList>>> ${it.data}")
+            println("PromotionList>>> ${it.data?.data}")
         }
+        depositViewModel.getDepositPromotionsList()
     }
 
     private fun setDepositAmountAdapter() {

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.RetrofitUtil
 import com.sona.babu88.api.model.request.GeneralRequest
@@ -11,6 +12,7 @@ import com.sona.babu88.api.model.request.GetBankingChannelListRequest
 import com.sona.babu88.api.model.request.GetBankingMethodsRequest
 import com.sona.babu88.api.model.response.GetBankingChannelListResponse
 import com.sona.babu88.api.model.response.GetBankingMethodsResponse
+import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.util.AppConstant
 import kotlinx.coroutines.launch
 
@@ -21,8 +23,8 @@ class DepositViewModel : ViewModel() {
     private val _bankingChannel = MutableLiveData<ApiResult<GetBankingChannelListResponse?>>()
     val bankingChannel: LiveData<ApiResult<GetBankingChannelListResponse?>> get() = _bankingChannel
 
-    private val _depositPromotions = MutableLiveData<ApiResult<Any?>>()
-    val depositPromotions: LiveData<ApiResult<Any?>> get() = _depositPromotions
+    private val _depositPromotions = MutableLiveData<ApiResult<PromotionListResponse?>>()
+    val depositPromotions: LiveData<ApiResult<PromotionListResponse?>> get() = _depositPromotions
 
     fun getBankingMethods(
         websiteId: String?
@@ -97,8 +99,11 @@ class DepositViewModel : ViewModel() {
                 if (verifyApi.isSuccessful) {
                     val codeResponse =
                         RetrofitUtil.apiServies.getDepositPromotionsList(generalRequest)
+                    val code = codeResponse.body().toString().let {
+                        it.replace(it.substring(0,6),"{\"data\":")
+                    }
                     if (codeResponse.isSuccessful && codeResponse.code() == 200) {
-                        _depositPromotions.postValue(ApiResult.Success(codeResponse.body()))
+                        _depositPromotions.postValue(ApiResult.Success(Gson().fromJson(code,PromotionListResponse::class.java)))
                     } else {
                         _depositPromotions.postValue(ApiResult.Error("Something Went Wrong!"))
                     }
