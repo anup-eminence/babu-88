@@ -19,4 +19,8 @@ object ApiConstants {
     const val GET_TRANSACTION_PL = "$API_USER/getTransactionPL"
     const val GET_TRANSACTION_PL_FULL = "$API_USER/getTransactionPLFull"
     const val GET_TRANSACTION_RECORD= "$API_USER/getTransactionsRecords"
+    const val CHANGE_USER_PASSWORD = "$API_USER/changeUserPassword"
+    const val GET_BANKING_METHODS = "$API_USER/getBankingMethods"
+    const val GET_BANKING_CHANNEL_LIST = "$API_USER/getBankingChannelList"
+    const val GET_DEPOSIT_PROMOTIONS_LIST = "$API_USER/getDepositPromotionsList"
 }

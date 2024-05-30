@@ -11,10 +11,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.data.viewmodel.DepositViewModel
 import com.sona.babu88.databinding.CustomDepositDialogBinding
 import com.sona.babu88.databinding.FragmentDepositBinding
+import com.sona.babu88.util.hideProgress
+import com.sona.babu88.util.showProgress
+import com.sona.babu88.util.showToast
 
 class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
     private lateinit var binding: FragmentDepositBinding
@@ -22,6 +28,7 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
     private var depositAmountList = arrayListOf<DepositAmountList>()
     private var totalAmount = 0
     private var selectedTextView: TextView? = null
+    private val depositViewModel : DepositViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +55,9 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
             tvDepositAmount.text = getFormattedText(getString(R.string.deposit_amount))
             tvDepositBonus.text = getFormattedText(getString(R.string.deposit_bonus))
         }
+        observerBankingMethods()
+        observerBankingChannelList()
+        observerDepositPromotionsList()
         setDepositAmountAdapter()
         setDepositAmountData()
     }
@@ -64,13 +74,58 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
         }
     }
 
-    private fun selectTextView(textView: TextView) {
-        selectedTextView?.setBackgroundResource(R.drawable.bg_8_black_corner_border)
-        if (selectedTextView == textView) {
-            selectedTextView = null
-        } else {
-            textView.setBackgroundResource(R.drawable.bg_8_yellow_border)
-            selectedTextView = textView
+    private fun observerBankingMethods() {
+        depositViewModel.getBankingMethods(
+            websiteId = "665488a9be104576f70989e5"
+        )
+
+        depositViewModel.bankingMethods.observe(requireActivity()) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress()
+                    println("BankingMethods>>> ${it.data}")
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress()
+                }
+            }
+        }
+    }
+
+    private fun observerBankingChannelList() {
+        depositViewModel.getBankingChannelList(
+            websiteId = "665488a9be104576f70989e5",
+            method = "Bkash"
+        )
+
+        depositViewModel.bankingChannel.observe(requireActivity()) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress()
+                    println("BankingChannelList>>> ${it.data}")
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress()
+                }
+            }
+        }
+    }
+
+    private fun observerDepositPromotionsList() {
+        depositViewModel.getDepositPromotionsList()
+
+        depositViewModel.depositPromotions.observe(viewLifecycleOwner) {
+            println("PromotionList>>> ${it.data}")
         }
     }
 
@@ -103,6 +158,16 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener {
     private fun getFormattedText(text: String): SpannableStringBuilder {
         return SpannableStringBuilder().append(text)
             .color(ContextCompat.getColor(requireContext(), R.color.light_red)) { append(" *") }
+    }
+
+    private fun selectTextView(textView: TextView) {
+        selectedTextView?.setBackgroundResource(R.drawable.bg_8_black_corner_border)
+        if (selectedTextView == textView) {
+            selectedTextView = null
+        } else {
+            textView.setBackgroundResource(R.drawable.bg_8_yellow_border)
+            selectedTextView = textView
+        }
     }
 
     private fun showCustomDialog() {

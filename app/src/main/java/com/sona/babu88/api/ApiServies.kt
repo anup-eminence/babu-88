@@ -2,9 +2,12 @@ package com.sona.babu88.api
 
 import com.sona.babu88.api.auth.CheckUserLogin
 import com.sona.babu88.api.model.request.AuthenticateUserRequest
+import com.sona.babu88.api.model.request.ChangePasswordRequest
 import com.sona.babu88.api.model.request.CurrencyRequest
 import com.sona.babu88.api.model.request.GameListRequest
 import com.sona.babu88.api.model.request.GeneralRequest
+import com.sona.babu88.api.model.request.GetBankingChannelListRequest
+import com.sona.babu88.api.model.request.GetBankingMethodsRequest
 import com.sona.babu88.api.model.request.PromoFilterRequest
 import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.RegisterUserRequest
@@ -20,6 +23,8 @@ import com.sona.babu88.api.model.response.EmailVerificationResponse
 import com.sona.babu88.api.model.response.EmailVerifiedResponse
 import com.sona.babu88.api.model.response.GameListResponse
 import com.sona.babu88.api.model.response.GeneralResponse
+import com.sona.babu88.api.model.response.GetBankingChannelListResponse
+import com.sona.babu88.api.model.response.GetBankingMethodsResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
@@ -28,7 +33,6 @@ import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.api.model.response.UserDetailsResponse
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface ApiServies {
@@ -81,5 +85,17 @@ interface ApiServies {
 
     @POST(ApiConstants.UPDATE_BIRTHDAY)
     suspend fun updateBirthDay(@Body birthdayRequest: UpdateBirthDayRequest) : Response<GeneralResponse>
+
+    @POST(ApiConstants.CHANGE_USER_PASSWORD)
+    suspend fun changeUserPassword(@Body changePasswordRequest: ChangePasswordRequest): Response<GeneralResponse>
+
+    @POST(ApiConstants.GET_BANKING_METHODS)
+    suspend fun getBankingMethods(@Body getBankingMethodsRequest: GetBankingMethodsRequest): Response<GetBankingMethodsResponse>
+
+    @POST(ApiConstants.GET_BANKING_CHANNEL_LIST)
+    suspend fun getBankingChannelList(@Body getBankingChannelListRequest: GetBankingChannelListRequest): Response<GetBankingChannelListResponse>
+
+    @POST(ApiConstants.GET_DEPOSIT_PROMOTIONS_LIST)
+    suspend fun getDepositPromotionsList(@Body generalRequest: GeneralRequest): Response<Any>
 }
 
