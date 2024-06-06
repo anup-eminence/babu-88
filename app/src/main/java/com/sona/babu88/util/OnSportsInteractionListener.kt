@@ -1,7 +1,7 @@
 package com.sona.babu88.util
 
 interface OnSportsInteractionListener {
-    fun onSportsClick()
+    fun onSportsClick(id: String?)
 }
 
 interface OnAccountListener {

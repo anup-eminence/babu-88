@@ -6,15 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.ResultItem
+import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentCricketSportBinding
 import com.sona.babu88.util.OnSportsInteractionListener
+import com.sona.babu88.util.hideProgress1
+import com.sona.babu88.util.showProgress1
+import com.sona.babu88.util.showToast
 
 class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClickListener {
     private lateinit var binding: FragmentCricketSportBinding
     private lateinit var cricketSportAdapter: CricketSportAdapter
-    private val cricketSportList = arrayListOf<CricketSportList>()
     private var listener: OnSportsInteractionListener? = null
+    private val sportsViewModel: SportsViewModel by viewModels()
+
+    companion object {
+        var isPinnedMatch = false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +48,7 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
 
     private fun initView() {
         setCricketSportAdapter()
-        setCricketSportData()
+        observerGetUserSideBarMatches()
     }
 
     private fun setCricketSportAdapter() {
@@ -46,14 +58,58 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
         binding.recyclerView.adapter = cricketSportAdapter
     }
 
-    private fun setCricketSportData() {
-        for (i in 1..30) { cricketSportList.add(CricketSportList("Islamabad United SRL T20 v Quetta Gladiator Quetta", true)) }
-        for (i in 1..30) { cricketSportList.add(CricketSportList("Islamabad United SRL T20 v Quetta", false)) }
-        cricketSportAdapter.setCricketSportData(cricketSportList)
+    override fun onCricketSportClickListener(item: ResultItem?) {
+        listener?.onSportsClick(item?.id)
     }
 
-    override fun onCricketSportClickListener() {
-        listener?.onSportsClick()
+    override fun pinMatch(item: ResultItem?, holder: CricketSportAdapter.ViewHolder, pos: Int) {
+        sportsViewModel.getMultiMatchUser(
+            matchId = item?.id
+        )
+
+        sportsViewModel.multiMatchUser.observe(requireActivity()) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    isPinnedMatch = true
+                    cricketSportAdapter.notifyItemUpdated(pos,item!!.copy(isPinned = true))
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    cricketSportAdapter.notifyItemUpdated(pos,item!!.copy(isPinned = false))
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
+    }
+
+    private fun observerGetUserSideBarMatches() {
+        sportsViewModel.getUserSideBarMatches(
+            sportId = "4"
+        )
+
+        sportsViewModel.userSideBarMatches.observe(requireActivity()) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    cricketSportAdapter.setCricketSportData(it.data?.results)
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
     }
 
     override fun onAttach(context: Context) {

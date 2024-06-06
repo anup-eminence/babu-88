@@ -3,11 +3,16 @@ package com.sona.babu88.api
 import com.sona.babu88.api.auth.CheckUserLogin
 import com.sona.babu88.api.model.request.AuthenticateUserRequest
 import com.sona.babu88.api.model.request.ChangePasswordRequest
+import com.sona.babu88.api.model.request.CreateDepositRequest
 import com.sona.babu88.api.model.request.CurrencyRequest
 import com.sona.babu88.api.model.request.GameListRequest
 import com.sona.babu88.api.model.request.GeneralRequest
 import com.sona.babu88.api.model.request.GetBankingChannelListRequest
 import com.sona.babu88.api.model.request.GetBankingMethodsRequest
+import com.sona.babu88.api.model.request.GetBanksListRequest
+import com.sona.babu88.api.model.request.GetUserMatchDetailRequest
+import com.sona.babu88.api.model.request.GetUserSideBarMatchesRequest
+import com.sona.babu88.api.model.request.PinMatchRequest
 import com.sona.babu88.api.model.request.PromoFilterRequest
 import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.RegisterUserRequest
@@ -25,6 +30,8 @@ import com.sona.babu88.api.model.response.GameListResponse
 import com.sona.babu88.api.model.response.GeneralResponse
 import com.sona.babu88.api.model.response.GetBankingChannelListResponse
 import com.sona.babu88.api.model.response.GetBankingMethodsResponse
+import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
+import com.sona.babu88.api.model.response.GetUserSideBarMatchesResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
@@ -97,5 +104,43 @@ interface ApiServies {
 
     @POST(ApiConstants.GET_DEPOSIT_PROMOTIONS_LIST)
     suspend fun getDepositPromotionsList(@Body generalRequest: GeneralRequest): Response<Any>
-}
 
+    @POST(ApiConstants.CREATE_DEPOSIT_REQUEST)
+    suspend fun createDepositRequest(@Body createDepositRequest: CreateDepositRequest): Response<GeneralResponse>
+
+    @POST(ApiConstants.GET_WITHDRAW_METHODS)
+    suspend fun getWithdrawMethods(@Body getBankingMethodsRequest: GetBankingMethodsRequest): Response<GeneralResponse>
+
+    @POST(ApiConstants.GET_USER_LOCKED_AMOUNT)
+    suspend fun getUserLockedAmount(@Body generalRequest: GeneralRequest): Response<GeneralResponse>
+
+    @POST(ApiConstants.GET_WITHDRAW_CHANNEL_LIST)
+    suspend fun getWithdrawChannelList(@Body getBankingChannelListRequest: GetBankingChannelListRequest): Response<GeneralResponse>
+
+    @POST(ApiConstants.GET_BANKS_LIST)
+    suspend fun getBanksList(@Body getBanksListRequest: GetBanksListRequest): Response<Any>
+
+    @POST(ApiConstants.GET_USER_SIDE_BAR_MATCHES)
+    suspend fun getUserSideBarMatches(@Body getUserSideBarMatchesRequest: GetUserSideBarMatchesRequest): Response<GetUserSideBarMatchesResponse>
+
+    @POST(ApiConstants.GET_IN_PLAY_MATCHES_COUNT)
+    suspend fun getInPlayMatchesCount(@Body generalRequest: GeneralRequest): Response<Any>
+
+    @POST(ApiConstants.GET_ACTIVE_MULTI_MARKET)
+    suspend fun getActiveMultiMarket(@Body generalRequest: GeneralRequest): Response<Any>
+
+    @POST(ApiConstants.GET_IN_PLAY_MATCHES)
+    suspend fun getInPlayMatches(@Body generalRequest: GeneralRequest): Response<GetUserSideBarMatchesResponse>
+
+    @POST(ApiConstants.GET_TODAY_MATCHES)
+    suspend fun getTodayMatches(@Body generalRequest: GeneralRequest): Response<GetUserSideBarMatchesResponse>
+
+    @POST(ApiConstants.GET_TOMORROW_MATCHES)
+    suspend fun getTomorrowMatches(@Body generalRequest: GeneralRequest): Response<GetUserSideBarMatchesResponse>
+
+    @POST(ApiConstants.GET_USER_MATCH_DETAIL)
+    suspend fun getUserMatchDetail(@Body getUserMatchDetailRequest: GetUserMatchDetailRequest): Response<GetUserMatchDetailResponse>
+
+    @POST(ApiConstants.GET_MULTI_MATCH_USER)
+    suspend fun getMultiMatchUser(@Body pinMatchRequest: PinMatchRequest): Response<GeneralResponse>
+}

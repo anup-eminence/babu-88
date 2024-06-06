@@ -6,17 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.ResultItem
+import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentTennisSportBinding
-import com.sona.babu88.ui.sports__.soccer.SoccerList
 import com.sona.babu88.ui.sports__.soccer.SoccerSportAdapter
 import com.sona.babu88.util.OnSportsInteractionListener
+import com.sona.babu88.util.hideProgress1
+import com.sona.babu88.util.showProgress1
+import com.sona.babu88.util.showToast
 
 class TennisSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener {
     private lateinit var binding: FragmentTennisSportBinding
     private lateinit var soccerSportAdapter: SoccerSportAdapter
-    private var soccerList = arrayListOf<SoccerList>()
     private var listener: OnSportsInteractionListener? = null
+    private val sportsViewModel: SportsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +44,7 @@ class TennisSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener
 
     private fun initView() {
         setSoccerAdapter()
-        setSoccerData()
+        observerGetUserSideBarMatches()
     }
 
     private fun setSoccerAdapter() {
@@ -48,18 +54,32 @@ class TennisSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener
         binding.recyclerView.adapter = soccerSportAdapter
     }
 
-    private fun setSoccerData() {
-        for (i in 1..10) {
-            soccerList.add(SoccerList("Islamabad United SRL T20 v Quetta Gladiator Quetta", true))
-        }
-        for (i in 1..30) {
-            soccerList.add(SoccerList("Islamabad United SRL T20 v Quetta", false))
-        }
-        soccerSportAdapter.setSoccerData(soccerList)
+    override fun onSoccerClickListener(item: ResultItem?) {
+        listener?.onSportsClick(item?.id)
     }
 
-    override fun onSoccerClickListener() {
-        listener?.onSportsClick()
+    private fun observerGetUserSideBarMatches() {
+        sportsViewModel.getUserSideBarMatches(
+            sportId = "2"
+        )
+
+        sportsViewModel.userSideBarMatches.observe(requireActivity()) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    soccerSportAdapter.setSoccerData(it.data?.results)
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
     }
 
     override fun onAttach(context: Context) {

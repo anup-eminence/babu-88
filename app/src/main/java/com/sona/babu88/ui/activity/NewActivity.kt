@@ -6,16 +6,20 @@ import android.text.SpannableStringBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import androidx.core.text.color
+import androidx.fragment.app.Fragment
 import com.sona.babu88.R
 import com.sona.babu88.databinding.ActivityNewBinding
 import com.sona.babu88.ui.account.Account2Fragment
 import com.sona.babu88.ui.bets.BetsActivity
+import com.sona.babu88.ui.deposit_withdrawal.DepositWithdrawalFragment
 import com.sona.babu88.ui.details.detail2.Details2Fragment
 import com.sona.babu88.ui.inplay.InPlayFragment
 import com.sona.babu88.ui.multimarket.MultiMarketsFragment
 import com.sona.babu88.ui.setting.SettingActivity
 import com.sona.babu88.ui.sports__.Sports2Fragment
 import com.sona.babu88.util.OnSportsInteractionListener
+import com.sona.babu88.util.hide
+import com.sona.babu88.util.show
 
 class NewActivity : BaseActivity(), OnSportsInteractionListener {
     private lateinit var binding: ActivityNewBinding
@@ -26,6 +30,14 @@ class NewActivity : BaseActivity(), OnSportsInteractionListener {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         initView()
         setOnClickListener()
+    }
+
+    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (supportFragmentManager.fragments.isEmpty()){
+            finish()
+        }
     }
 
     private fun initView() {
@@ -40,7 +52,7 @@ class NewActivity : BaseActivity(), OnSportsInteractionListener {
 
     private fun setOnClickListener() {
         binding.apply {
-            floatingButton.setOnClickListener { startActivity(Intent(this@NewActivity, HomeActivity::class.java)) }
+            floatingButton.setOnClickListener { finish() }
             imgSetting.setOnClickListener { startActivity(Intent(this@NewActivity, SettingActivity::class.java)) }
             clStart.setOnClickListener { startActivity(Intent(this@NewActivity, BetsActivity::class.java)) }
         }
@@ -51,7 +63,7 @@ class NewActivity : BaseActivity(), OnSportsInteractionListener {
             when (it.itemId) {
                 R.id.nav_sports -> { setFragment(Sports2Fragment(), binding.container.id) }
                 R.id.nav_in_play -> { setFragment(InPlayFragment(), binding.container.id)}
-                R.id.empty -> { startActivity(Intent(this, HomeActivity::class.java)) }
+                R.id.empty -> { finish() }
                 R.id.nav_multi_markets -> { setFragment(MultiMarketsFragment(), binding.container.id)}
                 R.id.nav_account -> { setFragment(Account2Fragment(), binding.container.id) }
             }
@@ -59,7 +71,22 @@ class NewActivity : BaseActivity(), OnSportsInteractionListener {
         }
     }
 
-    override fun onSportsClick() {
-        setFragment(Details2Fragment(), binding.container.id)
+    override fun onSportsClick(id: String?) {
+        setFragment(setFragmentArguments(Details2Fragment(), id ?: ""), binding.container.id)
+    }
+
+    private fun setFragmentArguments(fragment: Fragment, id: String): Fragment {
+        val args = Bundle()
+        args.putString("id", id)
+        fragment.arguments = args
+        return fragment
+    }
+
+    fun hideProgress() {
+        binding.progressBar.hide()
+    }
+
+    fun showProgress() {
+        binding.progressBar.show()
     }
 }

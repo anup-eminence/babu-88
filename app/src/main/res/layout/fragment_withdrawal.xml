@@ -15,7 +15,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="25dp">
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginBottom="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_wallet_bal"
@@ -32,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/heebo_bold"
-                    android:text="Wallet Balance"
+                    android:text="@string/wallet_balance"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@id/iv_refresh"
@@ -45,7 +46,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="12dp"
-                    android:src="@drawable/ic_refresh"
+                    android:src="@drawable/ic_refresh_white"
                     app:layout_constraintBottom_toBottomOf="@id/tv_wallet_bal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_wallet_bal"
@@ -57,24 +58,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/heebo_bold"
-                    android:text="₹ 50,000.00"
                     android:textColor="@color/base_color_yellow"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_wallet_bal" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_wallet_bal"
+                    tools:text="₹ 50,000.00" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_not_vrified"
+                android:id="@+id/iv_not_verified"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginStart="12dp"
-                android:src="@drawable/ic_refresh"
-                android:tint="@color/black"
+                android:src="@drawable/ic_warning"
                 app:layout_constraintBottom_toBottomOf="@id/tv_phone_not_verified"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_phone_not_verified" />
@@ -84,12 +83,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:text="Phone number is not verified, Kindly proceed verification before withdrawal."
+                android:text="@string/email_is_not_verified_kindly_proceed_verification_before_withdrawal"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:fontFamily="@font/heebo_medium"
                 app:layout_constraintEnd_toStartOf="@id/tv_verify"
-                app:layout_constraintStart_toEndOf="@id/iv_not_vrified"
+                app:layout_constraintStart_toEndOf="@id/iv_not_verified"
                 app:layout_constraintTop_toBottomOf="@id/cl_wallet_bal" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -98,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:text="@string/verify"
-                android:textColor="@color/light_red"
+                android:textColor="@color/not_verified"
                 android:textSize="14sp"
                 app:fontFamily="@font/heebo_bold"
                 app:layout_constraintBottom_toBottomOf="@id/tv_phone_not_verified"
@@ -118,17 +117,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_phone_not_verified" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_payment_methods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_payment_methods"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_payment_methods" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_deposit_channel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/heebo_medium"
                 android:text="@string/deposit_channel"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_payment_methods" />
+                app:layout_constraintTop_toBottomOf="@id/rv_payment_methods" />
 
             <View
                 android:id="@+id/view"
@@ -169,7 +179,10 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_8_black_corner_border"
                 android:fontFamily="@font/heebo_medium"
-                android:hint="Min ₹ 100.00 - Max ₹ 50,000.00"
+                android:hint="@string/min_100_00_max_50_000_00"
+                android:imeOptions="actionDone"
+                android:inputType="numberSigned"
+                android:maxLength="5"
                 android:paddingVertical="8dp"
                 android:paddingStart="22dp"
                 android:paddingEnd="8dp"
@@ -192,7 +205,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/amount_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="85dp"
                 android:layout_marginTop="20dp"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@id/et_withdraw_amount"
@@ -207,39 +220,223 @@
                 android:background="@color/text_grey"
                 app:layout_constraintTop_toBottomOf="@id/amount_recyclerView" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_mob_num"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/heebo_bold"
-                android:text="@string/mobile_number"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view1" />
+                app:layout_constraintTop_toBottomOf="@id/view1">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_mob_num"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_8_black_corner_border"
-                android:fontFamily="@font/heebo_medium"
-                android:padding="8dp"
-                android:text="0123456789"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_mob_num" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_mob_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/heebo_bold"
+                        android:text="@string/mobile_number"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txt_mob_num"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_8_black_corner_border"
+                        android:fontFamily="@font/heebo_medium"
+                        android:padding="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_mob_num"
+                        tools:text="0123456789" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_add_bank_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_bank_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/add_bank_details"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:fontFamily="@font/heebo_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bank_detail">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_bank_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/heebo_regular"
+                            android:text="@string/bank_name"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/et_bank_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_8_black_corner_border"
+                            android:fontFamily="@font/heebo_medium"
+                            android:padding="8dp"
+                            android:text="@string/select_bank"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_bank_name" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_branch_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/heebo_regular"
+                            android:text="@string/branch_name"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/et_bank_name" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_branch_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_8_black_corner_border"
+                            android:fontFamily="@font/heebo_medium"
+                            android:hint="@string/fill_up_here"
+                            android:padding="8dp"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_branch_name" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_bank_holder_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/heebo_regular"
+                            android:text="@string/bank_holder_name"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/et_branch_name" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_bank_holder_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_8_black_corner_border"
+                            android:fontFamily="@font/heebo_medium"
+                            android:hint="@string/fill_up_here"
+                            android:padding="8dp"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_bank_holder_name" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_acc_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/heebo_regular"
+                            android:text="@string/account_number"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/et_bank_holder_name" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_acc_number"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_8_black_corner_border"
+                            android:fontFamily="@font/heebo_medium"
+                            android:hint="@string/fill_up_here"
+                            android:padding="8dp"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_acc_number" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_swift_ifsc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/heebo_regular"
+                            android:text="@string/swift_ifsc_code"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/et_acc_number" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_swift_ifsc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_8_black_corner_border"
+                            android:fontFamily="@font/heebo_medium"
+                            android:hint="@string/fill_up_here"
+                            android:padding="8dp"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_swift_ifsc" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btn_withdraw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="25dp"
                 android:background="@drawable/bg_8_shape_blue"
                 android:fontFamily="@font/heebo_bold"
                 android:gravity="center"
@@ -247,10 +444,9 @@
                 android:text="@string/withdraw"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_mob_num" />
+                app:layout_constraintTop_toBottomOf="@id/cl_center" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

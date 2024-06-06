@@ -1,28 +1,27 @@
-package com.sona.babu88.ui.sports__.soccer
+package com.sona.babu88.ui.inplay.today
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.sona.babu88.R
 import com.sona.babu88.api.model.response.ResultItem
-import com.sona.babu88.databinding.ItemSoccerSportBinding
-import com.sona.babu88.util.hide
-import com.sona.babu88.util.show
+import com.sona.babu88.databinding.ItemInPlayBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>() {
+class TodayAdapter : RecyclerView.Adapter<TodayAdapter.ViewHolder>() {
     var list = emptyList<ResultItem?>()
 
-    private var onSoccerClickListener: OnSoccerClickListener? = null
+    private var onTodayClickListener: OnTodayClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setSoccerData(itemList: List<ResultItem?>?) {
+    fun setTodayData(itemList: List<ResultItem?>?) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         itemList?.sortedBy {
             it?.day?.let { day -> dateFormat.parse(day) }
@@ -30,15 +29,15 @@ class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>()
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListener(onSoccerClickListener: OnSoccerClickListener) {
-        this.onSoccerClickListener = onSoccerClickListener
+    fun setOnItemClickListener(onTodayClickListener: OnTodayClickListener) {
+        this.onTodayClickListener = onTodayClickListener
     }
 
-    class ViewHolder(val binding: ItemSoccerSportBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemInPlayBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemSoccerSportBinding.inflate(
+            ItemInPlayBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -53,28 +52,25 @@ class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>()
         val item = list[position]
         holder.binding.apply {
             if (item != null) {
+                tvText.text = item.matchName
+
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 val date = LocalDateTime.parse(item.day, formatter)
                 val currentDate = LocalDateTime.now()
 
-                if (date.isBefore(currentDate) || date.equals(currentDate)) {
-                    clInPlay.show()
-                    clInPlayNot.hide()
-                    tvText.text = item.matchName
-                    imgRound.setImageResource(R.drawable.circle_shape)
-                } else if (date.isAfter(currentDate)) {
-                    clInPlayNot.show()
-                    clInPlay.hide()
-                    tvText.text = item.matchName
-                    tvTime.text = item.day
-                    imgRound.setImageResource(R.drawable.circle_shape_grey)
+                if (date.toLocalDate().isEqual(currentDate.toLocalDate())) {
+                    tvTime.text = item.time?.substringBeforeLast(":")
+                } else if (date.toLocalDate().isEqual(currentDate.plusDays(1).toLocalDate())) {
+                    val spannableString = SpannableStringBuilder().append("Tomorrow").append(" ")
+                        .append(item.time?.substringBeforeLast(":"))
+                    tvTime.text = spannableString
                 }
             }
         }
 
         holder.binding.apply {
             root.setOnClickListener {
-                onSoccerClickListener?.onSoccerClickListener(item)
+                onTodayClickListener?.onTodayClickListener(item)
             }
             btnPin.setOnClickListener {
                 btnPin.setImageResource(R.drawable.ic_pin_active)
@@ -82,7 +78,7 @@ class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>()
         }
     }
 
-    interface OnSoccerClickListener {
-        fun onSoccerClickListener(item: ResultItem?)
+    interface OnTodayClickListener {
+        fun onTodayClickListener(item: ResultItem?)
     }
 }

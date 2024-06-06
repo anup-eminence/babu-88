@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sona.babu88.R
 import com.sona.babu88.databinding.FragmentMultiMarketsBinding
-import com.sona.babu88.ui.sports__.cricket.CricketSportAdapter
-import com.sona.babu88.ui.sports__.cricket.CricketSportList
 
 class MultiMarketsFragment : Fragment() {
     private lateinit var binding: FragmentMultiMarketsBinding

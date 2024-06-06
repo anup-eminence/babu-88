@@ -41,7 +41,7 @@ class InPlayFragment : Fragment() {
 
     private fun setViewPagerAdapter() {
         currentViewPagerItem = binding.viewPager.currentItem
-        inPlayViewPager = InPlayViewPager(requireActivity().supportFragmentManager, lifecycle)
+        inPlayViewPager = InPlayViewPager(childFragmentManager, lifecycle)
         binding.viewPager.adapter = inPlayViewPager
         binding.viewPager.setCurrentItem(currentViewPagerItem, false)
 

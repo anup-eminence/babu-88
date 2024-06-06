@@ -11,7 +11,7 @@
         android:id="@+id/cl_true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -24,44 +24,89 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_text" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_play"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:src="@drawable/ic_play"
             app:layout_constraintStart_toEndOf="@id/img_round"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_watch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:src="@drawable/ic_timer"
-            app:layout_constraintStart_toEndOf="@id/img_play"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_inPlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_f"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-2dp"
-            android:src="@drawable/ic_f"
-            app:layout_constraintStart_toEndOf="@id/img_watch"
-            app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_play"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/in_play"
-            android:textColor="@color/txt_in_play"
-            android:textSize="12sp"
-            app:fontFamily="@font/heebo_regular"
-            app:layout_constraintBottom_toBottomOf="@id/img_f"
-            app:layout_constraintStart_toEndOf="@id/img_f"
-            app:layout_constraintTop_toTopOf="@id/img_f" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_watch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_timer"
+                    app:layout_constraintStart_toEndOf="@id/img_play"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_f"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-2dp"
+                    android:src="@drawable/ic_f"
+                    app:layout_constraintStart_toEndOf="@id/img_watch"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/in_play"
+                    android:textColor="@color/txt_in_play"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/heebo_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/img_f"
+                    app:layout_constraintStart_toEndOf="@id/img_f"
+                    app:layout_constraintTop_toTopOf="@id/img_f" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_inPlay_not"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_p_false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_p"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="2024-05-08 21:30:00"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/heebo_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/img_p_false"
+                    app:layout_constraintStart_toEndOf="@id/img_p_false"
+                    app:layout_constraintTop_toTopOf="@id/img_p_false" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_text"
@@ -76,7 +121,7 @@
             app:fontFamily="@font/heebo_bold"
             app:layout_constraintEnd_toStartOf="@id/btn_pin"
             app:layout_constraintStart_toEndOf="@id/img_round"
-            app:layout_constraintTop_toBottomOf="@id/img_play"
+            app:layout_constraintTop_toBottomOf="@id/cl_layout"
             tools:text="Islamabad United SRL T20 v Quetta Gladiator Quetta Gladiator Quetta Gladiator" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -96,81 +141,6 @@
             android:layout_marginTop="8dp"
             android:background="@color/grey"
             app:layout_constraintTop_toBottomOf="@id/tv_text" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/cl_true">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_round_false"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/circle_shape_grey"
-            app:layout_constraintBottom_toBottomOf="@id/tv_text_false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_text_false" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_p_false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:src="@drawable/ic_p"
-            app:layout_constraintStart_toEndOf="@id/img_round_false"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="2024-05-08 21:30:00"
-            android:textColor="@color/grey_dark"
-            android:textSize="12sp"
-            app:fontFamily="@font/heebo_regular"
-            app:layout_constraintBottom_toBottomOf="@id/img_p_false"
-            app:layout_constraintStart_toEndOf="@id/img_p_false"
-            app:layout_constraintTop_toTopOf="@id/img_p_false" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_text_false"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/text_color"
-            android:textSize="14sp"
-            app:fontFamily="@font/heebo_bold"
-            app:layout_constraintEnd_toStartOf="@id/btn_pin_false"
-            app:layout_constraintStart_toEndOf="@id/img_round_false"
-            app:layout_constraintTop_toBottomOf="@id/img_p_false"
-            tools:text="Islamabad United SRL T20 v Quetta Gladiator Quetta Gladiator Quetta Gladiator" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btn_pin_false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:src="@drawable/ic_pin_inactive"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_text_false"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/grey"
-            app:layout_constraintTop_toBottomOf="@id/tv_text_false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

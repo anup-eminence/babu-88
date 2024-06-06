@@ -28,12 +28,12 @@ class SplashActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
 
         val responseDecrypt = AuthUtils.decryptData(
-"DZZyZioH9X5uacvWSaEHleJNleZi8UE38bvRmDWDoAMw8x0E5lhSfQPLYvBXQl1VAam3S4A7Z55LGT5AbgGATczZ54O8m2S2/H8077vh7GWZPLM0fagVWv79bHEzG1ZEw6Re6UqOHLpEk3q9kqJXdwoExSzxkok1BnggMfG6iT8yhz9ICGQF8rV+Uw/YVtAi"
+"oxeqeWUMyIhlheaHyy9LLH5hmnqrJUl9mNCmD57zLM+SCzY0wxpVOqwV8ba0wQWFNemr/B76OrPYGjkkLROzdbrX8FEE6tV0U12QzKvar7s="
         )
 
 
         val decryptBody = AuthUtils.decryptData(
-            "ZK1Rv1jlfvz4bs1SuDGUJEbZh7oHjE5ZrEBSVaHM5AFwCJq+r8ca+Ju1xXuuT2cUbpl3QN2Ce+KNZ7pZGyLAMXEQ/I6nCthQ5y7J5BbHxHbt2bL2Eo4NtWv7jlDNnRtyIHPHWSSNXdye3hqzeQnBMQ==",
+            "xcQDE4hXZX15cmy+rJ/A+1CAGo8JoAnaaIJuurE9ugbvfwu1PTyfv3zKfsUA6xoNP9Pq3b0mFJjBz1y0YIDXtbKRdKhhIgMRZ4+GlzbdQOM=",
             "UFJGSFguW1Q0MjdPWF0xfQ=="
         )
         println(">>>>>>>.responseDecrypt $responseDecrypt")

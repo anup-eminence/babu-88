@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.sona.babu88.ui.deposit_withdrawal.deposit.DepositFragment
 
 class DWViewPagerAdapter(
     fragmentManager: FragmentManager, lifecycle: Lifecycle,

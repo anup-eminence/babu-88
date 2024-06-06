@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="3dp"
+    android:layout_marginTop="8dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_round"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/circle_shape_grey"
+        app:layout_constraintBottom_toBottomOf="@id/tv_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_text" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/img_round"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_f_false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_f"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_b_false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_b"
+            app:layout_constraintStart_toEndOf="@id/img_f_false"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/grey_dark"
+            android:textSize="12sp"
+            app:fontFamily="@font/heebo_regular"
+            app:layout_constraintBottom_toBottomOf="@id/img_b_false"
+            app:layout_constraintStart_toEndOf="@id/img_b_false"
+            app:layout_constraintTop_toTopOf="@id/img_b_false"
+            tools:text="2024-05-08 21:30:00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/text_color"
+        android:textSize="14sp"
+        app:fontFamily="@font/heebo_bold"
+        app:layout_constraintEnd_toStartOf="@id/btn_pin"
+        app:layout_constraintStart_toEndOf="@id/img_round"
+        app:layout_constraintTop_toBottomOf="@id/cl_layout"
+        tools:text="Islamabad United SRL T20 v Quetta Gladiator Quetta Gladiator Quetta Gladiator" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:src="@drawable/ic_pin_inactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/tv_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
