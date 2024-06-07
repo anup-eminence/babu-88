@@ -237,7 +237,7 @@ class Details2Fragment : Fragment() {
             eventId = eventId
         )
 
-        sportsViewModel.userMatchDetail.observe(requireActivity()) {
+        sportsViewModel.userMatchDetail.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress1()

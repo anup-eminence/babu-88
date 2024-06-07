@@ -10,13 +10,17 @@ import com.sona.babu88.api.model.request.GeneralRequest
 import com.sona.babu88.api.model.request.GetUserMatchDetailRequest
 import com.sona.babu88.api.model.request.GetUserSideBarMatchesRequest
 import com.sona.babu88.api.model.request.PinMatchRequest
+import com.sona.babu88.api.model.request.UserBetListRequest
+import com.sona.babu88.api.model.response.ActiveMultiMarketResponse
 import com.sona.babu88.api.model.response.GeneralResponse
 import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
 import com.sona.babu88.api.model.response.GetUserSideBarMatchesResponse
 import com.sona.babu88.api.model.response.ResultItem
+import com.sona.babu88.api.model.response.UserProfileResponse
 import com.sona.babu88.util.AppConstant
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import retrofit2.http.Body
 
 class SportsViewModel : ViewModel() {
     private val _userSideBarMatches = MutableLiveData<ApiResult<GetUserSideBarMatchesResponse?>>()
@@ -25,8 +29,8 @@ class SportsViewModel : ViewModel() {
     private val _inPlayMatchesCount = MutableLiveData<ApiResult<Any?>>()
     val inPlayMatchesCount: LiveData<ApiResult<Any?>> get() = _inPlayMatchesCount
 
-    private val _activeMultiMarket = MutableLiveData<ApiResult<Any?>>()
-    val activeMultiMarket: LiveData<ApiResult<Any?>> get() = _activeMultiMarket
+    private val _activeMultiMarket = MutableLiveData<ApiResult<ActiveMultiMarketResponse?>>()
+    val activeMultiMarket: LiveData<ApiResult<ActiveMultiMarketResponse?>> get() = _activeMultiMarket
 
     private val _inPlayMatches = MutableLiveData<ApiResult<GetUserSideBarMatchesResponse?>>()
     val inPlayMatches: LiveData<ApiResult<GetUserSideBarMatchesResponse?>> get() = _inPlayMatches
@@ -46,6 +50,12 @@ class SportsViewModel : ViewModel() {
 
     private val _multiMatchUser = MutableLiveData<ApiResult<GeneralResponse?>>()
     val multiMatchUser: LiveData<ApiResult<GeneralResponse?>> get() = _multiMatchUser
+
+    private val _userProfile = MutableLiveData<ApiResult<UserProfileResponse?>>()
+    val userProfile: LiveData<ApiResult<UserProfileResponse?>> get() = _userProfile
+
+    private val _userBetsList = MutableLiveData<ApiResult<Any?>>()
+    val userBetsList: LiveData<ApiResult<Any?>> get() = _userBetsList
 
     fun getUserSideBarMatches(
         sportId: String?
@@ -116,7 +126,7 @@ class SportsViewModel : ViewModel() {
                 if (verifyApi.isSuccessful) {
                     val codeResponse =
                         RetrofitUtil.apiServies.getActiveMultiMarket(generalRequest)
-                    if (codeResponse.isSuccessful && codeResponse.code() == 200) {
+                    if (codeResponse.isSuccessful) {
                         _activeMultiMarket.postValue(ApiResult.Success(codeResponse.body()))
                     } else {
                         _activeMultiMarket.postValue(ApiResult.Error("Something Went Wrong!"))
@@ -343,4 +353,62 @@ class SportsViewModel : ViewModel() {
             }
         }
     }
+
+    fun getUserProfile() {
+        _userProfile.postValue(ApiResult.Loading())
+        viewModelScope.launch {
+            try {
+                val request = AppConstant.getTimeStamp()
+                val generalRequest = GeneralRequest(
+                    timeStamp = request[AppConstant.TIMESTAMP],
+                    secretKey = request[AppConstant.SECRET_KEY]
+                )
+
+                val verifyApi = RetrofitUtil.apiServies.verifyUser(generalRequest)
+                if (verifyApi.isSuccessful) {
+                    val codeResponse =
+                        RetrofitUtil.apiServies.getUserProfile(generalRequest)
+                    if (codeResponse.isSuccessful) {
+                        _userProfile.postValue(ApiResult.Success(codeResponse.body()))
+                    } else {
+                        _userProfile.postValue(ApiResult.Error("Something Went Wrong!"))
+                    }
+                }
+            } catch (e: Exception) {
+                _userProfile.postValue(ApiResult.Error("Something Went Wrong!"))
+            }
+        }
+    }
+
+//    fun getUserBetsList() {
+//        _userBetsList.postValue(ApiResult.Loading())
+//        viewModelScope.launch {
+//            try {
+//                val request = AppConstant.getTimeStamp()
+//                val userBetListRequest = UserBetListRequest(
+//                    timeStamp = request[AppConstant.TIMESTAMP],
+//                    secretKey = request[AppConstant.SECRET_KEY],
+//                    sportId = "" ,
+//                    endDate = "",
+//                    pageNo = 0,
+//                    pageSize = 1,
+//                    startDate = "",
+//                    status = ""
+//                )
+//
+//                val verifyApi = RetrofitUtil.apiServies.verifyUser(generalRequest)
+//                if (verifyApi.isSuccessful) {
+//                    val codeResponse =
+//                        RetrofitUtil.apiServies.getUserProfile(generalRequest)
+//                    if (codeResponse.isSuccessful) {
+//                        _userBetsList.postValue(ApiResult.Success(codeResponse.body()))
+//                    } else {
+//                        _userBetsList.postValue(ApiResult.Error("Something Went Wrong!"))
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                _userBetsList.postValue(ApiResult.Error("Something Went Wrong!"))
+//            }
+//        }
+//    }
 }

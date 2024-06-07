@@ -65,7 +65,7 @@ class ChangePasswordFragment : Fragment() {
             conPass = binding.etCnfmNewPass.text.toString()
         )
 
-        authViewModel.changePassword.observe(requireActivity()) {
+        authViewModel.changePassword.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress()

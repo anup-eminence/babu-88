@@ -117,7 +117,7 @@ class MyProfileFragment : Fragment() {
         val day = cal.get(Calendar.DAY_OF_MONTH)
         val dpd = DatePickerDialog(requireActivity(), { _, year, monthOfYear, dayOfMonth ->
             formatDateString("$year-${monthOfYear + 1}-$dayOfMonth")?.let { authViewModel.updateBirthDay(birthDay = it) }
-            authViewModel.updateBirthday.observe(requireActivity()){
+            authViewModel.updateBirthday.observe(viewLifecycleOwner){
                 when (it) {
                     is ApiResult.Loading -> {}
                     is ApiResult.Success -> {
@@ -149,7 +149,7 @@ class MyProfileFragment : Fragment() {
                 txtEmail.text = email
                 btnReqOtp.setOnClickListener {
                     authViewModel.getEmailVerificationCode(email = email)
-                    authViewModel.requestEmailCode.observe(requireActivity()){
+                    authViewModel.requestEmailCode.observe(viewLifecycleOwner){
                         when (it) {
                             is ApiResult.Loading -> { progressBar.show() }
                             is ApiResult.Success -> {
@@ -177,7 +177,7 @@ class MyProfileFragment : Fragment() {
                 btnSubmit.setOnClickListener {
                     if (txtVerificationCode.text.isNullOrEmpty().not()) {
                         authViewModel.verifyEmail(code= txtVerificationCode.text.toString())
-                        authViewModel.verifyEmail.observe(requireActivity()) {
+                        authViewModel.verifyEmail.observe(viewLifecycleOwner) {
                             when (it) {
                                 is ApiResult.Loading -> { progressBar.show() }
                                 is ApiResult.Success -> {

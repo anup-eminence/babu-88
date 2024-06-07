@@ -50,7 +50,7 @@ class SlotFragment : Fragment(), SlotAdapter.OnItemClickListener {
     private fun observer() {
         homeViewModel.getGameList(provider = "ALL", category = "SLOT", page = 1)
 
-        homeViewModel.gameList.observe(requireActivity()){
+        homeViewModel.gameList.observe(viewLifecycleOwner){
             println(">>>>>gameList ${it.data}")
             when (it) {
                 is ApiResult.Loading -> {

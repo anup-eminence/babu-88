@@ -62,7 +62,7 @@ class SoccerSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener
             sportId = "1"
         )
 
-        sportsViewModel.userSideBarMatches.observe(requireActivity()) {
+        sportsViewModel.userSideBarMatches.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress1()

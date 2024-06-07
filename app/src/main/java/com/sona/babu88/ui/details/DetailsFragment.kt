@@ -97,7 +97,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     private fun observer(providers: String, category: String) {
         homeViewModel.getGameList(provider = providers, category = category, page = currentPage)
 
-        homeViewModel.gameList.observe(requireActivity()) {
+        homeViewModel.gameList.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress()

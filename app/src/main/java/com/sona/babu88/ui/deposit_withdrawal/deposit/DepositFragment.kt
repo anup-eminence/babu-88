@@ -94,7 +94,7 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener,
             websiteId = "665488a9be104576f70989e5"
         )
 
-        depositViewModel.bankingMethods.observe(requireActivity()) {
+        depositViewModel.bankingMethods.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress()
@@ -120,7 +120,7 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener,
             method = "Bkash"
         )
 
-        depositViewModel.bankingChannel.observe(requireActivity()) {
+        depositViewModel.bankingChannel.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress()
@@ -250,7 +250,7 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener,
                     selectedPromoId = 0
                 )
 
-                depositViewModel.depositRequest.observe(requireActivity()) {
+                depositViewModel.depositRequest.observe(viewLifecycleOwner) {
                     when (it) {
                         is ApiResult.Loading -> {
                             progressBar.show()
