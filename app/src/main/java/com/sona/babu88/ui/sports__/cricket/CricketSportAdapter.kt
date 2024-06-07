@@ -18,7 +18,7 @@ import java.util.Locale
 
 class CricketSportAdapter : RecyclerView.Adapter<CricketSportAdapter.ViewHolder>() {
     var list = mutableListOf<ResultItem?>()
-
+    var selectedPos = -1
     private var onCricketSportClickListener: OnCricketSportClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
@@ -50,7 +50,7 @@ class CricketSportAdapter : RecyclerView.Adapter<CricketSportAdapter.ViewHolder>
 
     fun notifyItemUpdated(pos : Int,resultItem: ResultItem){
         list[pos] = resultItem
-        notifyItemChanged(pos,list)
+        notifyItemChanged(pos,resultItem)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -77,8 +77,12 @@ class CricketSportAdapter : RecyclerView.Adapter<CricketSportAdapter.ViewHolder>
             }
         }
         if (item?.isPinned == true){
+            println(">>>>pos $position if")
+            println(">>>>item $position else${list[position]}")
             holder.binding.btnPin.setImageResource(R.drawable.ic_pin_active)
         } else {
+            println(">>>>pos $position else${item?.isPinned}")
+            println(">>>>item $position else${list[position]}")
             holder.binding.btnPin.setImageResource(R.drawable.ic_pin_inactive)
         }
 
@@ -87,7 +91,9 @@ class CricketSportAdapter : RecyclerView.Adapter<CricketSportAdapter.ViewHolder>
                 onCricketSportClickListener?.onCricketSportClickListener(item)
             }
             btnPin.setOnClickListener {
-                onCricketSportClickListener?.pinMatch(item,holder,position)
+                println(">>>>holder ${holder.adapterPosition}")
+                selectedPos = holder.adapterPosition
+                onCricketSportClickListener?.pinMatch(item,holder,holder.adapterPosition)
             }
         }
     }

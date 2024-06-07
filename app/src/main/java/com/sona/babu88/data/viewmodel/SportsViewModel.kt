@@ -329,6 +329,7 @@ class SportsViewModel : ViewModel() {
                     ) {
                         _multiMatchUser.postValue(ApiResult.Success(codeResponse.body()))
                     } else {
+                        println(">>>>>>>error exception else ")
                         _multiMatchUser.postValue(
                             ApiResult.Error(
                                 codeResponse.body()?.message ?: "Something Went Wrong!"
@@ -337,6 +338,7 @@ class SportsViewModel : ViewModel() {
                     }
                 }
             } catch (e: Exception) {
+                println(">>>>>>>error exception")
                 _multiMatchUser.postValue(ApiResult.Error("Something Went Wrong!"))
             }
         }

@@ -63,10 +63,6 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
     }
 
     override fun pinMatch(item: ResultItem?, holder: CricketSportAdapter.ViewHolder, pos: Int) {
-        sportsViewModel.getMultiMatchUser(
-            matchId = item?.id
-        )
-
         sportsViewModel.multiMatchUser.observe(requireActivity()) {
             when (it) {
                 is ApiResult.Loading -> {
@@ -76,16 +72,24 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
                 is ApiResult.Success -> {
                     this.hideProgress1()
                     isPinnedMatch = true
-                    cricketSportAdapter.notifyItemUpdated(pos,item!!.copy(isPinned = true))
+                    if (pos == cricketSportAdapter.selectedPos) {
+                        cricketSportAdapter.notifyItemUpdated(pos, item!!.copy(isPinned = true))
+                    }
                 }
 
                 is ApiResult.Error -> {
                     this.hideProgress1()
-                    cricketSportAdapter.notifyItemUpdated(pos,item!!.copy(isPinned = false))
-                    requireContext().showToast(it.message.toString())
+                    if (pos == cricketSportAdapter.selectedPos) {
+                        println(">>>error $pos")
+                        cricketSportAdapter.notifyItemUpdated(pos, item!!.copy(isPinned = false))
+                    }
+                    //requireContext().showToast(it.message.toString())
                 }
             }
         }
+        sportsViewModel.getMultiMatchUser(
+            matchId = item?.id
+        )
     }
 
     private fun observerGetUserSideBarMatches() {
