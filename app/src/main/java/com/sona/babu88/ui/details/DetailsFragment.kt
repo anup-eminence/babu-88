@@ -3,14 +3,12 @@ package com.sona.babu88.ui.details
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnScrollChangeListener
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.GameListResponse
@@ -21,7 +19,7 @@ import com.sona.babu88.util.hide
 import com.sona.babu88.util.hideProgress
 import com.sona.babu88.util.show
 import com.sona.babu88.util.showProgress
-import okhttp3.internal.addHeaderLenient
+import com.sona.babu88.util.showToast
 
 class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     DetailsAdapter.OnItemClickListener {
@@ -123,7 +121,8 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
                 }
 
                 is ApiResult.Error -> {
-
+                    this.hideProgress()
+                    requireContext().showToast(it.message.toString())
                 }
             }
         }

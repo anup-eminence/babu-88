@@ -180,6 +180,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     }
 
     private fun setFeaturedGamesData() {
+        featuredGameList.clear()
         featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game1))
         featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game2))
         featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game3))
@@ -200,6 +201,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     }
 
     private fun setCasinoGamesData() {
+        fishingList.clear()
         fishingList.add(FishingList(R.drawable.img_home_1))
         fishingList.add(FishingList(R.drawable.img_home_2))
         fishingList.add(FishingList(R.drawable.img_home_3))

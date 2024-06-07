@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.sona.babu88.R
 import com.sona.babu88.ui.activity.HomeActivity
+import com.sona.babu88.ui.activity.NewActivity
 import java.text.DateFormat
 import java.util.Calendar
 
@@ -190,4 +191,12 @@ fun getSeventhDayDate(): String {
 fun getCurrrentDate() : String {
     val calendar = Calendar.getInstance()
     return android.text.format.DateFormat.format("yyy-MM-dd",calendar.time).toString()
+}
+
+fun Fragment.showProgress1() {
+    (activity as NewActivity).showProgress()
+}
+
+fun Fragment.hideProgress1() {
+    (activity as NewActivity).hideProgress()
 }

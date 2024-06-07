@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_min_bet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="@string/min_bet"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        app:fontFamily="@font/heebo_regular"
+        app:layout_constraintBottom_toTopOf="@id/cl_bet"
+        app:layout_constraintEnd_toEndOf="@id/cl_bet"
+        app:layout_constraintStart_toStartOf="@id/cl_bet" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_price"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/bg_4_solid_border"
+        android:gravity="center"
+        android:textColor="@color/text_grey"
+        android:textSize="14sp"
+        app:fontFamily="@font/heebo_bold"
+        app:layout_constraintBottom_toBottomOf="@id/cl_bet"
+        app:layout_constraintEnd_toEndOf="@id/btn_cancel"
+        app:layout_constraintStart_toStartOf="@id/btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/cl_bet"
+        tools:text="3.35" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_4_corner_border"
+        android:padding="1dp"
+        app:layout_constraintEnd_toEndOf="@id/btn_place_bet"
+        app:layout_constraintStart_toStartOf="@id/btn_place_bet"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_4_right"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/ic_minus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_text"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_bet_text"
+            android:gravity="center"
+            android:maxLength="5"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            app:fontFamily="@font/heebo_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_plus"
+            app:layout_constraintStart_toEndOf="@id/btn_minus"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_4_left"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_gradient_bottom_nav"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        app:layout_constraintTop_toBottomOf="@id/cl_bet">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_num1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="8dp"
+            android:text="1000"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_num2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0.8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="8dp"
+            android:text="5000"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_num3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0.5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="8dp"
+            android:text="10000"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_num4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0.5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="8dp"
+            android:text="20000"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_num5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0.5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="8dp"
+            android:text="25000"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_num6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0.5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="8dp"
+            android:text="50000"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_numbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/ll_tab">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="6">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_2"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_3"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_4"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_5"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_5"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_6"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_6"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="6">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_7"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_7"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_8"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_8"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_9"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_9"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_0"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_0"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_00"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/_00"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_point"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="12dp"
+                    android:text="@string/point"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/heebo_regular" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tv_backSpace"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_border"
+            android:paddingVertical="25dp"
+            android:src="@drawable/ic_backspace" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_4_solid_border"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/cancel"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:fontFamily="@font/heebo_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_place_bet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_numbers" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_place_bet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_4_corner_shape_yellow"
+        android:backgroundTint="@color/black"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/place_bet"
+        android:textColor="@color/text_yellow"
+        android:textSize="14sp"
+        app:fontFamily="@font/heebo_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_cancel"
+        app:layout_constraintTop_toBottomOf="@id/ll_numbers" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

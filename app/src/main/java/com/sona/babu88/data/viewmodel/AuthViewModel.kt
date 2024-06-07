@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.RetrofitUtil
 import com.sona.babu88.api.model.request.AuthenticateUserRequest
+import com.sona.babu88.api.model.request.ChangePasswordRequest
 import com.sona.babu88.api.model.request.CurrencyRequest
 import com.sona.babu88.api.model.request.GeneralRequest
 import com.sona.babu88.api.model.request.RegisterUserRequest
@@ -46,6 +47,8 @@ class AuthViewModel : ViewModel() {
     private val _updateBirthday = MutableLiveData<ApiResult<GeneralResponse?>>()
     val updateBirthday: LiveData<ApiResult<GeneralResponse?>> get() = _updateBirthday
 
+    private val _changePassword = MutableLiveData<ApiResult<GeneralResponse?>>()
+    val changePassword: LiveData<ApiResult<GeneralResponse?>> get() = _changePassword
 
     fun authenticateUser(
         userId: String?,
@@ -230,6 +233,38 @@ class AuthViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _updateBirthday.postValue(ApiResult.Error("Something Went Wrong!"))
+            }
+        }
+    }
+
+    fun changePassword(
+        oldPass: String,
+        newPass: String,
+        conPass: String
+    ) {
+        _changePassword.postValue(ApiResult.Loading())
+        viewModelScope.launch {
+            try {
+                val request = AppConstant.getTimeStamp()
+                val changePassword = ChangePasswordRequest(
+                    timeStamp = request[AppConstant.TIMESTAMP],
+                    secretKey = request[AppConstant.SECRET_KEY],
+                    oldPass = oldPass,
+                    conPass = conPass,
+                    newPass = newPass
+                )
+
+                val verifyApi = RetrofitUtil.apiServies.verifyUser(changePassword)
+                if (verifyApi.isSuccessful) {
+                    val codeResponse = RetrofitUtil.apiServies.changeUserPassword(changePassword)
+                    if (codeResponse.isSuccessful && codeResponse.code() == 200) {
+                        _changePassword.postValue(ApiResult.Success(codeResponse.body()))
+                    } else {
+                        _changePassword.postValue(ApiResult.Error(codeResponse.body()?.message))
+                    }
+                }
+            } catch (e: Exception) {
+                _changePassword.postValue(ApiResult.Error("Something Went Wrong!"))
             }
         }
     }

@@ -39,4 +39,7 @@
     <color name="text_clr">#594C5F</color>
     <color name="not_verified">#F88E25</color>
     <color name="text_grey_dark">#757575</color>
+    <color name="bet_text">#FFF0CA</color>
+    <color name="bg_bet1">#DCEAF4</color>
+    <color name="bg_bet2">#F2E5E8</color>
 </resources>

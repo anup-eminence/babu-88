@@ -48,7 +48,7 @@ class Sports2Fragment : Fragment() {
     private fun setViewPagerAdapter() {
         currentViewPagerItem = binding.viewPager.currentItem
         sportViewPagerAdapter =
-            SportViewPagerAdapter(requireActivity().supportFragmentManager, lifecycle)
+            SportViewPagerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = sportViewPagerAdapter
         binding.viewPager.setCurrentItem(currentViewPagerItem, false)
 
@@ -82,7 +82,7 @@ class Sports2Fragment : Fragment() {
             findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_cricket_active)
         }
 
-        binding.viewPager.offscreenPageLimit = 2
+//        binding.viewPager.offscreenPageLimit = 2
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {

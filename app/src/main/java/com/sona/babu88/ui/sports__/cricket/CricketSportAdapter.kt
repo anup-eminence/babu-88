@@ -1,24 +1,32 @@
 package com.sona.babu88.ui.sports__.cricket
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.sona.babu88.R
+import com.sona.babu88.api.model.response.ResultItem
 import com.sona.babu88.databinding.ItemCricketSportBinding
 import com.sona.babu88.util.hide
 import com.sona.babu88.util.show
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class CricketSportAdapter : RecyclerView.Adapter<CricketSportAdapter.ViewHolder>() {
-    var list = emptyList<CricketSportList?>()
-
+    var list = mutableListOf<ResultItem?>()
+    var selectedPos = -1
     private var onCricketSportClickListener: OnCricketSportClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setCricketSportData(itemList: List<CricketSportList?>?) {
-        if (itemList != null) {
-            list = itemList
-        }
+    fun setCricketSportData(itemList: List<ResultItem?>?) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        itemList?.sortedBy {
+            it?.day?.let { day -> dateFormat.parse(day) }
+        }?.let { list = it.toMutableList() }
         notifyDataSetChanged()
     }
 
@@ -40,41 +48,58 @@ class CricketSportAdapter : RecyclerView.Adapter<CricketSportAdapter.ViewHolder>
         return list.size
     }
 
+    fun notifyItemUpdated(pos : Int,resultItem: ResultItem){
+        list[pos] = resultItem
+        notifyItemChanged(pos,resultItem)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.binding.apply {
             if (item != null) {
-                if (item.inPlay) {
-                    clTrue.show()
-                    clFalse.hide()
-                    tvText.text = item.text
-                } else {
-                    clTrue.hide()
-                    clFalse.show()
-                    tvTextFalse.text = item.text
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                val date = LocalDateTime.parse(item.day, formatter)
+                val currentDate = LocalDateTime.now()
+
+                if (date.isBefore(currentDate) || date.equals(currentDate)) {
+                    clInPlay.show()
+                    clInPlayNot.hide()
+                    tvText.text = item.matchName
+                    imgRound.setImageResource(R.drawable.circle_shape)
+                } else if (date.isAfter(currentDate)) {
+                    clInPlayNot.show()
+                    clInPlay.hide()
+                    tvText.text = item.matchName
+                    tvTime.text = item.day
+                    imgRound.setImageResource(R.drawable.circle_shape_grey)
                 }
             }
+        }
+        if (item?.isPinned == true){
+            println(">>>>pos $position if")
+            println(">>>>item $position else${list[position]}")
+            holder.binding.btnPin.setImageResource(R.drawable.ic_pin_active)
+        } else {
+            println(">>>>pos $position else${item?.isPinned}")
+            println(">>>>item $position else${list[position]}")
+            holder.binding.btnPin.setImageResource(R.drawable.ic_pin_inactive)
         }
 
         holder.binding.apply {
             root.setOnClickListener {
-                onCricketSportClickListener?.onCricketSportClickListener()
+                onCricketSportClickListener?.onCricketSportClickListener(item)
             }
             btnPin.setOnClickListener {
-                btnPin.setImageResource(R.drawable.ic_pin_active)
-            }
-            btnPinFalse.setOnClickListener {
-                btnPinFalse.setImageResource(R.drawable.ic_pin_active)
+                println(">>>>holder ${holder.adapterPosition}")
+                selectedPos = holder.adapterPosition
+                onCricketSportClickListener?.pinMatch(item,holder,holder.adapterPosition)
             }
         }
     }
 
     interface OnCricketSportClickListener {
-        fun onCricketSportClickListener()
+        fun onCricketSportClickListener(item: ResultItem?)
+        fun pinMatch(item : ResultItem?,holder: ViewHolder,pos :Int)
     }
 }
-
-data class CricketSportList(
-    val text: String,
-    val inPlay: Boolean
-)
