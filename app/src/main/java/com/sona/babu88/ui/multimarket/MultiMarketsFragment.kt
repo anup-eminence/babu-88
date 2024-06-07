@@ -1,17 +1,23 @@
 package com.sona.babu88.ui.multimarket
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentMultiMarketsBinding
+import com.sona.babu88.util.hideProgress1
+import com.sona.babu88.util.showProgress1
+import com.sona.babu88.util.showToast
 
 class MultiMarketsFragment : Fragment() {
     private lateinit var binding: FragmentMultiMarketsBinding
     private lateinit var multiMarketAdapter: MultiMarketAdapter
-    private val multiMarketList = arrayListOf<MultiMarketList>()
+    private val sportsViewModel: SportsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,7 @@ class MultiMarketsFragment : Fragment() {
 
     private fun initView() {
         setUpAdapter()
-        setData()
+        observerActiveMultiMarket()
     }
 
 
@@ -44,12 +50,25 @@ class MultiMarketsFragment : Fragment() {
         binding.recyclerView.adapter = multiMarketAdapter
     }
 
-    private fun setData() {
+    private fun observerActiveMultiMarket() {
+        sportsViewModel.getActiveMultiMarket()
 
-        multiMarketList.add(MultiMarketList("Islamabad United SRL T20 v Quetta Gladiator Quetta", "Islamabad United SRL T20", "Quetta Gladiator Quetta"))
-        multiMarketList.add(MultiMarketList("Islamabad United SRL T20 v Quetta Gladiator Quetta", "Islamabad United SRL T20", "Quetta Gladiator Quetta"))
-        multiMarketList.add(MultiMarketList("Islamabad United SRL T20 v Quetta Gladiator Quetta", "Islamabad United SRL T20", "Quetta Gladiator Quetta"))
-        multiMarketList.add(MultiMarketList("Islamabad United SRL T20 v Quetta Gladiator Quetta", "Islamabad United SRL T20", "Quetta Gladiator Quetta"))
-        multiMarketAdapter.setData(multiMarketList)
+        sportsViewModel.activeMultiMarket.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    multiMarketAdapter.setData(it.data?.data)
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
     }
 }

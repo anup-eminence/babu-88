@@ -63,6 +63,10 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
     }
 
     override fun pinMatch(item: ResultItem?, holder: CricketSportAdapter.ViewHolder, pos: Int) {
+        sportsViewModel.getMultiMatchUser(
+            matchId = item?.id
+        )
+
         sportsViewModel.multiMatchUser.observe(requireActivity()) {
             when (it) {
                 is ApiResult.Loading -> {
@@ -97,7 +101,7 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
             sportId = "4"
         )
 
-        sportsViewModel.userSideBarMatches.observe(requireActivity()) {
+        sportsViewModel.userSideBarMatches.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress1()

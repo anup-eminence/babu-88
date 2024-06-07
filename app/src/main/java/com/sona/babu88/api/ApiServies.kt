@@ -12,17 +12,22 @@ import com.sona.babu88.api.model.request.GetBankingMethodsRequest
 import com.sona.babu88.api.model.request.GetBanksListRequest
 import com.sona.babu88.api.model.request.GetUserMatchDetailRequest
 import com.sona.babu88.api.model.request.GetUserSideBarMatchesRequest
+import com.sona.babu88.api.model.request.MatchResultListRequest
 import com.sona.babu88.api.model.request.PinMatchRequest
 import com.sona.babu88.api.model.request.PromoFilterRequest
 import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.RegisterUserRequest
 import com.sona.babu88.api.model.request.SpecialGameListRequest
+import com.sona.babu88.api.model.request.SportsPLRequest
 import com.sona.babu88.api.model.request.TransactionPLRequest
 import com.sona.babu88.api.model.request.TransactionPLRequestFull
 import com.sona.babu88.api.model.request.TransactionRecordRequest
 import com.sona.babu88.api.model.request.UpdateBirthDayRequest
+import com.sona.babu88.api.model.request.UserBetListRequest
+import com.sona.babu88.api.model.request.UserLoginActivityRequest
 import com.sona.babu88.api.model.request.VerifyEmailCodeRequest
 import com.sona.babu88.api.model.request.VerifyEmailRequest
+import com.sona.babu88.api.model.response.ActiveMultiMarketResponse
 import com.sona.babu88.api.model.response.CurrencyResponse
 import com.sona.babu88.api.model.response.EmailVerificationResponse
 import com.sona.babu88.api.model.response.EmailVerifiedResponse
@@ -38,6 +43,8 @@ import com.sona.babu88.api.model.response.RegisterUserResponse
 import com.sona.babu88.api.model.response.SpecialGameListResponse
 import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.api.model.response.UserDetailsResponse
+import com.sona.babu88.api.model.response.UserLoginActivityResponse
+import com.sona.babu88.api.model.response.UserProfileResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -127,7 +134,7 @@ interface ApiServies {
     suspend fun getInPlayMatchesCount(@Body generalRequest: GeneralRequest): Response<Any>
 
     @POST(ApiConstants.GET_ACTIVE_MULTI_MARKET)
-    suspend fun getActiveMultiMarket(@Body generalRequest: GeneralRequest): Response<Any>
+    suspend fun getActiveMultiMarket(@Body generalRequest: GeneralRequest): Response<ActiveMultiMarketResponse>
 
     @POST(ApiConstants.GET_IN_PLAY_MATCHES)
     suspend fun getInPlayMatches(@Body generalRequest: GeneralRequest): Response<GetUserSideBarMatchesResponse>
@@ -143,4 +150,19 @@ interface ApiServies {
 
     @POST(ApiConstants.GET_MULTI_MATCH_USER)
     suspend fun getMultiMatchUser(@Body pinMatchRequest: PinMatchRequest): Response<GeneralResponse>
+
+    @POST(ApiConstants.GET_USER_PROFILE)
+    suspend fun getUserProfile(@Body generalRequest: GeneralRequest): Response<UserProfileResponse>
+
+    @POST(ApiConstants.GET_USER_BETS_LIST)
+    suspend fun getUserBetsList(@Body userBetListRequest: UserBetListRequest): Response<Any>
+
+    @POST(ApiConstants.GET_SPORTS_PL)
+    suspend fun getSportsPL(@Body sportsPLRequest: SportsPLRequest): Response<Any>
+
+    @POST(ApiConstants.GET_MATCH_RESULT_LIST)
+    suspend fun getMatchResultList(@Body matchResultListRequest: MatchResultListRequest): Response<Any>
+
+    @POST(ApiConstants.GET_USER_LOGIN_ACTIVITY)
+    suspend fun getUserLoginActivity(@Body userLoginActivityRequest: UserLoginActivityRequest): Response<UserLoginActivityResponse>
 }

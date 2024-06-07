@@ -3,6 +3,7 @@ package com.sona.babu88.api
 object ApiConstants {
     private const val API_USER = "api-users"
     private const val API_AGENT = "api-agt"
+    private const val API_BET = "api-bet"
     const val AUTHENTICATE_USER = "$API_USER/authenticateUser"
     const val GET_GAME_LIST = "$API_USER/getGamesList"
     const val VERIFY_USER = "api-sec/verifyUser"
@@ -36,4 +37,9 @@ object ApiConstants {
     const val GET_TOMORROW_MATCHES = "$API_USER/getTomorrowMatches"
     const val GET_USER_MATCH_DETAIL = "$API_USER/getUserMatcheDetail"
     const val GET_MULTI_MATCH_USER = "$API_USER/mutltiMatchUser"
+    const val GET_USER_PROFILE = "$API_USER/getUserProfile"
+    const val GET_USER_BETS_LIST = "$API_BET/getUserBetsList"
+    const val GET_SPORTS_PL = "$API_USER/getSportsPL"
+    const val GET_MATCH_RESULT_LIST = "$API_USER/getMatchResultList"
+    const val GET_USER_LOGIN_ACTIVITY = "$API_USER/getUserLoginActivity"
 }
