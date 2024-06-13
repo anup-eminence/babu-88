@@ -56,7 +56,7 @@ class Details2Fragment : Fragment() {
     private fun initView() {
         setUpAdapter()
         setDataFancy()
-//        observerMatchDetails()
+       observerMatchDetails()
     }
 
     private fun setOnClickListener() {
@@ -245,11 +245,17 @@ class Details2Fragment : Fragment() {
 
                 is ApiResult.Success -> {
                     this.hideProgress1()
+                    binding.tvMatchTitle.text = it.data?.team1
+                    binding.tvMatchTitle2.text = it.data?.team2
+                    binding.tvMatchTitle3.text = it.data?.team1
+                    binding.tvMatchTitle4.text = it.data?.team2
                     println("> getUserMatchDetail >>>>>> ${it.data}")
+
                 }
 
                 is ApiResult.Error -> {
                     this.hideProgress1()
+                    println("> getUserMatchDetail >>>>>> ${it.message}")
                     requireContext().showToast(it.message.toString())
                 }
             }

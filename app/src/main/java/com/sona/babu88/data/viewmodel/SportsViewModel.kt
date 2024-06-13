@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.RetrofitUtil
 import com.sona.babu88.api.model.request.GeneralRequest
@@ -19,12 +21,16 @@ import com.sona.babu88.api.model.response.GeneralResponse
 import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
 import com.sona.babu88.api.model.response.GetUserSideBarMatchesResponse
 import com.sona.babu88.api.model.response.InPlayMatchCountResponse
+import com.sona.babu88.api.model.response.PreMatchMarket
 import com.sona.babu88.api.model.response.ResultItem
+import com.sona.babu88.api.model.response.SelectionIds
 import com.sona.babu88.api.model.response.UserLoginActivityResponse
 import com.sona.babu88.api.model.response.UserProfileResponse
 import com.sona.babu88.util.AppConstant
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class SportsViewModel : ViewModel() {
     private val _userSideBarMatches = MutableLiveData<ApiResult<GetUserSideBarMatchesResponse?>>()
@@ -316,13 +322,28 @@ class SportsViewModel : ViewModel() {
                     val codeResponse =
                         RetrofitUtil.apiServies.getUserMatchDetail(getUserMatchDetailRequest)
                     if (codeResponse.isSuccessful && codeResponse.code() == 200) {
-                        _userMatchDetail.postValue(ApiResult.Success(codeResponse.body()))
+                        val gson = Gson()
+                        val listType = object : TypeToken<List<SelectionIds>>() {}.type
+                        val listType2 = object : TypeToken<List<PreMatchMarket>>() {}.type
+
+                        val selectionIdsList = codeResponse.body()?.selctionIds?.let {
+                            it.replace(it.substring(0,1),"[").replace("\"","")
+                        }
+
+                        println(">>>>>>>>prematch ${codeResponse.body()?.preMatchMarket}")
+
+
+                        val selectionIdList: List<SelectionIds> = gson.fromJson(selectionIdsList, listType)
+                        val preMatchMarketList: List<PreMatchMarket> = gson.fromJson(codeResponse.body()?.preMatchMarket, listType2)
+
+                        println(">>>selectionIdsList $selectionIdsList")
+                        _userMatchDetail.postValue(ApiResult.Success(codeResponse.body()?.copy(selectionIdsList = selectionIdList)?.copy(preMatchMarketList = preMatchMarketList)))
                     } else {
                         _userMatchDetail.postValue(ApiResult.Error("Something Went Wrong!"))
                     }
                 }
             } catch (e: Exception) {
-                _userMatchDetail.postValue(ApiResult.Error("Something Went Wrong!"))
+                _userMatchDetail.postValue(ApiResult.Error(e.message))
             }
         }
     }

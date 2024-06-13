@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
 
         val responseDecrypt = AuthUtils.decryptData(
-"oxeqeWUMyIhlheaHyy9LLNzqQRCfHHAjPb4LVvhaS+ou3MHuj+ULqOZrfWDUQCv+Q2dw4TJLk30OPCeC36bx31IqPf7+YgifCl/ZP1pr3Hg="
+"kLbkI7vVE8G8kmmVUf98YTs4tIBr5GDoXhj6wZO4DLXumD2uBpErN0Y5YLRRY3S1Km+xqEJMCWqifbhC04uWn0ujEfJcZ/dfmBJe0A3siPU="
         )
 
 
