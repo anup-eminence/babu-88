@@ -16,7 +16,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class TodayAdapter : RecyclerView.Adapter<TodayAdapter.ViewHolder>() {
-    var list = emptyList<ResultItem?>()
+    var list = mutableListOf<ResultItem?>()
+    var selectedPos = -1
 
     private var onTodayClickListener: OnTodayClickListener? = null
 
@@ -25,7 +26,7 @@ class TodayAdapter : RecyclerView.Adapter<TodayAdapter.ViewHolder>() {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         itemList?.sortedBy {
             it?.day?.let { day -> dateFormat.parse(day) }
-        }?.let { list = it }
+        }?.let { list = it.toMutableList() }
         notifyDataSetChanged()
     }
 
@@ -47,6 +48,11 @@ class TodayAdapter : RecyclerView.Adapter<TodayAdapter.ViewHolder>() {
         return list.size
     }
 
+    fun notifyItemUpdated(pos: Int, resultItem: ResultItem) {
+        list[pos] = resultItem
+        notifyItemChanged(pos, resultItem)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
@@ -66,6 +72,12 @@ class TodayAdapter : RecyclerView.Adapter<TodayAdapter.ViewHolder>() {
                     tvTime.text = spannableString
                 }
             }
+
+            if (item?.isPinned == true){
+                btnPin.setImageResource(R.drawable.ic_pin_active)
+            } else {
+                btnPin.setImageResource(R.drawable.ic_pin_inactive)
+            }
         }
 
         holder.binding.apply {
@@ -73,12 +85,14 @@ class TodayAdapter : RecyclerView.Adapter<TodayAdapter.ViewHolder>() {
                 onTodayClickListener?.onTodayClickListener(item)
             }
             btnPin.setOnClickListener {
-                btnPin.setImageResource(R.drawable.ic_pin_active)
+                selectedPos = holder.adapterPosition
+                onTodayClickListener?.pinMatchClickListener(item, holder.adapterPosition)
             }
         }
     }
 
     interface OnTodayClickListener {
         fun onTodayClickListener(item: ResultItem?)
+        fun pinMatchClickListener(item: ResultItem?, adapterPosition: Int)
     }
 }

@@ -11,14 +11,15 @@ import com.sona.babu88.util.hide
 import com.sona.babu88.util.show
 
 class MultiMarketAdapter : RecyclerView.Adapter<MultiMarketAdapter.ViewHolder>() {
-    var list = emptyList<DataItem?>()
+    var list = mutableListOf<DataItem?>()
+    var selectedPos = -1
 
     private var onItemClickListener: OnItemClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(itemList: List<DataItem?>?) {
         if (itemList != null) {
-            list = itemList
+            list = itemList.toMutableList()
         }
         notifyDataSetChanged()
     }
@@ -39,6 +40,17 @@ class MultiMarketAdapter : RecyclerView.Adapter<MultiMarketAdapter.ViewHolder>()
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    fun notifyItemUpdated(pos: Int, dataItem: DataItem) {
+        list[pos] = dataItem
+        notifyItemChanged(pos, dataItem)
+    }
+
+    fun removeData(position: Int) {
+        list.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, list.size)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -69,20 +81,23 @@ class MultiMarketAdapter : RecyclerView.Adapter<MultiMarketAdapter.ViewHolder>()
                     2 -> tvSportName.text = root.context.getString(R.string.tennis)
                 }
             }
+
+            if (item?.isPinned == false){
+                holder.binding.btnPin.setImageResource(R.drawable.ic_pin_inactive)
+            } else {
+                holder.binding.btnPin.setImageResource(R.drawable.ic_pin_active)
+            }
         }
 
         holder.binding.apply {
-            root.setOnClickListener {
-                onItemClickListener?.onItemClickListener()
-            }
-
-            ivPin.setOnClickListener {
-                ivPin.setImageResource(R.drawable.ic_pin_inactive)
+            btnPin.setOnClickListener {
+                selectedPos = holder.adapterPosition
+                onItemClickListener?.pinMatchClickListener(item, holder, holder.adapterPosition)
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener()
+        fun pinMatchClickListener(item: DataItem?, holder: ViewHolder, adapterPosition: Int)
     }
 }

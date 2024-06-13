@@ -84,10 +84,10 @@
                 android:background="@drawable/bg_4_left"
                 android:backgroundTint="@color/red_live"
                 android:gravity="center"
-                android:text="115"
                 android:textColor="@color/white"
                 android:textSize="8sp"
-                app:fontFamily="@font/heebo_regular" />
+                app:fontFamily="@font/heebo_regular"
+                tools:text="115" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -114,10 +114,10 @@
                 android:background="@drawable/bg_4_left"
                 android:backgroundTint="@color/red_live"
                 android:gravity="center"
-                android:text="10"
                 android:textColor="@color/white"
                 android:textSize="8sp"
-                app:fontFamily="@font/heebo_regular" />
+                app:fontFamily="@font/heebo_regular"
+                tools:text="10" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -144,10 +144,10 @@
                 android:background="@drawable/bg_4_left"
                 android:backgroundTint="@color/red_live"
                 android:gravity="center"
-                android:text="10"
                 android:textColor="@color/white"
                 android:textSize="8sp"
-                app:fontFamily="@font/heebo_regular" />
+                app:fontFamily="@font/heebo_regular"
+                tools:text="10" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

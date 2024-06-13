@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.DataItem
 import com.sona.babu88.api.model.response.ResultItem
 import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentTennisSportBinding
@@ -23,6 +24,7 @@ class TennisSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener
     private lateinit var soccerSportAdapter: SoccerSportAdapter
     private var listener: OnSportsInteractionListener? = null
     private val sportsViewModel: SportsViewModel by viewModels()
+    private val activeMultiMarketList = arrayListOf<DataItem?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,8 @@ class TennisSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener
 
     private fun initView() {
         setSoccerAdapter()
-        observerGetUserSideBarMatches()
+        observerActiveMultiMarket()
+//        observerGetUserSideBarMatches()
     }
 
     private fun setSoccerAdapter() {
@@ -56,6 +59,68 @@ class TennisSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener
 
     override fun onSoccerClickListener(item: ResultItem?) {
         listener?.onSportsClick(item?.id)
+    }
+
+    override fun pinMatchClickListener(
+        item: ResultItem?,
+        holder: SoccerSportAdapter.ViewHolder,
+        adapterPosition: Int
+    ) {
+        sportsViewModel.getMultiMatchUser(
+            matchId = item?.id
+        )
+
+        sportsViewModel.multiMatchUser.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    if (adapterPosition == soccerSportAdapter.selectedPos) {
+                        soccerSportAdapter.notifyItemUpdated(
+                            adapterPosition,
+                            item!!.copy(isPinned = true)
+                        )
+                    }
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    if (adapterPosition == soccerSportAdapter.selectedPos) {
+                        soccerSportAdapter.notifyItemUpdated(
+                            adapterPosition,
+                            item!!.copy(isPinned = false)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observerActiveMultiMarket() {
+        sportsViewModel.getActiveMultiMarket()
+
+        sportsViewModel.activeMultiMarket.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+//                    this.hideProgress1()
+                    activeMultiMarketList.clear()
+                    it.data?.data?.let { it1 -> activeMultiMarketList.addAll(it1) }
+                    observerGetUserSideBarMatches()
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
     }
 
     private fun observerGetUserSideBarMatches() {
@@ -71,6 +136,13 @@ class TennisSportFragment : Fragment(), SoccerSportAdapter.OnSoccerClickListener
 
                 is ApiResult.Success -> {
                     this.hideProgress1()
+                    it.data?.results?.forEach { it ->
+                        activeMultiMarketList.forEach { active ->
+                            if (active?.matchId == it?.marketId) {
+                                it?.isPinned = true
+                            }
+                        }
+                    }
                     soccerSportAdapter.setSoccerData(it.data?.results)
                 }
 

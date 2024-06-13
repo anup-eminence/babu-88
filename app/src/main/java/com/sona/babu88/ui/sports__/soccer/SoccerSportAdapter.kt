@@ -17,7 +17,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>() {
-    var list = emptyList<ResultItem?>()
+    var list = mutableListOf<ResultItem?>()
+    var selectedPos = -1
 
     private var onSoccerClickListener: OnSoccerClickListener? = null
 
@@ -26,7 +27,7 @@ class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         itemList?.sortedBy {
             it?.day?.let { day -> dateFormat.parse(day) }
-        }?.let { list = it }
+        }?.let { list = it.toMutableList() }
         notifyDataSetChanged()
     }
 
@@ -46,6 +47,11 @@ class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>()
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    fun notifyItemUpdated(pos: Int, resultItem: ResultItem) {
+        list[pos] = resultItem
+        notifyItemChanged(pos, resultItem)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -70,6 +76,12 @@ class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>()
                     imgRound.setImageResource(R.drawable.circle_shape_grey)
                 }
             }
+
+            if (item?.isPinned == true){
+                btnPin.setImageResource(R.drawable.ic_pin_active)
+            } else {
+                btnPin.setImageResource(R.drawable.ic_pin_inactive)
+            }
         }
 
         holder.binding.apply {
@@ -77,12 +89,14 @@ class SoccerSportAdapter : RecyclerView.Adapter<SoccerSportAdapter.ViewHolder>()
                 onSoccerClickListener?.onSoccerClickListener(item)
             }
             btnPin.setOnClickListener {
-                btnPin.setImageResource(R.drawable.ic_pin_active)
+                selectedPos = holder.adapterPosition
+                onSoccerClickListener?.pinMatchClickListener(item, holder, holder.adapterPosition)
             }
         }
     }
 
     interface OnSoccerClickListener {
         fun onSoccerClickListener(item: ResultItem?)
+        fun pinMatchClickListener(item: ResultItem?, holder: ViewHolder, adapterPosition: Int)
     }
 }

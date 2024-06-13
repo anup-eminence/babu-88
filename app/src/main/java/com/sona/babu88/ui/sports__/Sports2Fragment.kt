@@ -8,10 +8,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentSports2Binding
+import com.sona.babu88.util.hideProgress1
+import com.sona.babu88.util.showProgress1
+import com.sona.babu88.util.showToast
 
 class Sports2Fragment : Fragment() {
     private lateinit var binding: FragmentSports2Binding
@@ -19,6 +25,7 @@ class Sports2Fragment : Fragment() {
     private var currentViewPagerItem = 0
     private var tabSelectedTextColor = 0
     private var tabUnselectedTextColor = 0
+    private val sportsViewModel: SportsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +46,7 @@ class Sports2Fragment : Fragment() {
     }
 
     private fun initView() {
+        observerInPlayMatchesCount()
         tabSelectedTextColor = ContextCompat.getColor(requireContext(), R.color.text_yellow)
         tabUnselectedTextColor = ContextCompat.getColor(requireContext(), R.color.black)
         setViewPagerAdapter()
@@ -121,5 +129,33 @@ class Sports2Fragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun observerInPlayMatchesCount() {
+        sportsViewModel.getInPlayMatchesCount()
+
+        sportsViewModel.inPlayMatchesCount.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    it.data?.results?.forEach { item ->
+                        when(item?.id) {
+                            1 -> binding.tvSoccer.text = item.marketId.toString()
+                            2 -> binding.tvTennis.text = item.marketId.toString()
+                            4 -> binding.tvCricket.text = item.marketId.toString()
+                        }
+                    }
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
     }
 }
