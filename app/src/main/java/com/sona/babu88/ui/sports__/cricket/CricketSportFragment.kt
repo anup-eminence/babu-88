@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.DataItem
 import com.sona.babu88.api.model.response.ResultItem
 import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentCricketSportBinding
@@ -23,6 +23,7 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
     private lateinit var cricketSportAdapter: CricketSportAdapter
     private var listener: OnSportsInteractionListener? = null
     private val sportsViewModel: SportsViewModel by viewModels()
+    private val activeMultiMarketList = arrayListOf<DataItem?>()
 
     companion object {
         var isPinnedMatch = false
@@ -48,7 +49,8 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
 
     private fun initView() {
         setCricketSportAdapter()
-        observerGetUserSideBarMatches()
+        observerActiveMultiMarket()
+//        observerGetUserSideBarMatches()
     }
 
     private fun setCricketSportAdapter() {
@@ -67,7 +69,7 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
             matchId = item?.id
         )
 
-        sportsViewModel.multiMatchUser.observe(requireActivity()) {
+        sportsViewModel.multiMatchUser.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
                     this.showProgress1()
@@ -96,6 +98,30 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
         )
     }
 
+    private fun observerActiveMultiMarket() {
+        sportsViewModel.getActiveMultiMarket()
+
+        sportsViewModel.activeMultiMarket.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+//                    this.hideProgress1()
+                    activeMultiMarketList.clear()
+                    it.data?.data?.let { it1 -> activeMultiMarketList.addAll(it1) }
+                    observerGetUserSideBarMatches()
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
+    }
+
     private fun observerGetUserSideBarMatches() {
         sportsViewModel.getUserSideBarMatches(
             sportId = "4"
@@ -109,6 +135,13 @@ class CricketSportFragment : Fragment(), CricketSportAdapter.OnCricketSportClick
 
                 is ApiResult.Success -> {
                     this.hideProgress1()
+                    it.data?.results?.forEach { it ->
+                        activeMultiMarketList.forEach { active ->
+                            if (active?.matchId == it?.marketId) {
+                                it?.isPinned = true
+                            }
+                        }
+                    }
                     cricketSportAdapter.setCricketSportData(it.data?.results)
                 }
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.DataItem
 import com.sona.babu88.api.model.response.ResultItem
 import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentInPlayTabBinding
@@ -24,6 +25,9 @@ class InPlayTabFragment : Fragment(), InPlayAdapter.OnInPlayClickListener {
     private lateinit var inPlayAdapter2: InPlayAdapter
     private val sportsViewModel: SportsViewModel by viewModels()
     private var listener: OnSportsInteractionListener? = null
+    private val activeMultiMarketList = arrayListOf<DataItem?>()
+    private var adapterPosition: Int? = null
+    private var item: ResultItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +51,57 @@ class InPlayTabFragment : Fragment(), InPlayAdapter.OnInPlayClickListener {
         setCricketAdapter()
         setSoccerAdapter()
         setTennisAdapter()
-        observerInPlay()
+        observerActiveMultiMarket()
+//        observerInPlay()
+
+        sportsViewModel.multiMatchUser.observe(viewLifecycleOwner) {
+            if (adapterPosition == null || item == null) return@observe
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    if (adapterPosition == inPlayAdapter.selectedPos && item?.sportId == 4) {
+                        inPlayAdapter.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = true)
+                        )
+                    } else if (adapterPosition == inPlayAdapter1.selectedPos && item?.sportId == 1) {
+                        inPlayAdapter1.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = true)
+                        )
+                    } else if (adapterPosition == inPlayAdapter2.selectedPos && item?.sportId == 2) {
+                        inPlayAdapter2.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = true)
+                        )
+                    }
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    if (adapterPosition == inPlayAdapter.selectedPos && item?.sportId == 4) {
+                        inPlayAdapter.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = false)
+                        )
+                    } else if (adapterPosition == inPlayAdapter1.selectedPos && item?.sportId == 1) {
+                        inPlayAdapter1.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = false)
+                        )
+                    } else if (adapterPosition == inPlayAdapter2.selectedPos && item?.sportId == 2) {
+                        inPlayAdapter2.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = false)
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun setCricketAdapter() {
@@ -75,6 +129,41 @@ class InPlayTabFragment : Fragment(), InPlayAdapter.OnInPlayClickListener {
         listener?.onSportsClick(item?.id)
     }
 
+    override fun pinMatchClickListener(
+        item: ResultItem?,
+        adapterPosition: Int
+    ) {
+        sportsViewModel.getMultiMatchUser(
+            matchId = item?.id
+        )
+        this.adapterPosition = adapterPosition
+        this.item = item
+    }
+
+    private fun observerActiveMultiMarket() {
+        sportsViewModel.getActiveMultiMarket()
+
+        sportsViewModel.activeMultiMarket.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+//                    this.hideProgress1()
+                    activeMultiMarketList.clear()
+                    it.data?.data?.let { it1 -> activeMultiMarketList.addAll(it1) }
+                    observerInPlay()
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
+    }
+
     private fun observerInPlay() {
         sportsViewModel.getInPlayMatches()
         sportsViewModel.inPlayMatches.observe(viewLifecycleOwner) { it ->
@@ -86,15 +175,18 @@ class InPlayTabFragment : Fragment(), InPlayAdapter.OnInPlayClickListener {
                 is ApiResult.Success -> {
                     this.hideProgress1()
                     sportsViewModel.cricketData.observe(viewLifecycleOwner) {
-                        inPlayAdapter.setInPlayData(it)
+                        checkPin(it, inPlayAdapter)
+//                        inPlayAdapter.setInPlayData(it)
                     }
 
                     sportsViewModel.soccerData.observe(viewLifecycleOwner) {
-                        inPlayAdapter1.setInPlayData(it)
+                        checkPin(it, inPlayAdapter1)
+//                        inPlayAdapter1.setInPlayData(it)
                     }
 
                     sportsViewModel.tennisData.observe(viewLifecycleOwner) {
-                        inPlayAdapter2.setInPlayData(it)
+                        checkPin(it, inPlayAdapter2)
+//                        inPlayAdapter2.setInPlayData(it)
                     }
                 }
 
@@ -104,6 +196,17 @@ class InPlayTabFragment : Fragment(), InPlayAdapter.OnInPlayClickListener {
                 }
             }
         }
+    }
+
+    private fun checkPin(data: List<ResultItem?>?, inPlayAdapter: InPlayAdapter) {
+        data?.forEach { item ->
+            activeMultiMarketList.forEach { active ->
+                if (active?.matchId == item?.marketId) {
+                    item?.isPinned = true
+                }
+            }
+        }
+        inPlayAdapter.setInPlayData(data)
     }
 
     override fun onAttach(context: Context) {

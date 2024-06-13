@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.DataItem
 import com.sona.babu88.api.model.response.ResultItem
 import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentTodayBinding
@@ -24,6 +25,9 @@ class TodayFragment : Fragment(), TodayAdapter.OnTodayClickListener {
     private lateinit var todayAdapter2: TodayAdapter
     private val sportsViewModel: SportsViewModel by viewModels()
     private var listener: OnSportsInteractionListener? = null
+    private val activeMultiMarketList = arrayListOf<DataItem?>()
+    private var adapterPosition: Int? = null
+    private var item: ResultItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +51,57 @@ class TodayFragment : Fragment(), TodayAdapter.OnTodayClickListener {
         setCricketAdapter()
         setSoccerAdapter()
         setTennisAdapter()
-        observerToday()
+        observerActiveMultiMarket()
+//        observerToday()
+
+        sportsViewModel.multiMatchUser.observe(viewLifecycleOwner) {
+            if (adapterPosition == null || item == null) return@observe
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress1()
+                    if (adapterPosition == todayAdapter.selectedPos && item?.sportId == 4) {
+                        todayAdapter.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = true)
+                        )
+                    } else if (adapterPosition == todayAdapter1.selectedPos && item?.sportId == 1) {
+                        todayAdapter1.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = true)
+                        )
+                    } else if (adapterPosition == todayAdapter2.selectedPos && item?.sportId == 2) {
+                        todayAdapter2.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = true)
+                        )
+                    }
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    if (adapterPosition == todayAdapter.selectedPos && item?.sportId == 4) {
+                        todayAdapter.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = false)
+                        )
+                    } else if (adapterPosition == todayAdapter1.selectedPos && item?.sportId == 1) {
+                        todayAdapter1.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = false)
+                        )
+                    } else if (adapterPosition == todayAdapter2.selectedPos && item?.sportId == 2) {
+                        todayAdapter2.notifyItemUpdated(
+                            adapterPosition!!,
+                            item!!.copy(isPinned = false)
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun setCricketAdapter() {
@@ -75,6 +129,41 @@ class TodayFragment : Fragment(), TodayAdapter.OnTodayClickListener {
         listener?.onSportsClick(item?.id)
     }
 
+    override fun pinMatchClickListener(
+        item: ResultItem?,
+        adapterPosition: Int
+    ) {
+        sportsViewModel.getMultiMatchUser(
+            matchId = item?.id
+        )
+        this.adapterPosition = adapterPosition
+        this.item = item
+    }
+
+    private fun observerActiveMultiMarket() {
+        sportsViewModel.getActiveMultiMarket()
+
+        sportsViewModel.activeMultiMarket.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress1()
+                }
+
+                is ApiResult.Success -> {
+//                    this.hideProgress1()
+                    activeMultiMarketList.clear()
+                    it.data?.data?.let { it1 -> activeMultiMarketList.addAll(it1) }
+                    observerToday()
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress1()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
+    }
+
     private fun observerToday() {
         sportsViewModel.getTodayMatches()
         sportsViewModel.todayMatches.observe(viewLifecycleOwner) { it ->
@@ -86,15 +175,18 @@ class TodayFragment : Fragment(), TodayAdapter.OnTodayClickListener {
                 is ApiResult.Success -> {
                     this.hideProgress1()
                     sportsViewModel.cricketData.observe(viewLifecycleOwner) {
-                        todayAdapter.setTodayData(it)
+                        checkPin(it, todayAdapter)
+//                        todayAdapter.setTodayData(it)
                     }
 
                     sportsViewModel.soccerData.observe(viewLifecycleOwner) {
-                        todayAdapter1.setTodayData(it)
+                        checkPin(it, todayAdapter1)
+//                        todayAdapter1.setTodayData(it)
                     }
 
                     sportsViewModel.tennisData.observe(viewLifecycleOwner) {
-                        todayAdapter2.setTodayData(it)
+                        checkPin(it, todayAdapter2)
+//                        todayAdapter2.setTodayData(it)
                     }
                 }
 
@@ -104,6 +196,17 @@ class TodayFragment : Fragment(), TodayAdapter.OnTodayClickListener {
                 }
             }
         }
+    }
+
+    private fun checkPin(data: List<ResultItem?>?, todayAdapter: TodayAdapter) {
+        data?.forEach { item ->
+            activeMultiMarketList.forEach { active ->
+                if (active?.matchId == item?.marketId) {
+                    item?.isPinned = true
+                }
+            }
+        }
+        todayAdapter.setTodayData(data)
     }
 
     override fun onAttach(context: Context) {

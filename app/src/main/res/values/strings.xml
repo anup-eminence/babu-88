@@ -226,4 +226,13 @@
     <string name="_0">0</string>
     <string name="_00">00</string>
     <string name="point">.</string>
+    <string name="pin">Pin</string>
+    <string name="refresh">Refresh</string>
+    <string name="match_odds">Match Odds</string>
+    <string name="matched">Matched</string>
+    <string name="pte">PTE</string>
+    <string name="boookmaker_market">Boookmaker Market</string>
+    <string name="zedo_commission">| Zedo Commission</string>
+    <string name="fancy_bet">Fancy Bet</string>
+    <string name="premium_cricket">Premium Cricket</string>
 </resources>

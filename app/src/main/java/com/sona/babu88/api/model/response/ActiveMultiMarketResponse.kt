@@ -26,5 +26,6 @@ data class DataItem(
     @field:SerializedName("startTime") val startTime: Long?,
     @field:SerializedName("_id") val id: Ids?,
     @field:SerializedName("_class") val _class: String?,
-    @field:SerializedName("matchid") val matchId: String?
+    @field:SerializedName("matchid") val matchId: String?,
+    var isPinned: Boolean? = false
 )

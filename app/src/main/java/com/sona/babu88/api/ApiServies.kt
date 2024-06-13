@@ -37,6 +37,7 @@ import com.sona.babu88.api.model.response.GetBankingChannelListResponse
 import com.sona.babu88.api.model.response.GetBankingMethodsResponse
 import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
 import com.sona.babu88.api.model.response.GetUserSideBarMatchesResponse
+import com.sona.babu88.api.model.response.InPlayMatchCountResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
@@ -131,7 +132,7 @@ interface ApiServies {
     suspend fun getUserSideBarMatches(@Body getUserSideBarMatchesRequest: GetUserSideBarMatchesRequest): Response<GetUserSideBarMatchesResponse>
 
     @POST(ApiConstants.GET_IN_PLAY_MATCHES_COUNT)
-    suspend fun getInPlayMatchesCount(@Body generalRequest: GeneralRequest): Response<Any>
+    suspend fun getInPlayMatchesCount(@Body generalRequest: GeneralRequest): Response<InPlayMatchCountResponse>
 
     @POST(ApiConstants.GET_ACTIVE_MULTI_MARKET)
     suspend fun getActiveMultiMarket(@Body generalRequest: GeneralRequest): Response<ActiveMultiMarketResponse>
