@@ -17,6 +17,11 @@ class DetailsTabAdapter : RecyclerView.Adapter<DetailsTabAdapter.ViewHolder>() {
     var list = emptyList<HomeTab?>()
     private var onTabItemClickListener: OnTabItemClickListener? = null
 
+    fun findPosition(title: String): Int {
+        val item = list.find { it?.text == title }
+        return if (title.equals("ALL", ignoreCase = true)) 0 else list.indexOf(item)
+    }
+
     fun setTabData(itemList: List<HomeTab?>?) {
         if (itemList != null) {
             list = itemList

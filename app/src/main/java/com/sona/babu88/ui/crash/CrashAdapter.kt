@@ -47,11 +47,11 @@ class CrashAdapter : RecyclerView.Adapter<CrashAdapter.ViewHolder>() {
         }
 
         holder.binding.root.setOnClickListener {
-            onItemClickListener?.onItemClickListener()
+            onItemClickListener?.onItemClickListener(item)
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener()
+        fun onItemClickListener(item: CrashList?)
     }
 }

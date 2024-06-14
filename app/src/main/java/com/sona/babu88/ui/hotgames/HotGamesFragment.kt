@@ -53,18 +53,12 @@ class HotGamesFragment : Fragment(), HotGamesAdapter.OnItemClickListener,
     }
 
     private fun setHotGamesData() {
-        fishingList.add(FishingList(R.drawable.img_home_1))
-        fishingList.add(FishingList(R.drawable.img_home_2))
-        fishingList.add(FishingList(R.drawable.img_home_3))
-        fishingList.add(FishingList(R.drawable.img_home_4))
-        fishingList.add(FishingList(R.drawable.img_home_5))
-        fishingList.add(FishingList(R.drawable.img_home_6))
-        fishingList.add(FishingList(R.drawable.img_home_7))
-        fishingList.add(FishingList(R.drawable.img_home_8))
-        fishingList.add(FishingList(R.drawable.img_home_9))
-        fishingList.add(FishingList(R.drawable.img_home_10))
-        fishingList.add(FishingList(R.drawable.img_home_11))
-        fishingList.add(FishingList(R.drawable.img_home_12))
+        fishingList.add(FishingList(R.drawable.img_hot_1))
+        fishingList.add(FishingList(R.drawable.img_hot_2))
+        fishingList.add(FishingList(R.drawable.img_hot_3))
+        fishingList.add(FishingList(R.drawable.img_hot_4))
+        fishingList.add(FishingList(R.drawable.img_hot_5))
+        fishingList.add(FishingList(R.drawable.img_hot_6))
     }
 
     override fun onItemClickListener() {
