@@ -49,7 +49,11 @@ class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
         val item = list[position]
         holder.binding.apply {
             if (item != null) {
-                Glide.with(root.context).load(item.image).into(image)
+                if (item.isStaticImage == true) {
+                    image.setImageResource(item.staticImage!!)
+                } else {
+                    Glide.with(root.context).load(item.image).into(image)
+                }
                 tvName.text = item.name
                 imageHot.show()
                 tvNew.hide()

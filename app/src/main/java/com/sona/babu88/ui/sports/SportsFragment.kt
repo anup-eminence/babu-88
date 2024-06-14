@@ -1,5 +1,6 @@
 package com.sona.babu88.ui.sports
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.databinding.FragmentSportsBinding
 import com.sona.babu88.model.FishingList
-import com.sona.babu88.ui.fishing.FishingAdapter
-import com.sona.babu88.util.showToast
+import com.sona.babu88.util.OnSelectedFragmentListener
 
 class SportsFragment : Fragment(), SportsAdapter.OnItemClickListener {
     private lateinit var binding: FragmentSportsBinding
     private lateinit var sportsAdapter: SportsAdapter
     private var fishingList = arrayListOf<FishingList>()
+    private var listener: OnSelectedFragmentListener?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,21 @@ class SportsFragment : Fragment(), SportsAdapter.OnItemClickListener {
         fishingList.add(FishingList(R.drawable.img_sports_1))
     }
 
-    override fun onItemClickListener() {
-        requireContext().showToast("Clicked...")
+    override fun onItemClickListener(item: FishingList?) {
+        item?.image?.let { listener?.onFragmentClickListener(arrayListOf("Sports", "", "ALL", "4")) }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnSelectedFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnSelectedFragmentListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 }

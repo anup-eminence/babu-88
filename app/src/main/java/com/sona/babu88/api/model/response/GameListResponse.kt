@@ -18,5 +18,7 @@ data class GameImage(
     @SerializedName("category_id") val categoryId: String,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
-    @SerializedName("__v") val version: Double
+    @SerializedName("__v") val version: Double,
+    var isStaticImage: Boolean? = false,
+    var staticImage: Int? = null
 )

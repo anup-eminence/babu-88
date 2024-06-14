@@ -122,7 +122,7 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
             }
 
             else -> {
-                R.drawable.evoplay_banner
+                -1
             }
         }
 

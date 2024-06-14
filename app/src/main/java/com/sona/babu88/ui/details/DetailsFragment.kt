@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
-import com.sona.babu88.api.model.response.GameListResponse
+import com.sona.babu88.api.model.response.GameImage
 import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentDetailsBinding
 import com.sona.babu88.model.HomeTab
-import com.sona.babu88.util.hide
 import com.sona.babu88.util.hideProgress
-import com.sona.babu88.util.show
 import com.sona.babu88.util.showProgress
 import com.sona.babu88.util.showToast
 
@@ -36,6 +34,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     private var currentIndex = 0
     private var currentPage = 1
     private var shouldLoadData = true
+    private var selectedTab = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +60,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         super.onViewCreated(view, savedInstanceState)
         initView()
         setOnClickListener()
+        observeApi()
     }
 
     private fun initView() {
@@ -68,7 +68,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         setTabAdapter()
         setDetailsAdapter()
         observer(providers, category)
-        selectedTabPosition(category, providers)
+        selectedTab = providers
     }
 
     private fun setOnClickListener() {
@@ -76,7 +76,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
             leftArrow.setOnClickListener {
                 currentPage = 1
                 shouldLoadData = true
-                detailsAdapter.clearData()
+                if (!category.isNullOrEmpty()) detailsAdapter.clearData()
                 if (currentIndex > 0) {
                     currentIndex--
                     updateData()
@@ -85,7 +85,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
             rightArrow.setOnClickListener {
                 currentPage = 1
                 shouldLoadData = true
-                detailsAdapter.clearData()
+                if (!category.isNullOrEmpty()) detailsAdapter.clearData()
                 if (currentIndex < titleList.size - 1) {
                     currentIndex++
                     updateData()
@@ -94,9 +94,7 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         }
     }
 
-    private fun observer(providers: String, category: String) {
-        homeViewModel.getGameList(provider = providers, category = category, page = currentPage)
-
+    private fun observeApi() {
         homeViewModel.gameList.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResult.Loading -> {
@@ -105,19 +103,23 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
 
                 is ApiResult.Success -> {
                     this.hideProgress()
-                    if (it.data?.allImages?.isEmpty() == true) {
+                    if (category.isNullOrEmpty()) {
                         shouldLoadData = false
+                        setStaticDetailData(titleList[currentIndex])
                     } else {
-                        if (currentPage == 1) detailsAdapter.clearData()
-                        detailsAdapter.setDetailsData(it.data?.allImages)
+                        if (it.data?.allImages?.isEmpty() == true) {
+                            shouldLoadData = false
+                        } else {
+                            if (currentPage == 1) detailsAdapter.clearData()
+                            detailsAdapter.setDetailsData(it.data?.allImages)
+                        }
                     }
                     if (currentPage == 1) {
                         shouldLoadData = true
-                        checkVisibleOrNot(it.data)
                         detailsTabAdapter.setTabData(getProviderList(it.data?.providers))
                     }
-                    detailsTabAdapter.selectedPosition = selectedTabPosition(category, providers)
-                    useTabPosition(providers)
+                    detailsTabAdapter.selectedPosition = detailsTabAdapter.findPosition(selectedTab)
+                    useTabPosition()
                 }
 
                 is ApiResult.Error -> {
@@ -127,38 +129,35 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
             }
         }
 
-        binding.nestedScroll.setOnScrollChangeListener(object :
-            NestedScrollView.OnScrollChangeListener {
-            override fun onScrollChange(
-                v: NestedScrollView,
-                scrollX: Int,
-                scrollY: Int,
-                oldScrollX: Int,
-                oldScrollY: Int
-            ) {
-                // on scroll change we are checking when users scroll as bottom.
-                println(">>>>shouldLoadData $shouldLoadData")
-                if ((scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) && shouldLoadData) {
-                    // in this method we are incrementing page number,
-                    // making progress bar visible and calling get data method.
-                    currentPage++;
-                    homeViewModel.getGameList(
-                        provider = providers,
-                        category = category,
-                        page = currentPage
-                    )
-                }
+        binding.nestedScroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            // on scroll change we are checking when users scroll as bottom.
+            println(">>>>shouldLoadData $shouldLoadData")
+            if ((scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) && shouldLoadData) {
+                // in this method we are incrementing page number,
+                // making progress bar visible and calling get data method.
+                currentPage++;
+                homeViewModel.getGameList(
+                    provider = selectedTab,
+                    category = category,
+                    page = currentPage
+                )
             }
-
-
         })
+    }
+    private fun observer(providers: String, category: String) {
+        selectedTab =  providers
+        homeViewModel.getGameList(provider = providers, category = category, page = currentPage)
     }
 
     private fun getProviderList(providers: List<String>?): List<HomeTab> {
         val tabList = arrayListOf<HomeTab>()
         tabList.add(0, HomeTab(0, ""))
-        providers?.forEach {
-            tabList.add(HomeTab(findImage(it), it))
+        if (providers.isNullOrEmpty()) {
+            setStaticData(tabList, titleList[currentIndex])
+        } else {
+            providers?.forEach {
+                tabList.add(HomeTab(findImage(it), it))
+            }
         }
         return tabList
     }
@@ -192,12 +191,15 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
     }
 
     override fun onTabItemClickListener(item: HomeTab?) {
-        currentPage = 1
-        detailsAdapter.clearData()
-        shouldLoadData = true
-        println(">>>>clicked $shouldLoadData")
-        if (item?.text.isNullOrEmpty().not()) item?.text?.let { observer(it, category) }
-        else observer("ALL", category)
+        if (!category.isNullOrEmpty()) {
+            currentPage = 1
+            detailsAdapter.clearData()
+            shouldLoadData = true
+            selectedTab = item?.text.toString()
+            println(">>>>clicked $shouldLoadData")
+            if (item?.text.isNullOrEmpty().not()) item?.text?.let { observer(it, category) }
+            else observer("ALL", category)
+        }
     }
 
     private fun setDetailsAdapter() {
@@ -211,57 +213,8 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
 
     }
 
-    private fun selectedTabPosition(category: String, provider: String): Int {
-        return when (category) {
-            "SLOT" -> when (provider) {
-                "" -> 0
-                "PP" -> 1
-                "PT" -> 2
-                "JILI" -> 3
-                "JDB" -> 4
-                "FC" -> 5
-                "RT" -> 6
-                "EVOPLAY" -> 7
-                else -> 0
-            }
-
-            "LIVE" -> when (provider) {
-                "" -> 0
-                "SEXY" -> 1
-                "EVO" -> 2
-                "PP" -> 3
-                "PT" -> 4
-                "BETGAMES" -> 5
-                "ROYALGAMING" -> 6
-                "EZUGI" -> 7
-                "EVOPLAY" -> 8
-                else -> 0
-            }
-
-            "FH" -> when (provider) {
-                "" -> 0
-                "JDB" -> 1
-                "FC" -> 2
-                "JILI" -> 3
-                else -> 0
-            }
-
-            "TABLE" -> when (provider) {
-                "" -> 0
-                "JILI" -> 1
-                "FC" -> 2
-                "SPRIBE" -> 3
-                "KM" -> 4
-                "RT" -> 5
-                else -> 0
-            }
-
-            else -> -1
-        }
-    }
-
-    private fun useTabPosition(providers: String) {
-        binding.recyclerViewTab.scrollToPosition(selectedTabPosition(category, providers))
+    private fun useTabPosition() {
+        binding.recyclerViewTab.scrollToPosition(detailsTabAdapter.findPosition(selectedTab))
     }
 
     private fun updateData() {
@@ -270,17 +223,152 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
         observer("ALL", categoryList[currentIndex])
     }
 
-    private fun checkVisibleOrNot(data: GameListResponse?) {
-        binding.apply {
-            if (data?.providers.isNullOrEmpty()) recyclerViewTab.hide()
-            else recyclerViewTab.show()
-            if (data?.allImages.isNullOrEmpty()) {
-                tvNoData.show()
-                recyclerView.hide()
-            } else {
-                tvNoData.hide()
-                recyclerView.show()
+    private fun setStaticData(tabList: ArrayList<HomeTab>, title: String) {
+        when (title) {
+            "Cricket" -> {
+                tabList.add(HomeTab(R.drawable._9wicket, "9Wicket"))
+                tabList.add(HomeTab(R.drawable.betswiz, "BetSwiz"))
+                tabList.add(HomeTab(R.drawable.dream_spots_, "Dream Exchange"))
+            }
+
+            "Sports" -> {
+                tabList.add(HomeTab(R.drawable.aura, "SABA"))
+            }
+
+            "Crash" -> {
+                tabList.add(HomeTab(R.drawable.aura, "Aura"))
+                tabList.add(HomeTab(R.drawable.evo, "Evo"))
+                tabList.add(HomeTab(R.drawable.pt, "PT"))
+                tabList.add(HomeTab(R.drawable.pp, "Pragmatic"))
+                tabList.add(HomeTab(R.drawable.royalgaming_, "Royal"))
+                tabList.add(HomeTab(R.drawable.sexy_, "AE Casino"))
+                tabList.add(HomeTab(R.drawable.ezugi, "Ezugi"))
             }
         }
+    }
+
+    private fun setStaticDetailData(title: String) {
+        val list = arrayListOf<GameImage?>()
+        list.clear()
+        detailsAdapter.clearData()
+
+        fun addGameImage(
+            name: String,
+            image: String,
+            isStaticImage: Boolean = false,
+            staticImage: Int? = null
+        ) {
+            list.add(
+                GameImage(
+                    id = "",
+                    name = name,
+                    gameCode = "",
+                    imageFavGame = false,
+                    imageUrl = "",
+                    image = image,
+                    providerId = "",
+                    categoryId = "",
+                    createdAt = "",
+                    updatedAt = "",
+                    version = 0.0,
+                    isStaticImage = isStaticImage,
+                    staticImage = staticImage
+                )
+            )
+        }
+
+        when (title) {
+            "Cricket" -> {
+                addGameImage(
+                    name = "Exchange",
+                    isStaticImage = true,
+                    image = "",
+                    staticImage = R.drawable.img_betswiz_
+                )
+                addGameImage(
+                    name = "9Wickets",
+                    isStaticImage = true,
+                    image = "",
+                    staticImage = R.drawable.img_9wickets
+                )
+                addGameImage(
+                    name = "Dream Exchange",
+                    isStaticImage = true,
+                    image = "",
+                    staticImage = R.drawable.img_dream_sports
+                )
+            }
+
+            "Sports" -> {
+                addGameImage(
+                    name = "IBC Sports",
+                    image = "https://akm-media.9terawolf.com/images/babu/game_icons/en/ibc/0_0.jpg"
+                )
+            }
+
+            "Crash" -> {
+                addGameImage(
+                    name = "Aviator",
+                    image = "https://luckmedia.link/spb_aviator/thumb.webp"
+                )
+                addGameImage(
+                    name = "Go Rush",
+                    image = "https://akm-media.9terawolf.com/cms/h8/image/646c363d76997.png"
+                )
+                addGameImage(
+                    name = "NFT Aviatrix",
+                    image = "https://luckmedia.link/avx_nft_aviatrix/thumb.webp"
+                )
+                addGameImage(
+                    name = "PlinkoX",
+                    image = "https://luckmedia.link/sms_plinkox/thumb.webp"
+                )
+                addGameImage(
+                    name = "CricketX",
+                    image = "https://luckmedia.link/sms_cricketx/thumb.webp"
+                )
+                addGameImage(
+                    name = "Zeppelin",
+                    image = "https://luckmedia.link/btsl_zeppelin/thumb.webp"
+                )
+                addGameImage(
+                    name = "Baloon",
+                    image = "https://luckmedia.link/sms_baloon/thumb.webp"
+                )
+                addGameImage(
+                    name = "JetX",
+                    image = "https://luckmedia.link/sms_jetx/thumb.webp"
+                )
+                addGameImage(
+                    name = "Multi Hot 5",
+                    image = "https://luckmedia.link/sms_multi_hot_5/thumb.webp"
+                )
+                addGameImage(
+                    name = "JetX3",
+                    image = "https://luckmedia.link/sms_jetx3/thumb.webp"
+                )
+                addGameImage(
+                    name = "Cappadocia",
+                    image = "https://luckmedia.link/sms_cappadocia/thumb.webp"
+                )
+                addGameImage(
+                    name = "SpinX",
+                    image = "https://luckmedia.link/sms_spinx/thumb.webp"
+                )
+                addGameImage(
+                    name = "Foxy Hot 20",
+                    image = "https://luckmedia.link/sms_foxy_hot_20/thumb.webp"
+                )
+                addGameImage(
+                    name = "Smash X",
+                    image = "https://luckmedia.link/sms_smash_x/thumb.webp"
+                )
+                addGameImage(
+                    name = "Crash Duel X",
+                    image = "https://luckmedia.link/sms_crash_duel_x/thumb.webp"
+                )
+            }
+        }
+        detailsAdapter.setDetailsData(list)
     }
 }
