@@ -46,7 +46,6 @@ class SportsFragment : Fragment(), SportsAdapter.OnItemClickListener {
     }
 
     private fun setFishingData() {
-        fishingList.add(FishingList(R.drawable.img_sports_2))
         fishingList.add(FishingList(R.drawable.img_sports_1))
     }
 
