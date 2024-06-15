@@ -301,6 +301,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         binding.layoutMatchOdds.root.show()
         binding.layoutMatchOdds.apply {
             setTextViewSelected(root.context, binding.tvMatchOdds, R.color.bg_color, R.color.white)
+            tvTitle.text = preMarketList[0].name
             tvMatchTitle.text = pList[0].selectionName
             tvMatchTitle2.text = pList[1].selectionName
         }
