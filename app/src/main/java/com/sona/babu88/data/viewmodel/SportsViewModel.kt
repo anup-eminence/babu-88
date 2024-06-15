@@ -29,8 +29,6 @@ import com.sona.babu88.api.model.response.UserProfileResponse
 import com.sona.babu88.util.AppConstant
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 
 class SportsViewModel : ViewModel() {
     private val _userSideBarMatches = MutableLiveData<ApiResult<GetUserSideBarMatchesResponse?>>()
@@ -327,7 +325,7 @@ class SportsViewModel : ViewModel() {
                         val listType2 = object : TypeToken<List<PreMatchMarket>>() {}.type
 
                         val selectionIdsList = codeResponse.body()?.selctionIds?.let {
-                            it.replace(it.substring(0,1),"[").replace("\"","")
+                            it.replace(it.substring(0,1),"[").replace("\\","")
                         }
 
                         println(">>>>>>>>prematch ${codeResponse.body()?.preMatchMarket}")

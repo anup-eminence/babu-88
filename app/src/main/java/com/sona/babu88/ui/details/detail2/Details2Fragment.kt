@@ -1,17 +1,24 @@
 package com.sona.babu88.ui.details.detail2
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
+import com.sona.babu88.api.model.response.PSelection
+import com.sona.babu88.api.model.response.PreMatchMarket
 import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentDetails2Binding
 import com.sona.babu88.util.hide
@@ -20,7 +27,7 @@ import com.sona.babu88.util.show
 import com.sona.babu88.util.showProgress1
 import com.sona.babu88.util.showToast
 
-class Details2Fragment : Fragment() {
+class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener {
     private lateinit var binding: FragmentDetails2Binding
     private lateinit var detailsAdapter: DetailsAdapter
     private val detailList = arrayListOf<DetailsList>()
@@ -31,6 +38,13 @@ class Details2Fragment : Fragment() {
     }
     private val sportsViewModel: SportsViewModel by viewModels()
     private var eventId = ""
+    private lateinit var detailsHorizontalAdapter: DetailsHorizontalAdapter
+    private var preMarketList = arrayListOf<PreMatchMarket>()
+    private var getUserMatchDetailResponse: GetUserMatchDetailResponse? = null
+
+    private fun getPSelectionList(pos: Int): List<PSelection> {
+        return preMarketList[pos].getPSelectionList()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +69,12 @@ class Details2Fragment : Fragment() {
 
     private fun initView() {
         setUpAdapter()
+        setUpTabAdapter()
         setDataFancy()
-       observerMatchDetails()
+        observerMatchDetails()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setOnClickListener() {
         binding.apply {
             tvFancyBet.setOnClickListener {
@@ -93,11 +109,21 @@ class Details2Fragment : Fragment() {
                 setDataPremium()
             }
             btnClose.setOnClickListener { view.hide() }
-            tv1.setOnClickListener { showLayoutBet(R.color.bg_bet1) }
-            tv2.setOnClickListener { showLayoutBet(R.color.bg_bet2) }
-            tv3.setOnClickListener { showLayoutBet(R.color.bg_bet1) }
-            tv4.setOnClickListener { showLayoutBet(R.color.bg_bet2) }
+            layout1.cl1.setOnClickListener { showLayoutBet(R.color.bg_bet1) }
+            layout1.cl2.setOnClickListener { showLayoutBet(R.color.bg_bet2) }
+            layout1.cl3.setOnClickListener { showLayoutBet(R.color.bg_bet1) }
+            layout1.cl4.setOnClickListener { showLayoutBet(R.color.bg_bet2) }
             setNumberClick()
+
+            tvMatchOdds.setOnClickListener {
+                layout1.root.show()
+                layoutMatchOdds.root.hide()
+                detailsHorizontalAdapter.selectedPosition = -1
+                detailsHorizontalAdapter.notifyDataSetChanged()
+                setTextViewSelected(root.context, binding.tvMatchOdds, R.color.black, R.color.text_yellow)
+                layout1.tvMatchTitle.text = getUserMatchDetailResponse?.team1
+                layout1.tvMatchTitle2.text = getUserMatchDetailResponse?.team2
+            }
         }
     }
 
@@ -245,12 +271,17 @@ class Details2Fragment : Fragment() {
 
                 is ApiResult.Success -> {
                     this.hideProgress1()
-                    binding.tvMatchTitle.text = it.data?.team1
-                    binding.tvMatchTitle2.text = it.data?.team2
-                    binding.tvMatchTitle3.text = it.data?.team1
-                    binding.tvMatchTitle4.text = it.data?.team2
+                    binding.apply {
+                    layout1.tvMatchTitle.text = it.data?.team1
+                    layout1.tvMatchTitle2.text = it.data?.team2
+                    layout2.tvMatchTitle.text = it.data?.team1
+                    layout2.tvMatchTitle2.text = it.data?.team2
+                    }
                     println("> getUserMatchDetail >>>>>> ${it.data}")
-
+                    preMarketList.clear()
+                    it.data?.preMatchMarketList?.let { it1 -> preMarketList.addAll(it1) }
+                    detailsHorizontalAdapter.setData(it.data?.preMatchMarketList)
+                    getUserMatchDetailResponse = it.data
                 }
 
                 is ApiResult.Error -> {
@@ -260,5 +291,29 @@ class Details2Fragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setUpTabAdapter() {
+        binding.recyclerViewOdds.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        detailsHorizontalAdapter = DetailsHorizontalAdapter()
+        detailsHorizontalAdapter.setOnItemClickListener(this@Details2Fragment)
+        binding.recyclerViewOdds.adapter = detailsHorizontalAdapter
+    }
+
+    override fun onTabClickListener(selectedPosition: Int) {
+        val pList = getPSelectionList(selectedPosition)
+        binding.layout1.root.hide()
+        binding.layoutMatchOdds.root.show()
+        binding.layoutMatchOdds.apply {
+            setTextViewSelected(root.context, binding.tvMatchOdds, R.color.bg_color, R.color.white)
+            tvMatchTitle.text = pList[0].selectionName
+            tvMatchTitle2.text = pList[1].selectionName
+        }
+    }
+
+    private fun setTextViewSelected(context: Context, textView: TextView, backgroundColor: Int, textColor: Int) {
+        textView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, backgroundColor))
+        textView.setTextColor(ContextCompat.getColor(context, textColor))
     }
 }
