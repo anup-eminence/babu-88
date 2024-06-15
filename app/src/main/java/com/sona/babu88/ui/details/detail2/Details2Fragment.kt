@@ -77,29 +77,21 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     @SuppressLint("NotifyDataSetChanged")
     private fun setOnClickListener() {
         binding.apply {
-            tvFancyBet.setOnClickListener {
-                tvFancyBet.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.bg3))
+            premimum1.root.setOnClickListener {
+                topLayout2.hide()
+                topLayout.show()
                 recyclerView.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.bg3
                     )
                 )
-                tvPremiumCricket.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.bg_color
-                    )
-                )
                 setDataFancy()
             }
-            tvPremiumCricket.setOnClickListener {
-                tvPremiumCricket.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.bg5
-                    )
-                )
+
+            premimum.root.setOnClickListener {
+                topLayout2.show()
+                topLayout.hide()
                 recyclerView.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -108,6 +100,8 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
                 )
                 setDataPremium()
             }
+
+
             btnClose.setOnClickListener { view.hide() }
             layout1.cl1.setOnClickListener { showLayoutBet(R.color.bg_bet1) }
             layout1.cl2.setOnClickListener { showLayoutBet(R.color.bg_bet2) }

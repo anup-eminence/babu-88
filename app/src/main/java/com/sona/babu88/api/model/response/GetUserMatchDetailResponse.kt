@@ -31,13 +31,19 @@ data class GetUserMatchDetailResponse(
     val preMatchMarketList: List<PreMatchMarket>?,
     @field:SerializedName("isOther") val isOther: Boolean?,
     @field:SerializedName("device") val device: String?
-)
+){
+    fun getSelectionIdsListItem(): List<SelectionIds> {
+        val listType = object : TypeToken<List<SelectionIds>>() {}.type
+        return Gson().fromJson(selctionIds, listType)
+    }
+
+}
 
 data class SelectionIds(
-    val id: String,
-    val selectionid: Long,
-    val runnerName: String,
-    val marketid: String
+    @SerializedName("id")   val id: String,
+    @SerializedName("selectionid")  val selectionid: Long,
+    @SerializedName("runnerName") val runnerName: String,
+    @SerializedName("marketid") val marketid: String
 )
 
 data class PreMatchMarket(
