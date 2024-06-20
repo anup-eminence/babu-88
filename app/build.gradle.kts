@@ -72,5 +72,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
-
+    implementation (libs.socket.io.client)
+    implementation (libs.json)
 }
