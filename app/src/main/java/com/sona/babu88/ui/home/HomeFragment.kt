@@ -3,6 +3,7 @@ package com.sona.babu88.ui.home
 import MySharedPreferences
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.model.response.UserData
+import com.sona.babu88.data.socket.SocketHandler
+import com.sona.babu88.data.socket.SocketListener
 import com.sona.babu88.databinding.FragmentHomeBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.model.HomeTab
@@ -31,9 +34,15 @@ import com.sona.babu88.util.provideViewPagerList
 import com.sona.babu88.util.replaceFragment
 import com.sona.babu88.util.show
 import com.sona.babu88.util.showExitAlert
+import com.sona.babu88.util.showToast
+import io.socket.client.Socket
+import okhttp3.OkHttpClient
+import okhttp3.WebSocket
+import org.json.JSONObject
 
 class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
-    FeaturedGamesAdapter.OnFeaturedItemClickListener, CasinoGamesAdapter.OnCasinoItemClickListener {
+    FeaturedGamesAdapter.OnFeaturedItemClickListener, CasinoGamesAdapter.OnCasinoItemClickListener,
+    SocketListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapterVP: ViewPagerAdapter
     private lateinit var homeTabAdapter: HomeTabAdapter
@@ -44,6 +53,9 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     private var featuredGameList = arrayListOf<FeaturedGameList>()
     private var listener: OnAccountListener? = null
     private var userData : UserData?=null
+
+    private lateinit var client: OkHttpClient
+    private lateinit var webSocket: WebSocket
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +85,24 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         } else {
             binding.clHome.hide()
         }
+
+        binding.ivRefresh.setOnClickListener {
+            /*val d = MyWebSocketClient()
+            d.start()*/
+           callSocket()
+        }
+
+        binding.userName.setOnClickListener {
+            requireContext().showToast("clicked")
+            SocketHandler.removeEventListener("MEvent/Auto","33352266")
+        }
+    }
+
+
+    private fun callSocket() {
+        SocketHandler.setSocket()
+        SocketHandler.establishConnection(this@HomeFragment)
+        SocketHandler.setSocketEvent("MEvent/Auto","33352266")
     }
 
     private fun initView() {
@@ -231,5 +261,21 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    override fun onSocketErrorOccured(error: String) {
+       println(">>>>>errorOccured $error")
+    }
+
+    override fun onSocketDisConnected() {
+        println(">>>>>socket Disconnected")
+    }
+
+    override fun onSocketConnected() {
+        println(">>>>>socket onSocketConnected")
+    }
+
+    override fun onSocketResponseReceived(data: Any) {
+        println(">>>>>socket onSocketResponseReceived $data")
     }
 }

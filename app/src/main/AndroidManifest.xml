@@ -11,6 +11,7 @@
         android:icon="@drawable/babu88_logo"
         android:label="@string/app_name"
         android:name=".util.MyApp"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@drawable/babu88_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Babu88"
