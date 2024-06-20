@@ -42,4 +42,5 @@ object ApiConstants {
     const val GET_SPORTS_PL = "$API_USER/getSportsPL"
     const val GET_MATCH_RESULT_LIST = "$API_USER/getMatchResultList"
     const val GET_USER_LOGIN_ACTIVITY = "$API_USER/getUserLoginActivity"
+    const val GET_MESSAGE_WEBSITE = "$API_USER/getMessageWebsite"
 }

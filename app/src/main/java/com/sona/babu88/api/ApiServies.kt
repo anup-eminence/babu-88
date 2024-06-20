@@ -38,6 +38,7 @@ import com.sona.babu88.api.model.response.GetBankingMethodsResponse
 import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
 import com.sona.babu88.api.model.response.GetUserSideBarMatchesResponse
 import com.sona.babu88.api.model.response.InPlayMatchCountResponse
+import com.sona.babu88.api.model.response.MessageWebsiteResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
@@ -166,4 +167,7 @@ interface ApiServies {
 
     @POST(ApiConstants.GET_USER_LOGIN_ACTIVITY)
     suspend fun getUserLoginActivity(@Body userLoginActivityRequest: UserLoginActivityRequest): Response<UserLoginActivityResponse>
+
+    @POST(ApiConstants.GET_MESSAGE_WEBSITE)
+    suspend fun getMessageWebsite(@Body generalRequest: GeneralRequest): Response<MessageWebsiteResponse>
 }

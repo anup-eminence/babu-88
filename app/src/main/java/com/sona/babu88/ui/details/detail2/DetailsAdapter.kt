@@ -3,10 +3,14 @@ package com.sona.babu88.ui.details.detail2
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.sona.babu88.R
 import com.sona.babu88.databinding.ItemDetail2Binding
 
 class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
+    var selectedPosition = 0
+    private var lastSelectedPosition = -1
     var list = emptyList<DetailsList?>()
 
     private var onClickListener: OnClickListener? = null
@@ -47,7 +51,19 @@ class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
 
         holder.binding.apply {
             root.setOnClickListener {
+                lastSelectedPosition = selectedPosition
+                selectedPosition = holder.adapterPosition
                 onClickListener?.onClickListener()
+                notifyItemChanged(lastSelectedPosition)
+                notifyItemChanged(selectedPosition)
+            }
+
+            if (selectedPosition == holder.adapterPosition) {
+                text.setBackgroundDrawable(ContextCompat.getDrawable(root.context, R.drawable.bg_4_solid_white))
+                text.setTextColor(ContextCompat.getColor(root.context, R.color.black))
+            } else {
+                text.setBackgroundDrawable(ContextCompat.getDrawable(root.context, R.drawable.bg_4_corner_border))
+                text.setTextColor(ContextCompat.getColor(root.context, R.color.white))
             }
         }
     }
@@ -60,3 +76,7 @@ class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
 data class DetailsList(
     val text: String
 )
+
+
+
+//06 May 2024 test: testing data           06 May 2024 test2: testing 2             06 May 2024 welcome to kingbd: We Welcome you all to KingBd.com

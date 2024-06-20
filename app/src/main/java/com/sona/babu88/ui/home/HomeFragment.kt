@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.data.socket.SocketHandler
 import com.sona.babu88.data.socket.SocketListener
+import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.FragmentHomeBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.model.HomeTab
@@ -53,6 +56,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     private var featuredGameList = arrayListOf<FeaturedGameList>()
     private var listener: OnAccountListener? = null
     private var userData : UserData?=null
+    private val homeViewModel: HomeViewModel by viewModels()
 
     private lateinit var client: OkHttpClient
     private lateinit var webSocket: WebSocket
@@ -71,6 +75,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         setViewPager()
         setTabAdapter()
         setTabData()
+        observerMessageWebsite()
         setFeaturedGamesAdapter()
         setFeaturedGamesData()
         setCasinoGamesAdapter()
@@ -107,7 +112,6 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
 
     private fun initView() {
         userData = MySharedPreferences.getSavedObjectFromPreference(requireContext(), AppConstant.USER_DATA)
-        binding.tvMarquee.isSelected = true
         val hotGamesFragment = HotGamesFragment()
         this.replaceFragment(binding.container.id, hotGamesFragment, false, "hot_games")
         binding.userName.text = userData?.user?.userName
@@ -261,21 +265,5 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     override fun onDetach() {
         super.onDetach()
         listener = null
-    }
-
-    override fun onSocketErrorOccured(error: String) {
-       println(">>>>>errorOccured $error")
-    }
-
-    override fun onSocketDisConnected() {
-        println(">>>>>socket Disconnected")
-    }
-
-    override fun onSocketConnected() {
-        println(">>>>>socket onSocketConnected")
-    }
-
-    override fun onSocketResponseReceived(data: Any) {
-        println(">>>>>socket onSocketResponseReceived $data")
     }
 }
