@@ -266,4 +266,48 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         super.onDetach()
         listener = null
     }
+
+    private fun observerMessageWebsite() {
+        binding.tvMarquee.isSelected = true
+        homeViewModel.getMessageWebsite()
+
+        homeViewModel.messageWebsite.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {}
+
+                is ApiResult.Success -> {
+                    val text = StringBuilder()
+                    if (it.data?.data?.isNullOrEmpty() == true) {
+                        text.append("--            --             --             --                --             --             --             --")
+                    }
+                    else {
+                        it.data?.data?.forEachIndexed { _, item ->
+                            text.append("${item?.day} ${item?.month} ${item?.year} ${item?.title}: ${item?.message}       ")
+                        }
+                    }
+                    binding.tvMarquee.text = text
+                }
+
+                is ApiResult.Error -> {}
+                else -> {}
+            }
+        }
+    }
+
+    override fun onSocketErrorOccured(error: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSocketDisConnected() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSocketConnected() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSocketResponseReceived(data: Any) {
+        TODO("Not yet implemented")
+    }
+
 }
