@@ -3,70 +3,30 @@ package com.sona.babu88.api.model.response
 import com.google.gson.annotations.SerializedName
 
 data class MessageWebsiteResponse(
-
-	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
-
-	@field:SerializedName("status")
-	val status: String? = null
+    @field:SerializedName("data") val data: List<Item?>?,
+    @field:SerializedName("status") val status: String?
 )
 
-data class Id(
-
-	@field:SerializedName("date")
-	val date: String? = null,
-
-	@field:SerializedName("timestamp")
-	val timestamp: Int? = null
+data class _Id(
+    @field:SerializedName("date") val date: String?,
+    @field:SerializedName("timestamp") val timestamp: Int?
 )
 
-data class DataItem(
-
-	@field:SerializedName("date")
-	val date: String? = null,
-
-	@field:SerializedName("website")
-	val website: String? = null,
-
-	@field:SerializedName("year")
-	val year: String? = null,
-
-	@field:SerializedName("webParent")
-	val webParent: String? = null,
-
-	@field:SerializedName("updatedOn")
-	val updatedOn: String? = null,
-
-	@field:SerializedName("title")
-	val title: String? = null,
-
-	@field:SerializedName("message")
-	val message: String? = null,
-
-	@field:SerializedName("isLock")
-	val isLock: Boolean? = null,
-
-	@field:SerializedName("month")
-	val month: String? = null,
-
-	@field:SerializedName("subType")
-	val subType: String? = null,
-
-	@field:SerializedName("_id")
-	val id: Id? = null,
-
-	@field:SerializedName("messageDate")
-	val messageDate: String? = null,
-
-	@field:SerializedName("userType")
-	val userType: Int? = null,
-
-	@field:SerializedName("_class")
-	val class: String? = null,
-
-	@field:SerializedName("updateLong")
-	val updateLong: Long? = null,
-
-	@field:SerializedName("day")
-	val day: String? = null
+data class Item(
+    @field:SerializedName("date") val date: String?,
+    @field:SerializedName("website") val website: String?,
+    @field:SerializedName("year") val year: String?,
+    @field:SerializedName("webParent") val webParent: String?,
+    @field:SerializedName("updatedOn") val updatedOn: String?,
+    @field:SerializedName("title") val title: String?,
+    @field:SerializedName("message") val message: String?,
+    @field:SerializedName("isLock") val isLock: Boolean?,
+    @field:SerializedName("month") val month: String?,
+    @field:SerializedName("subType") val subType: String?,
+    @field:SerializedName("_id") val id: _Id?,
+    @field:SerializedName("messageDate") val messageDate: String?,
+    @field:SerializedName("userType") val userType: Int?,
+    @field:SerializedName("_class") val _class: String?,
+    @field:SerializedName("updateLong") val updateLong: Long?,
+    @field:SerializedName("day") val day: String?
 )

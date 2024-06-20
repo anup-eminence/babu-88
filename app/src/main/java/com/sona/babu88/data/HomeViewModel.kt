@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.RetrofitUtil
 import com.sona.babu88.api.model.request.GameListRequest
+import com.sona.babu88.api.model.request.GeneralRequest
 import com.sona.babu88.api.model.request.PromoFilterRequest
 import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.SpecialGameListRequest
 import com.sona.babu88.api.model.response.GameListResponse
+import com.sona.babu88.api.model.response.MessageWebsiteResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.SpecialGameListResponse
@@ -32,6 +34,9 @@ class HomeViewModel : ViewModel() {
 
     private val _promotionFilter = MutableLiveData<ApiResult<List<PromoFilterResponse>?>>()
     val promotionFilter: LiveData<ApiResult<List<PromoFilterResponse>?>> get() = _promotionFilter
+
+    private val _messageWebsite = MutableLiveData<ApiResult<MessageWebsiteResponse?>>()
+    val messageWebsite: LiveData<ApiResult<MessageWebsiteResponse?>> get() = _messageWebsite
 
     fun getGameList(
         provider: String,
@@ -158,4 +163,32 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun getMessageWebsite() {
+        viewModelScope.launch {
+            _messageWebsite.postValue(ApiResult.Loading())
+            try {
+                val request = getTimeStamp()
+                val generalRequest = GeneralRequest(
+                    timeStamp = request[TIMESTAMP].toString(),
+                    secretKey = request[SECRET_KEY].toString()
+                )
+                val verifyUser = RetrofitUtil.apiServies.verifyUser(generalRequest)
+
+                if (verifyUser.isSuccessful) {
+                    val response = RetrofitUtil.apiServies.getMessageWebsite(generalRequest)
+                    if (response.isSuccessful && response.code() == 200) {
+                        _messageWebsite.postValue(ApiResult.Success(response.body()))
+                    } else {
+                        _messageWebsite.postValue(ApiResult.Error("Something went Wrong!"))
+                    }
+                } else {
+                    _messageWebsite.postValue(ApiResult.Error("Something went Wrong!"))
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _messageWebsite.postValue(ApiResult.Error("Something went Wrong!"))
+            }
+        }
+    }
 }

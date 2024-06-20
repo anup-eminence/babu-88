@@ -3,15 +3,17 @@ package com.sona.babu88.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.databinding.ActivityNewBinding
 import com.sona.babu88.ui.account.Account2Fragment
 import com.sona.babu88.ui.bets.BetsActivity
-import com.sona.babu88.ui.deposit_withdrawal.DepositWithdrawalFragment
 import com.sona.babu88.ui.details.detail2.Details2Fragment
 import com.sona.babu88.ui.inplay.InPlayFragment
 import com.sona.babu88.ui.multimarket.MultiMarketsFragment
@@ -23,6 +25,8 @@ import com.sona.babu88.util.show
 
 class NewActivity : BaseActivity(), OnSportsInteractionListener {
     private lateinit var binding: ActivityNewBinding
+    private val homeViewModel: HomeViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewBinding.inflate(layoutInflater)
@@ -41,8 +45,8 @@ class NewActivity : BaseActivity(), OnSportsInteractionListener {
     }
 
     private fun initView() {
+        observerMessageWebsite()
         binding.apply {
-            tvMarquee.isSelected = true
             setFragment(Sports2Fragment(), binding.container.id)
             tvMain.text = SpannableStringBuilder().color(ContextCompat.getColor(this@NewActivity, R.color.yellow)){ append("Main") }.bold { append(" PTH 0") }
             tvExposure.text = SpannableStringBuilder().color(ContextCompat.getColor(this@NewActivity, R.color.yellow)){ append("Exposure") }.bold { append(" 0") }
@@ -88,5 +92,32 @@ class NewActivity : BaseActivity(), OnSportsInteractionListener {
 
     fun showProgress() {
         binding.progressBar.show()
+    }
+
+    private fun observerMessageWebsite() {
+        binding.tvMarquee.isSelected = true
+        homeViewModel.getMessageWebsite()
+
+        homeViewModel.messageWebsite.observe(this) {
+            when (it) {
+                is ApiResult.Loading -> {}
+
+                is ApiResult.Success -> {
+                    val text = StringBuilder()
+                    if (it.data?.data?.isNullOrEmpty() == true) {
+                        text.append("--            --             --             --                --             --             --             --")
+                    }
+                    else {
+                        it.data?.data?.forEachIndexed { _, item ->
+                            text.append("${item?.day} ${item?.month} ${item?.year} ${item?.title}: ${item?.message}       ")
+                        }
+                    }
+                    binding.tvMarquee.text = text
+                }
+
+                is ApiResult.Error -> {}
+                else -> {}
+            }
+        }
     }
 }
