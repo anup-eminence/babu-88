@@ -180,14 +180,14 @@
         android:padding="5dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="@string/text_marquee"
         android:textColor="@color/text_color"
         android:textSize="12sp"
         app:fontFamily="@font/heebo_bold"
         app:layout_constraintBottom_toBottomOf="@id/tv_news"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_news"
-        app:layout_constraintTop_toTopOf="@id/tv_news" />
+        app:layout_constraintTop_toTopOf="@id/tv_news"
+        tools:text="@string/text_marquee" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"

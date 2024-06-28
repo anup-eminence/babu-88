@@ -76,7 +76,3 @@ class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
 data class DetailsList(
     val text: String
 )
-
-
-
-//06 May 2024 test: testing data           06 May 2024 test2: testing 2             06 May 2024 welcome to kingbd: We Welcome you all to KingBd.com

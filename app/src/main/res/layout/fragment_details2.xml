@@ -175,6 +175,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/layout_bet" />
 
+            <include
+                android:id="@+id/layout_toss"
+                layout="@layout/layout_toss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/layout_2" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/top_main_layout"
@@ -182,7 +190,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="7dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_2">
+                app:layout_constraintTop_toBottomOf="@id/layout_toss">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/top_layout"
@@ -313,19 +321,40 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/bg3"
                 android:paddingHorizontal="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/top_main_layout"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_detail_2" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/recyclerView">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_fancy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#E4F1F9"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_details_2_fancy" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_premium"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:visibility="gone"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_details_2_premium" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

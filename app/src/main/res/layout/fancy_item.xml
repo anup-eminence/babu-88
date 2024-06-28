@@ -43,6 +43,7 @@
             />
 
         <RelativeLayout
+            android:id="@+id/rl_ques"
             android:layout_width="70dp"
             android:gravity="end"
             android:layout_alignParentEnd="true"

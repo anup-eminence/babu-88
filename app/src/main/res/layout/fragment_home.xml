@@ -35,12 +35,12 @@
                 android:paddingVertical="5dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="@string/text_marquee"
                 android:textColor="@color/base_color_yellow"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewpager" />
+                app:layout_constraintTop_toBottomOf="@id/viewpager"
+                tools:text="@string/text_marquee" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_home"

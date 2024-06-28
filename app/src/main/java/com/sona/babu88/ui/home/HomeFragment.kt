@@ -3,7 +3,6 @@ package com.sona.babu88.ui.home
 import MySharedPreferences
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,10 +37,6 @@ import com.sona.babu88.util.replaceFragment
 import com.sona.babu88.util.show
 import com.sona.babu88.util.showExitAlert
 import com.sona.babu88.util.showToast
-import io.socket.client.Socket
-import okhttp3.OkHttpClient
-import okhttp3.WebSocket
-import org.json.JSONObject
 
 class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     FeaturedGamesAdapter.OnFeaturedItemClickListener, CasinoGamesAdapter.OnCasinoItemClickListener,
@@ -57,9 +52,10 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     private var listener: OnAccountListener? = null
     private var userData : UserData?=null
     private val homeViewModel: HomeViewModel by viewModels()
-
-    private lateinit var client: OkHttpClient
-    private lateinit var webSocket: WebSocket
+    private lateinit var socket : SocketHandler
+    private lateinit var socket2 : SocketHandler
+    private val socketEvent1 = "Event/Auto"
+    private val socketEvent2 = "BookM/Auto"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +68,8 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapterVP = ViewPagerAdapter(provideViewPagerList())
+        socket = SocketHandler()
+        socket2 = SocketHandler()
         setViewPager()
         setTabAdapter()
         setTabData()
@@ -99,15 +97,23 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
 
         binding.userName.setOnClickListener {
             requireContext().showToast("clicked")
-            SocketHandler.removeEventListener("MEvent/Auto","33352266")
+            socket.removeEventListener(socketEvent1,"33353999")
+            socket2.removeEventListener(socketEvent2,"33353999")
         }
     }
 
 
     private fun callSocket() {
-        SocketHandler.setSocket()
-        SocketHandler.establishConnection(this@HomeFragment)
-        SocketHandler.setSocketEvent("MEvent/Auto","33352266")
+        socket.setSocket()
+        socket.establishConnection(this@HomeFragment)
+        socket.setSocketEvent(socketEvent1,"33353999")
+        callSocket2()
+    }
+
+    private fun callSocket2(){
+        socket2.setSocket()
+        socket2.establishConnection(this@HomeFragment)
+        socket2.setSocketEvent(socketEvent2,"33353999")
     }
 
     private fun initView() {
@@ -295,19 +301,27 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     }
 
     override fun onSocketErrorOccured(error: String) {
-        TODO("Not yet implemented")
+       // TODO("Not yet implemented")
     }
 
     override fun onSocketDisConnected() {
-        TODO("Not yet implemented")
+       // TODO("Not yet implemented")
     }
 
     override fun onSocketConnected() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
-    override fun onSocketResponseReceived(data: Any) {
-        TODO("Not yet implemented")
+    override fun onSocketResponseReceived(eventName: String, data: Any) {
+        when(eventName){
+            socketEvent1 -> {
+
+            }
+            socketEvent2 -> {
+
+            }
+        }
+        println(">>>>>socket onSocketResponseReceived$eventName $data")
     }
 
 }

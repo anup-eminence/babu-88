@@ -6,7 +6,7 @@ import io.socket.client.Socket
 import org.json.JSONObject
 import java.net.URISyntaxException
 
-object SocketHandler {
+class SocketHandler {
     lateinit var mSocket: Socket
     private lateinit var socketListener: SocketListener
 
@@ -85,7 +85,7 @@ object SocketHandler {
                             if (firstElement is JSONObject) {
                                 val jsonData = firstElement.toString()
                                 Log.d("SocketData", "Received JSON: $jsonData")
-                                socketListener.onSocketResponseReceived(jsonData)
+                                socketListener.onSocketResponseReceived(eventName = eventName, data = jsonData)
                             }
                         }
                     } catch (e: Exception) {

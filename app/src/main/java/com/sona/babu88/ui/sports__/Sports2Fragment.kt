@@ -15,6 +15,7 @@ import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentSports2Binding
+import com.sona.babu88.ui.search.SearchFragment
 import com.sona.babu88.util.hideProgress1
 import com.sona.babu88.util.showProgress1
 import com.sona.babu88.util.showToast
@@ -26,6 +27,7 @@ class Sports2Fragment : Fragment() {
     private var tabSelectedTextColor = 0
     private var tabUnselectedTextColor = 0
     private val sportsViewModel: SportsViewModel by viewModels()
+    private var position = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class Sports2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setOnClickListener()
     }
 
     private fun initView() {
@@ -51,6 +54,16 @@ class Sports2Fragment : Fragment() {
         tabUnselectedTextColor = ContextCompat.getColor(requireContext(), R.color.black)
         setViewPagerAdapter()
         binding.viewPager.isUserInputEnabled = false
+    }
+
+    private fun setOnClickListener() {
+        binding.imgSearch.setOnClickListener {
+            val searchFragment = SearchFragment()
+            val args = Bundle()
+            args.putString("position", position)
+            searchFragment.arguments = args
+            searchFragment.show(childFragmentManager, "SearchFragment")
+        }
     }
 
     private fun setViewPagerAdapter() {
@@ -86,6 +99,7 @@ class Sports2Fragment : Fragment() {
         binding.tabLayout.getTabAt(0)?.view?.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.bg_top_rounded_shape)
         binding.tabLayout.getTabAt(0)?.customView?.apply {
+            position = "0"
             findViewById<TextView>(R.id.tab_text)?.setTextColor(tabSelectedTextColor)
             findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_cricket_active)
         }
@@ -98,9 +112,18 @@ class Sports2Fragment : Fragment() {
                 tab?.customView?.apply {
                     findViewById<TextView>(R.id.tab_text)?.setTextColor(tabSelectedTextColor)
                     when (tab.position) {
-                        0 -> findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_cricket_active)
-                        1 -> findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_soccer_active)
-                        2 -> findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_tennis_active)
+                        0 -> {
+                            findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_cricket_active)
+                            position = "0"
+                        }
+                        1 -> {
+                            findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_soccer_active)
+                            position = "1"
+                        }
+                        2 -> {
+                            findViewById<ImageView>(R.id.tab_icon).setImageResource(R.drawable.ic_tennis_active)
+                            position = "2"
+                        }
                     }
                 }
             }

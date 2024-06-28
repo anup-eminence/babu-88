@@ -4,5 +4,5 @@ interface SocketListener {
     fun onSocketErrorOccured(error : String)
     fun onSocketDisConnected()
     fun onSocketConnected()
-    fun onSocketResponseReceived(data : Any)
+    fun onSocketResponseReceived(eventName: String, data: Any)
 }
