@@ -8,15 +8,17 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sona.babu88.R
+import com.sona.babu88.api.model.response.SportsBookMarketItem
+import com.sona.babu88.api.model.response.SportsBookSelectionItem
 import com.sona.babu88.databinding.ItemDetails2PremiumBinding
 
 class DetailsPremiumAdapter : RecyclerView.Adapter<DetailsPremiumAdapter.ViewHolder>() {
-    var list = mutableListOf<Data?>()
+    var list = mutableListOf<SportsBookMarketItem?>()
 
     private var onItemClickListener: OnItemClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setDetailsPremiumData(itemList: List<Data?>?) {
+    fun setDetailsPremiumData(itemList: List<SportsBookMarketItem?>?) {
         if (itemList != null) {
             list.addAll(itemList)
         }
@@ -46,8 +48,8 @@ class DetailsPremiumAdapter : RecyclerView.Adapter<DetailsPremiumAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.binding.apply {
-            tvTitle.text = item?.title
-            addItems(llLayout, item?.data, root.context)
+            tvTitle.text = item?.marketName
+            addItems(llLayout, item?.sportsBookSelection, root.context)
         }
     }
 
@@ -57,7 +59,7 @@ class DetailsPremiumAdapter : RecyclerView.Adapter<DetailsPremiumAdapter.ViewHol
 
     @SuppressLint("MissingInflatedId")
     private fun addItems(
-        llLayout: LinearLayoutCompat, item: List<Items?>?, context: Context
+        llLayout: LinearLayoutCompat, item: List<SportsBookSelectionItem?>?, context: Context
     ) {
         llLayout.removeAllViews()
         item?.forEach {
@@ -66,8 +68,8 @@ class DetailsPremiumAdapter : RecyclerView.Adapter<DetailsPremiumAdapter.ViewHol
             val matchName = view.findViewById<AppCompatTextView>(R.id.tv_match_name)
             val matchOdds = view.findViewById<AppCompatTextView>(R.id.tv_odds_num)
 
-            matchName.text = it?.name1
-            matchOdds.text = it?.num1
+            matchName.text = it?.selectionName
+            matchOdds.text = it?.odds.toString()
 
             llLayout.addView(view)
         }
@@ -77,6 +79,3 @@ class DetailsPremiumAdapter : RecyclerView.Adapter<DetailsPremiumAdapter.ViewHol
         fun onItemClickListener()
     }
 }
-
-data class Data(val title: String, val data: List<Items?>?)
-data class Items(val name1: String, val num1: String)

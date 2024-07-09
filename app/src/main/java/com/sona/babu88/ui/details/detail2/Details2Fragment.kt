@@ -25,6 +25,7 @@ import com.sona.babu88.api.model.response.FancyResponse
 import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
 import com.sona.babu88.api.model.response.PSelection
 import com.sona.babu88.api.model.response.PreMatchMarket
+import com.sona.babu88.api.model.response.PremiumFancyResponse
 import com.sona.babu88.data.socket.SocketHandler
 import com.sona.babu88.data.socket.SocketListener
 import com.sona.babu88.data.socket.SocketUrl
@@ -37,6 +38,7 @@ import com.sona.babu88.util.showProgress1
 import com.sona.babu88.util.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
@@ -59,6 +61,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private lateinit var detailsFancyAdapter: DetailsFancyAdapter
     private lateinit var detailsPremiumAdapter: DetailsPremiumAdapter
     private var fancyResponse: FancyResponse? = null
+    private var premiumFancyResponse: PremiumFancyResponse? = null
     private lateinit var socket: SocketHandler
     private lateinit var socket2: SocketHandler
     private lateinit var socket3: SocketHandler
@@ -128,6 +131,8 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private fun setOnClickListener() {
         binding.apply {
             premimum1.root.setOnClickListener {
+                rvFancy.visibility = View.VISIBLE
+                rvPremium.visibility = View.GONE
                 topLayout2.hide()
                 topLayout.show()
                 recyclerView.setBackgroundColor(
@@ -140,6 +145,8 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
             }
 
             premimum.root.setOnClickListener {
+                rvPremium.visibility = View.VISIBLE
+                rvFancy.visibility = View.GONE
                 topLayout2.show()
                 topLayout.hide()
                 recyclerView.setBackgroundColor(
@@ -444,6 +451,13 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
                     detailsFancyAdapter.setDetailsFancyData(fancyResponse?.diamond)
                 }
             }
+
+            socketPRMFancy -> {
+                CoroutineScope(Dispatchers.Main).launch {
+                    premiumFancyResponse = json.decodeFromString<PremiumFancyResponse>(data.toString())
+                    detailsPremiumAdapter.setDetailsPremiumData(premiumFancyResponse?.data?.sportsBookMarket)
+                }
+            }
         }
         println(">>>>>socket onSocketResponseReceived: $eventName $data")
     }
@@ -496,8 +510,8 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private fun setUpPremiumAdapter() {
         binding.rvPremium.layoutManager = LinearLayoutManager(requireContext())
         detailsPremiumAdapter = DetailsPremiumAdapter()
-//        detailsPremiumAdapter.setOnItemClickListener(this@Details2Fragment)
         binding.rvPremium.adapter = detailsPremiumAdapter
+        binding.rvPremium.isNestedScrollingEnabled = false
     }
 
     override fun onDestroy() {
