@@ -27,6 +27,7 @@ import com.sona.babu88.api.model.response.PSelection
 import com.sona.babu88.api.model.response.PreMatchMarket
 import com.sona.babu88.data.socket.SocketHandler
 import com.sona.babu88.data.socket.SocketListener
+import com.sona.babu88.data.socket.SocketUrl
 import com.sona.babu88.data.viewmodel.SportsViewModel
 import com.sona.babu88.databinding.FragmentDetails2Binding
 import com.sona.babu88.util.hide
@@ -62,10 +63,12 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private lateinit var socket2: SocketHandler
     private lateinit var socket3: SocketHandler
     private lateinit var socket4: SocketHandler
+    private lateinit var socketPremium: SocketHandler
     private val socketEvent1 = "Event/Auto"
     private val socketEvent2 = "BookM/Auto"
     private val socketToss = "Toss/Auto"
     private val socketFancy = "Fancy/Auto"
+    private val socketPRMFancy = "PRMFancy/Auto"
     private lateinit var popupWindow: PopupWindow
 
     private fun getPSelectionList(pos: Int): List<PSelection> {
@@ -98,6 +101,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         socket2 = SocketHandler()
         socket3 = SocketHandler()
         socket4 = SocketHandler()
+        socketPremium = SocketHandler()
         setUpAdapter()
         setUpTabAdapter()
         setUpFancyAdapter()
@@ -112,6 +116,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         callSocket(socket2, socketEvent2, eventId)
         callSocket(socket3, socketToss, eventId)
         callSocket(socket4, socketFancy, eventId)
+        callSocketPRM(socketPremium, socketPRMFancy, "33400625")
     }
 
     override fun onPause() {
@@ -391,10 +396,16 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         textView.setTextColor(ContextCompat.getColor(context, textColor))
     }
 
-    private fun callSocket(socket: SocketHandler, socketEvent: String, eventId: String) {
-        socket.setSocket()
+    private fun callSocketPRM(socket: SocketHandler, socketEvent: String, eventId: String){
+        socket.setSocket(SocketUrl.CricketPreminum)
         socket.establishConnection(this@Details2Fragment)
         socket.setSocketEvent(socketEvent, eventId)
+    }
+
+    private fun callSocket(socket: SocketHandler, socketEvent: String, eventId: String) {
+        socket.setSocket(SocketUrl.Node7)
+        socket.establishConnection(this@Details2Fragment)
+        socket.setSocketEvent(socketEvent, "33400625")
     }
 
     override fun onSocketErrorOccured(error: String) {
@@ -499,6 +510,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         socket2.removeEventListener(socketEvent2, eventId)
         socket3.removeEventListener(socketToss, eventId)
         socket4.removeEventListener(socketFancy, eventId)
+        socketPremium.removeEventListener(socketPRMFancy, "33400625")
     }
 
     private fun showPopup(view: View) {

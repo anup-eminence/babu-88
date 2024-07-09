@@ -6,11 +6,16 @@ import io.socket.client.Socket
 import org.json.JSONObject
 import java.net.URISyntaxException
 
+enum class SocketUrl(val url : String){
+    Node7("http://node7.in"),
+    CricketPreminum("http://cricket.premiumsoccer.in")
+}
+
 class SocketHandler {
     lateinit var mSocket: Socket
     private lateinit var socketListener: SocketListener
 
-    fun setSocket() {
+    fun setSocket(socketUrl: SocketUrl) {
         try {
             val opts = IO.Options().apply {
                 reconnection = true
@@ -20,7 +25,7 @@ class SocketHandler {
                 transports = arrayOf("websocket")
                 // Add other options as needed
             }
-            mSocket = IO.socket("http://node7.in", opts)
+            mSocket = IO.socket(socketUrl.url, opts)
             mSocket.connect()
         } catch (e: URISyntaxException) {
             println(">>>error ${e.message}")

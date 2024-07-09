@@ -15,6 +15,7 @@ import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.data.socket.SocketHandler
 import com.sona.babu88.data.socket.SocketListener
 import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.socket.SocketUrl
 import com.sona.babu88.databinding.FragmentHomeBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.model.HomeTab
@@ -104,14 +105,14 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
 
 
     private fun callSocket() {
-        socket.setSocket()
+        socket.setSocket(SocketUrl.Node7)
         socket.establishConnection(this@HomeFragment)
         socket.setSocketEvent(socketEvent1,"33353999")
         callSocket2()
     }
 
     private fun callSocket2(){
-        socket2.setSocket()
+        socket2.setSocket(SocketUrl.Node7)
         socket2.establishConnection(this@HomeFragment)
         socket2.setSocketEvent(socketEvent2,"33353999")
     }
