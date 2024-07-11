@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sona.babu88.R
 import com.sona.babu88.api.model.response.DiamondItem
+import com.sona.babu88.api.model.response.EventsFancy
 import com.sona.babu88.databinding.ItemDetails2FancyBinding
 
 class DetailsFancyAdapter : RecyclerView.Adapter<DetailsFancyAdapter.ViewHolder>() {
     var list = emptyList<DiamondItem?>()
+    private var eventData: EventsFancy? = null
 
     private var onFancyItemClickListener: OnFancyItemClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setDetailsFancyData(itemList: List<DiamondItem?>?) {
+    fun setDetailsFancyData(itemList: List<DiamondItem?>?, events: EventsFancy?) {
         if (itemList != null) {
             val sortedList = itemList.sortedByDescending { item ->
                 when (item?.ballsEss) {
@@ -24,6 +26,10 @@ class DetailsFancyAdapter : RecyclerView.Adapter<DetailsFancyAdapter.ViewHolder>
                 }
             }
             list = sortedList
+        }
+
+        if (events != null) {
+            eventData = events
         }
         notifyDataSetChanged()
     }
@@ -85,6 +91,10 @@ class DetailsFancyAdapter : RecyclerView.Adapter<DetailsFancyAdapter.ViewHolder>
             text2.text = item?.ls1?.toDouble()?.toInt().toString()
             text3.text = item?.b1?.toDouble()?.toInt().toString()
             text4.text = item?.bs1?.toDouble()?.toInt().toString()
+
+            cl1.setOnClickListener { onFancyItemClickListener?.onFancyClickListener(item, false) }
+            cl2.setOnClickListener { onFancyItemClickListener?.onFancyClickListener(item, true) }
+            ivI.setOnClickListener { onFancyItemClickListener?.onIBtnClickListener(view, eventData) }
         }
     }
 
@@ -93,6 +103,7 @@ class DetailsFancyAdapter : RecyclerView.Adapter<DetailsFancyAdapter.ViewHolder>
     }
 
     interface OnFancyItemClickListener {
-        fun onFancyClickListener()
+        fun onFancyClickListener(item: DiamondItem?, back: Boolean)
+        fun onIBtnClickListener(view: View, eventData: EventsFancy?)
     }
 }

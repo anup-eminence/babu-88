@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +20,8 @@ import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.DetailTossResponse
 import com.sona.babu88.api.model.response.DetailsBookMakerResponse
 import com.sona.babu88.api.model.response.DetailsResponse
+import com.sona.babu88.api.model.response.DiamondItem
+import com.sona.babu88.api.model.response.EventsFancy
 import com.sona.babu88.api.model.response.FancyResponse
 import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
 import com.sona.babu88.api.model.response.PSelection
@@ -39,20 +39,14 @@ import com.sona.babu88.util.showProgress1
 import com.sona.babu88.util.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener, SocketListener {
+class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener, SocketListener, DetailsFancyAdapter.OnFancyItemClickListener {
     private lateinit var binding: FragmentDetails2Binding
     private lateinit var detailsAdapter: DetailsAdapter
     private val detailList = arrayListOf<DetailsList>()
-    private var pointClicked = false
-    private val handler = Handler(Looper.getMainLooper())
-    private val hideRunnable = Runnable {
-        binding.layoutBet.root.hide()
-    }
     private val sportsViewModel: SportsViewModel by viewModels()
     private var eventId = ""
     private lateinit var detailsHorizontalAdapter: DetailsHorizontalAdapter
@@ -168,11 +162,16 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
                 view.hide()
                 btnClose.hide()
             }
-            layout1.cl1.setOnClickListener { showLayoutBet(R.color.bg_bet1) }
-            layout1.cl2.setOnClickListener { showLayoutBet(R.color.bg_bet2) }
-            layout1.cl3.setOnClickListener { showLayoutBet(R.color.bg_bet1) }
-            layout1.cl4.setOnClickListener { showLayoutBet(R.color.bg_bet2) }
-            setNumberClick()
+
+            layout1.cl1.setOnClickListener { handleLayout1Click(0, true, R.color.bg_bet1) }
+            layout1.cl2.setOnClickListener { handleLayout1Click(0, false, R.color.bg_bet2) }
+            layout1.cl3.setOnClickListener { handleLayout1Click(1, true, R.color.bg_bet1) }
+            layout1.cl4.setOnClickListener { handleLayout1Click(1, false, R.color.bg_bet2) }
+
+            layout2.cl1.setOnClickListener { handleLayout2Click(1, true, R.color.bg_bet1) }
+            layout2.cl2.setOnClickListener { handleLayout2Click(1, false, R.color.bg_bet2) }
+            layout2.cl3.setOnClickListener { handleLayout2Click(0, true, R.color.bg_bet1) }
+            layout2.cl4.setOnClickListener { handleLayout2Click(0, false, R.color.bg_bet2) }
 
             tvMatchOdds.setOnClickListener {
                 layout1.root.show()
@@ -195,6 +194,35 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
 
             layout2.ivI.setOnClickListener {
                 showPopup(it)
+            }
+        }
+    }
+
+    private fun handleLayout1Click(
+        index: Int,
+        isBack: Boolean,
+        color: Int
+    ) {
+        if (detailsResponse?.data?.isNullOrEmpty() == false && detailsResponse?.data?.get(0)?.runners?.isNullOrEmpty() == false) {
+            val price = if (isBack) {
+                detailsResponse?.data?.get(0)?.runners?.get(index)?.ex?.availableToBack?.get(0)?.price
+            } else {
+                detailsResponse?.data?.get(0)?.runners?.get(index)?.ex?.availableToLay?.get(0)?.price
+            }
+            showLayoutBet(color, price.toString())
+        }
+    }
+
+    private fun handleLayout2Click(
+        index: Int,
+        isBack: Boolean,
+        color: Int
+    ) {
+        if (detailsBookMakerResponse?.data?.isNullOrEmpty() == false) {
+            val bm = detailsBookMakerResponse?.data?.get(0)?.bm1?.get(index)
+            if (bm?.s == "ACTIVE") {
+                val price = if (isBack) bm.b1 else bm.l1
+                showLayoutBet(color, price ?: "")
             }
         }
     }
@@ -246,98 +274,15 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         detailsAdapter.setData(detailList)
     }
 
-    private fun setNumberClick() {
-        binding.layoutBet.apply {
-            tvNum1.setOnClickListener {
-                tvText.text = ""
-                append(tvNum1.text.toString())
+    private fun showLayoutBet(color: Int, odds: String) {
+        val fragment = BetDialogFragment().apply {
+            arguments = Bundle().apply {
+                putInt("color", color)
+                putString("odds", odds)
             }
-            tvNum2.setOnClickListener {
-                tvText.text = ""
-                append(tvNum2.text.toString())
-            }
-            tvNum3.setOnClickListener {
-                tvText.text = ""
-                append(tvNum3.text.toString())
-            }
-            tvNum4.setOnClickListener {
-                tvText.text = ""
-                append(tvNum4.text.toString())
-            }
-            tvNum5.setOnClickListener {
-                tvText.text = ""
-                append(tvNum5.text.toString())
-            }
-            tvNum6.setOnClickListener {
-                tvText.text = ""
-                append(tvNum6.text.toString())
-            }
-
-            tv0.setOnClickListener { append("0") }
-            tv1.setOnClickListener { append("1") }
-            tv2.setOnClickListener { append("2") }
-            tv3.setOnClickListener { append("3") }
-            tv4.setOnClickListener { append("4") }
-            tv5.setOnClickListener { append("5") }
-            tv6.setOnClickListener { append("6") }
-            tv7.setOnClickListener { append("7") }
-            tv8.setOnClickListener { append("8") }
-            tv9.setOnClickListener { append("9") }
-            tv00.setOnClickListener { append("00") }
-            tvPoint.setOnClickListener {
-                if (!pointClicked) {
-                    append(".")
-                    pointClicked = true
-                }
-            }
-            tvBackSpace.setOnClickListener {
-                val text = binding.layoutBet.tvText.text
-                if (!text.isNullOrEmpty()) {
-                    if (text.last() == '.') pointClicked = false
-                    binding.layoutBet.tvText.text = text.subSequence(0, text.length - 1)
-                }
-            }
-            btnMinus.setOnClickListener {
-                if (tvText.text.toString()
-                        .isNotEmpty() && tvText.text.toString() != "0"
-                ) updateText(-1)
-            }
-            btnPlus.setOnClickListener { updateText(1) }
-            btnCancel.setOnClickListener { root.hide() }
-            btnPlaceBet.setOnClickListener { root.hide() }
+            isCancelable = false
         }
-    }
-
-    private fun append(num: String) {
-        val currentText = binding.layoutBet.tvText.text.toString()
-        binding.layoutBet.tvText.text = StringBuilder(currentText).append(num)
-        handler.removeCallbacks(hideRunnable)
-        handler.postDelayed(hideRunnable, 10000)
-    }
-
-    private fun updateText(value: Int) {
-        val currentText = binding.layoutBet.tvText.text.toString()
-        if (currentText.isNullOrEmpty().not()) {
-            try {
-                binding.layoutBet.tvText.text = (currentText.toInt() + value).toString()
-            } catch (e: NumberFormatException) {
-                binding.layoutBet.tvText.text = (currentText.toDouble() + value).toString()
-            }
-        } else if (currentText.isNullOrEmpty() && value > 0) {
-            binding.layoutBet.tvText.text = value.toString()
-        }
-    }
-
-    private fun showLayoutBet(color: Int) {
-        binding.layoutBet.root.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                color
-            )
-        )
-        binding.layoutBet.root.show()
-        pointClicked = false
-        binding.layoutBet.tvText.text = ""
+        fragment.show(childFragmentManager, "BetDialogFragment")
     }
 
     private fun observerMatchDetails() {
@@ -417,7 +362,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private fun callSocket(socket: SocketHandler, socketEvent: String, eventId: String) {
         socket.setSocket(SocketUrl.Node7)
         socket.establishConnection(this@Details2Fragment)
-        socket.setSocketEvent(socketEvent, testEventID)
+        socket.setSocketEvent(socketEvent, eventId)
     }
 
     override fun onSocketErrorOccured(error: String) {
@@ -457,7 +402,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
             socketFancy -> {
                 CoroutineScope(Dispatchers.Main).launch {
                     fancyResponse = json.decodeFromString<FancyResponse>(data.toString())
-                    detailsFancyAdapter.setDetailsFancyData(fancyResponse?.diamond)
+                    detailsFancyAdapter.setDetailsFancyData(fancyResponse?.diamond, fancyResponse?.events)
                 }
             }
 
@@ -521,8 +466,27 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private fun setUpFancyAdapter() {
         binding.rvFancy.layoutManager = LinearLayoutManager(requireContext())
         detailsFancyAdapter = DetailsFancyAdapter()
+        detailsFancyAdapter.setOnItemClickListener(this@Details2Fragment)
         binding.rvFancy.adapter = detailsFancyAdapter
         binding.rvFancy.isNestedScrollingEnabled = false
+    }
+
+    override fun onFancyClickListener(item: DiamondItem?, back: Boolean) {
+        if (back) {
+            showLayoutBet(
+                R.color.bg_bet1,
+                item?.b1 ?: ""
+            )
+        } else {
+            showLayoutBet(
+                R.color.bg_bet2,
+                item?.l1 ?: ""
+            )
+        }
+    }
+
+    override fun onIBtnClickListener(view: View, eventData: EventsFancy?) {
+
     }
 
     private fun setUpPremiumAdapter() {
@@ -538,8 +502,8 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     }
 
     private fun destroySocket() {
-        socket.removeEventListener(socketEvent1, eventId)
-        socket2.removeEventListener(socketEvent2, eventId)
+        socket.removeEventListener(socketEvent1, "33404373")
+        socket2.removeEventListener(socketEvent2, "33404373")
         socket3.removeEventListener(socketToss, eventId)
         socket4.removeEventListener(socketFancy, eventId)
         socketPremium.removeEventListener(socketPRMFancy, "33400625")
