@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.DetailTossResponse
 import com.sona.babu88.api.model.response.DetailsBookMakerResponse
 import com.sona.babu88.api.model.response.DetailsResponse
 import com.sona.babu88.api.model.response.FancyResponse
@@ -40,6 +41,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener, SocketListener {
@@ -58,6 +60,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private var getUserMatchDetailResponse: GetUserMatchDetailResponse? = null
     private var detailsResponse: DetailsResponse? = null
     private var detailsBookMakerResponse: DetailsBookMakerResponse? = null
+    private var detailTossResponse: DetailTossResponse? = null
     private lateinit var detailsFancyAdapter: DetailsFancyAdapter
     private lateinit var detailsPremiumAdapter: DetailsPremiumAdapter
     private var fancyResponse: FancyResponse? = null
@@ -73,6 +76,8 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private val socketFancy = "Fancy/Auto"
     private val socketPRMFancy = "PRMFancy/Auto"
     private lateinit var popupWindow: PopupWindow
+
+    private val testEventID = "33404900"
 
     private fun getPSelectionList(pos: Int): List<PSelection> {
         return preMarketList[pos].getPSelectionList()
@@ -117,9 +122,9 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         super.onResume()
         callSocket(socket, socketEvent1, eventId)
         callSocket(socket2, socketEvent2, eventId)
-        callSocket(socket3, socketToss, eventId)
+        callSocket(socket3, socketToss, testEventID)
         callSocket(socket4, socketFancy, eventId)
-        callSocketPRM(socketPremium, socketPRMFancy, "33400625")
+        callSocketPRM(socketPremium, socketPRMFancy, testEventID)
     }
 
     override fun onPause() {
@@ -412,7 +417,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private fun callSocket(socket: SocketHandler, socketEvent: String, eventId: String) {
         socket.setSocket(SocketUrl.Node7)
         socket.establishConnection(this@Details2Fragment)
-        socket.setSocketEvent(socketEvent, "33400625")
+        socket.setSocketEvent(socketEvent, testEventID)
     }
 
     override fun onSocketErrorOccured(error: String) {
@@ -442,7 +447,11 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
             }
 
             socketToss -> {
-
+                detailTossResponse = json.decodeFromString<DetailTossResponse>(data.toString())
+                binding.layoutToss.tvMatchTitle.text = detailTossResponse?.data?.btype
+                binding.layoutToss.tvMatchTitle.text = detailTossResponse?.data?.mtype
+                println(">>>>>socket onSocketResponseReceived: $eventName $data")
+                println(">>>>>socket onSocketResponseReceived detailTossResponse:  $detailTossResponse")
             }
 
             socketFancy -> {
@@ -453,9 +462,17 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
             }
 
             socketPRMFancy -> {
-                CoroutineScope(Dispatchers.Main).launch {
-                    premiumFancyResponse = json.decodeFromString<PremiumFancyResponse>(data.toString())
-                    detailsPremiumAdapter.setDetailsPremiumData(premiumFancyResponse?.data?.sportsBookMarket)
+                println(">>>>>socket onSocketResponseReceived: $eventName $data")
+                CoroutineScope(Dispatchers.IO).launch {
+                    premiumFancyResponse =
+                        json.decodeFromString<PremiumFancyResponse>(data.toString())
+                    withContext(Dispatchers.Main) {
+                        premiumFancyResponse?.data?.sportsBookMarket?.let {
+                            detailsPremiumAdapter.setDetailsPremiumData(
+                                it
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -464,6 +481,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
 
     private fun setOddsData() {
         binding.layout1.apply {
+            if (detailsResponse?.data.isNullOrEmpty()) return
             detailsResponse?.data?.get(0)?.apply {
                 if (!runners.isNullOrEmpty()) {
                     tvPte.text = StringBuilder().append(getString(R.string.pte)).append(" ")

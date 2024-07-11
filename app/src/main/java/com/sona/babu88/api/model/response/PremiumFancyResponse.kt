@@ -1,5 +1,6 @@
 package com.sona.babu88.api.model.response
 
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -79,7 +80,7 @@ data class SportsBookMarketItem(
     @SerialName("apiSiteSpecifier") val apiSiteSpecifier: String?,
     @SerialName("numberOfWinner") val numberOfWinner: Int?,
     @SerialName("max") val max: Int?,
-    @SerialName("selectionTs") val selectionTs: Long?,
+    @SerialName("selectionTs") val selectionTs: Long?=0L,
     @SerialName("eventType") val eventType: Int?,
     @SerialName("betfairEventId") val betfairEventId: Int?,
     @SerialName("apiSiteStatus") val apiSiteStatus: String?,
@@ -92,15 +93,15 @@ data class SportsBookMarketItem(
     @SerialName("apisite") val apisite: Int?,
     @SerialName("id") val id: String?,
     @SerialName("numberOfActiveRunners") val numberOfActiveRunners: Int?,
-    @SerialName("sportsBookSelection") val sportsBookSelection: List<SportsBookSelectionItem?>?
+    @SerialName("sportsBookSelection") val sportsBookSelection: List<SportsBookSelectionItem?>?=null
 )
 
 @Serializable
 data class EventsPRM(
-    @SerialName("eventId") val eventId: String?,
-    @SerialName("volumeCheck") val volumeCheck: Boolean?,
-    @SerialName("markets") val markets: List<MarketsItemPRM?>?,
-    @SerialName("status") val status: Boolean?
+    @SerializedName("eventId") val eventId: String?,
+    @SerializedName("volumeCheck") val volumeCheck: Boolean?,
+    @SerializedName("markets") val markets: List<MarketsItemPRM?>?,
+    @SerializedName("status") val status: Boolean?
 )
 
 @Serializable
