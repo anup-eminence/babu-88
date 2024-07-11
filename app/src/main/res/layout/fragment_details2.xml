@@ -161,19 +161,11 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
-                android:id="@+id/layout_bet"
-                layout="@layout/layout_bet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/cl_layout" />
-
-            <include
                 android:id="@+id/layout_2"
                 layout="@layout/layout_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/layout_bet" />
+                app:layout_constraintTop_toBottomOf="@id/cl_layout" />
 
             <include
                 android:id="@+id/layout_toss"
