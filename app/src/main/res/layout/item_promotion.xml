@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@id/image">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_text1"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -37,22 +37,33 @@
             tools:text="Get Bonus" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_text2"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:fontFamily="@font/heebo_regular"
+            app:fontFamily="@font/heebo_bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_text1"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="Get Bonus" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:fontFamily="@font/heebo_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            tools:text="2024-07-02 ~ 2024-12-02" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginVertical="8dp"
             android:background="@drawable/bg_8_shape_grey_solid"
             android:backgroundTint="@color/base_color_blue"
             android:gravity="center"
@@ -64,14 +75,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_apply_now"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_text2" />
+            app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_apply_now"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
             android:layout_marginStart="8dp"
-            android:layout_marginVertical="8dp"
             android:background="@drawable/bg_8_shape_grey_solid"
             android:backgroundTint="@color/base_color_yellow"
             android:gravity="center"
@@ -83,7 +94,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_details"
-            app:layout_constraintTop_toBottomOf="@id/tv_text2" />
+            app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

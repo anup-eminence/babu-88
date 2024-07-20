@@ -12,6 +12,7 @@ import com.sona.babu88.api.model.request.GeneralRequest
 import com.sona.babu88.api.model.request.GetBankingChannelListRequest
 import com.sona.babu88.api.model.request.GetBankingMethodsRequest
 import com.sona.babu88.api.model.request.GetBanksListRequest
+import com.sona.babu88.api.model.response.DepositPromotionListResponse
 import com.sona.babu88.api.model.response.GeneralResponse
 import com.sona.babu88.api.model.response.GetBankingChannelListResponse
 import com.sona.babu88.api.model.response.GetBankingMethodsResponse
@@ -26,8 +27,8 @@ class DepositViewModel : ViewModel() {
     private val _bankingChannel = MutableLiveData<ApiResult<GetBankingChannelListResponse?>>()
     val bankingChannel: LiveData<ApiResult<GetBankingChannelListResponse?>> get() = _bankingChannel
 
-    private val _depositPromotions = MutableLiveData<ApiResult<PromotionListResponse?>>()
-    val depositPromotions: LiveData<ApiResult<PromotionListResponse?>> get() = _depositPromotions
+    private val _depositPromotions = MutableLiveData<ApiResult<DepositPromotionListResponse?>>()
+    val depositPromotions: LiveData<ApiResult<DepositPromotionListResponse?>> get() = _depositPromotions
 
     private val _depositRequest = MutableLiveData<ApiResult<GeneralResponse?>>()
     val depositRequest: LiveData<ApiResult<GeneralResponse?>> get() = _depositRequest
@@ -112,7 +113,7 @@ class DepositViewModel : ViewModel() {
                         it.replace(it.substring(0,6),"{\"data\":")
                     }
                     if (codeResponse.isSuccessful && codeResponse.code() == 200) {
-                        _depositPromotions.postValue(ApiResult.Success(Gson().fromJson(code,PromotionListResponse::class.java)))
+                        _depositPromotions.postValue(ApiResult.Success(Gson().fromJson(code,DepositPromotionListResponse::class.java)))
                     } else {
                         _depositPromotions.postValue(ApiResult.Error("Something Went Wrong!"))
                     }

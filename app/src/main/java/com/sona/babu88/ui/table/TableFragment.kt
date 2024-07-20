@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
-import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.databinding.FragmentTableBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.util.OnSelectedFragmentListener
@@ -88,10 +88,16 @@ class TableFragment : Fragment(), TableAdapter.OnItemClickListener {
     private fun findImage(type: String): Int {
         return when (type) {
             "JILI" -> R.drawable.jili_banner
-            "FC" -> R.drawable.fc_banner
+            "KINGMAKER" -> R.drawable.kingmaker_banner
+            "LUDO" -> R.drawable.ludo_banner
+            "EVOLUTION" -> R.drawable.evolution_banner
+            "REDTIGER" -> R.drawable.redtiger_banner
+            "JDB" -> R.drawable.jdb_banner
+            "PGSOFT" -> R.drawable.pgsoft_banner
+            "EZUGI" -> R.drawable.ezugi_banner
             "SPRIBE" -> R.drawable.spribe_banner
-            "KM" -> R.drawable.km_banner
-            "RT" -> R.drawable.rt_banner
+            "BOMBAYLIVE" -> R.drawable.bombaylive_banner
+            "ROYALGAMING" -> R.drawable.royalgaming_banner
             else -> -1
         }
     }

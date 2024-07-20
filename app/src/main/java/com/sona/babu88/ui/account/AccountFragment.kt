@@ -3,6 +3,7 @@ package com.sona.babu88.ui.account
 import MySharedPreferences
 import android.content.Context
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,11 +35,23 @@ class AccountFragment : Fragment(), AccountParentAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         setParentAdapter()
         setParentAdapterData()
         setOnClickListener()
+    }
+
+    private fun initView() {
         val userData = MySharedPreferences.getSavedObjectFromPreference<UserData>(requireContext(),USER_DATA)
+        val amount = StringBuilder().append(
+            Html.fromHtml(
+                userData?.user?.symbol ?: "",
+                Html.FROM_HTML_MODE_LEGACY
+            )
+        ).append(" ").append(String.format("%.2f", userData?.user?.myBalance ?: 0.00))
         binding.userName.text = userData?.user?.userName
+        binding.amount.text = amount
+        binding.tvVipPoint.text = StringBuilder().append(getString(R.string.vip_points_vp)).append(" ").append(amount)
     }
 
     private fun setOnClickListener() {

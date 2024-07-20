@@ -12,12 +12,9 @@ import com.sona.babu88.R
 import com.sona.babu88.api.model.response.SportsBookMarketItem
 import com.sona.babu88.api.model.response.SportsBookSelectionItem
 import com.sona.babu88.databinding.ItemDetails2PremiumBinding
-import com.sona.babu88.util.hide
-import com.sona.babu88.util.show
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DetailsPremiumAdapter : RecyclerView.Adapter<DetailsPremiumAdapter.ViewHolder>() {
     var list = mutableListOf<SportsBookMarketItem?>()
@@ -119,20 +116,22 @@ class DetailsPremiumAdapter : RecyclerView.Adapter<DetailsPremiumAdapter.ViewHol
         llLayout: LinearLayoutCompat, item: List<SportsBookSelectionItem?>?, context: Context
     ) {
         llLayout.removeAllViews()
-        item?.forEach {
+        item?.forEach { it1 ->
             val view =
                 LayoutInflater.from(context).inflate(R.layout.item_deails_premium, null)
             val matchName = view.findViewById<AppCompatTextView>(R.id.tv_match_name)
             val matchOdds = view.findViewById<AppCompatTextView>(R.id.tv_odds_num)
 
-            matchName.text = it?.selectionName
-            matchOdds.text = it?.odds.toString()
+            matchName.text = it1?.selectionName?.replaceFirstChar { it.uppercase() }
+            matchOdds.text = it1?.odds.toString()
+
+            matchOdds.setOnClickListener { onItemClickListener?.onItemClickListener( it1?.odds?.toString() ?: "0.0") }
 
             llLayout.addView(view)
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener()
+        fun onItemClickListener(odds: String)
     }
 }

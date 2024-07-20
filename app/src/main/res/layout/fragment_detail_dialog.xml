@@ -8,6 +8,19 @@
     android:padding="16dp"
     tools:context=".ui.details.detail2.DetailDialogFragment">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_rules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/heebo_bold"
+        android:paddingBottom="8dp"
+        android:text="@string/rules_of_fancy_bets"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
@@ -15,7 +28,7 @@
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toTopOf="@id/tv_ok"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tv_rules">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

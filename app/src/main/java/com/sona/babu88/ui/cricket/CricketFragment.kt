@@ -46,8 +46,7 @@ class CricketFragment : Fragment(), CricketAdapter.OnItemClickListener {
     }
 
     private fun setFishingData() {
-        fishingList.add(FishingList(R.drawable.img_cricket_1_))
-        fishingList.add(FishingList(R.drawable.img_cricket_2_))
+        fishingList.add(FishingList(R.drawable.gaming_brand_ctfc))
     }
 
     override fun onItemClickListener() {

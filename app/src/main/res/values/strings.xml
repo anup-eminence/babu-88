@@ -35,12 +35,11 @@
     <string name="others">Others</string>
     <string name="language">Language</string>
     <string name="faq">FAQ</string>
-    <string name="live_chat">Live Chat</string>
+    <string name="forum">Forum</string>
     <string name="logout">Logout</string>
     <string name="all">All</string>
     <string name="search_games">Search games</string>
     <string name="new_">New</string>
-    <string name="text_marquee">06 May 2024   welcome to king: We Welcome you all to KingBd.com \t\t\t\t\t 06 May 2024 test: testing data</string>
     <string name="rewards">Rewards</string>
     <string name="bet_history">Bet History</string>
     <string name="withdrawal">Withdrawal</string>
@@ -94,7 +93,7 @@
     <string name="available_referral_ncommission">Available Referral \nCommission</string>
     <string name="friend_s_naccepted">Friend\'s \nAccepted</string>
     <string name="friend_ncomplete">Friend \nComplete</string>
-    <string name="turnover_range_more_than_100">Turnover Range: More Than 100</string>
+    <string name="turnover_range_more_than">Turnover Range: More Than</string>
     <string name="referral">Referral</string>
     <string name="bank_details">Bank Details</string>
     <string name="add">Add</string>
@@ -231,8 +230,8 @@
     <string name="match_odds">Match Odds</string>
     <string name="matched">Matched</string>
     <string name="pte">PTE</string>
-    <string name="boookmaker_market">Boookmaker Market</string>
-    <string name="zedo_commission">| Zedo Commission</string>
+    <string name="bookmaker_market">Bookmaker Market</string>
+    <string name="zero_commission">| Zero Commission</string>
     <string name="fancy_bet">Fancy Bet</string>
     <string name="premium_cricket">Premium Cricket</string>
     <string name="search_events">Search Events</string>
@@ -339,4 +338,11 @@
 </string>
     <string name="ok">OK</string>
     <string name="min_max">Min / Max</string>
+    <string name="rules_of_fancy_bets">Rules of Fancy Bets</string>
+    <string name="vip_points_vp">VIP Points (VP)</string>
+    <string name="my_vip">My VIP </string>
+    <string name="referral_text">The BEST referral program is here! You can now earn up to 2% lifetime commission every time your friend referred by you makes a deposit! On top of that we are giving you and your friend an extra ₹300 for every friend you refer when they deposit a total of ₹2000! </string>
+    <string name="tier_1">Tier 1</string>
+    <string name="tier_2">Tier 2</string>
+    <string name="tier_3">Tier 3</string>
 </resources>

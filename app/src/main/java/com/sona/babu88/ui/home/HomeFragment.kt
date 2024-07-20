@@ -3,6 +3,7 @@ package com.sona.babu88.ui.home
 import MySharedPreferences
 import android.content.Context
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.UserData
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.data.socket.SocketHandler
 import com.sona.babu88.data.socket.SocketListener
-import com.sona.babu88.data.HomeViewModel
 import com.sona.babu88.data.socket.SocketUrl
 import com.sona.babu88.databinding.FragmentHomeBinding
-import com.sona.babu88.model.FishingList
 import com.sona.babu88.model.HomeTab
 import com.sona.babu88.ui.adapter.ViewPagerAdapter
 import com.sona.babu88.ui.casino.CasinoFragment
@@ -48,8 +48,6 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     private lateinit var casinoGamesAdapter: CasinoGamesAdapter
     private lateinit var featuredGamesAdapter: FeaturedGamesAdapter
     private var homeTabList = arrayListOf<HomeTab>()
-    private var fishingList = arrayListOf<FishingList>()
-    private var featuredGameList = arrayListOf<FeaturedGameList>()
     private var listener: OnAccountListener? = null
     private var userData : UserData?=null
     private val homeViewModel: HomeViewModel by viewModels()
@@ -76,9 +74,8 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         setTabData()
         observerMessageWebsite()
         setFeaturedGamesAdapter()
-        setFeaturedGamesData()
         setCasinoGamesAdapter()
-        setCasinoGamesData()
+        observerSpecialGameList()
         homeTabAdapter.setTabData(homeTabList)
         initView()
         setOnClickListener()
@@ -122,6 +119,12 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         val hotGamesFragment = HotGamesFragment()
         this.replaceFragment(binding.container.id, hotGamesFragment, false, "hot_games")
         binding.userName.text = userData?.user?.userName
+        binding.amount.text = StringBuilder().append(
+            Html.fromHtml(
+                userData?.user?.symbol ?: "",
+                Html.FROM_HTML_MODE_LEGACY
+            )
+        ).append(" ").append(String.format("%.2f", userData?.user?.myBalance ?: 0.00))
     }
 
     private fun setOnClickListener() {
@@ -130,6 +133,10 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
             imgRewards.setOnClickListener { listener?.onAccountClick("Rewards") }
             imgBetHistory.setOnClickListener { listener?.onAccountClick("Bet History") }
             imgWithdrawal.setOnClickListener { listener?.onAccountClick("Withdrawal") }
+            textBettingPass.setOnClickListener { imgBettingPass.performClick() }
+            textRewards.setOnClickListener { imgRewards.performClick() }
+            textBetHistory.setOnClickListener { imgBetHistory.performClick() }
+            textWithdrawal.setOnClickListener { imgWithdrawal.performClick() }
         }
     }
 
@@ -220,15 +227,6 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         binding.featuredRecyclerView.adapter = featuredGamesAdapter
     }
 
-    private fun setFeaturedGamesData() {
-        featuredGameList.clear()
-        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game1))
-        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game2))
-        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game3))
-        featuredGameList.add(FeaturedGameList(R.drawable.img_fea_game4))
-        featuredGamesAdapter.setFeaturedGamesData(featuredGameList)
-    }
-
     override fun onFeaturedItemClickListener() {
 
     }
@@ -239,23 +237,6 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         casinoGamesAdapter = CasinoGamesAdapter()
         casinoGamesAdapter.setOnCasinoItemClickListener(this@HomeFragment)
         binding.casinoRecyclerView.adapter = casinoGamesAdapter
-    }
-
-    private fun setCasinoGamesData() {
-        fishingList.clear()
-        fishingList.add(FishingList(R.drawable.img_home_1))
-        fishingList.add(FishingList(R.drawable.img_home_2))
-        fishingList.add(FishingList(R.drawable.img_home_3))
-        fishingList.add(FishingList(R.drawable.img_home_4))
-        fishingList.add(FishingList(R.drawable.img_home_5))
-        fishingList.add(FishingList(R.drawable.img_home_6))
-        fishingList.add(FishingList(R.drawable.img_home_7))
-        fishingList.add(FishingList(R.drawable.img_home_8))
-        fishingList.add(FishingList(R.drawable.img_home_9))
-        fishingList.add(FishingList(R.drawable.img_home_10))
-        fishingList.add(FishingList(R.drawable.img_home_11))
-        fishingList.add(FishingList(R.drawable.img_home_12))
-        casinoGamesAdapter.setCasinoGamesData(fishingList)
     }
 
     override fun onCasinoItemClickListener() {}
@@ -325,4 +306,33 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         println(">>>>>socket onSocketResponseReceived$eventName $data")
     }
 
+    private fun observerSpecialGameList() {
+        homeViewModel.getSpecialGameList()
+        homeViewModel.specialGameList.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Success -> {
+                    if (it.data?.matchImages?.isNullOrEmpty() == false) {
+                        binding.tvFeaturedGames.show()
+                        binding.featuredRecyclerView.show()
+                        featuredGamesAdapter.setFeaturedGamesData(it.data.matchImages)
+                    } else {
+                        binding.tvFeaturedGames.hide()
+                        binding.featuredRecyclerView.hide()
+                    }
+                    if (it.data?.casinoImages?.isNullOrEmpty() == false) {
+                        binding.tvCasinoGames.show()
+                        binding.casinoRecyclerView.show()
+                        casinoGamesAdapter.setCasinoGamesData(it.data.casinoImages)
+                    } else {
+                        binding.tvCasinoGames.hide()
+                        binding.casinoRecyclerView.hide()
+                    }
+                }
+
+                is ApiResult.Error -> {}
+                else -> {}
+            }
+        }
+    }
 }

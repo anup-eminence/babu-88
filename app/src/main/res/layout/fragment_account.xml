@@ -16,223 +16,249 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <HorizontalScrollView
-                android:id="@+id/H_ScrollView"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_user_detail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbarThumbHorizontal="@color/yellow"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_account"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/heebo_bold"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@id/amount"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="User Name" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/heebo_medium"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/userName"
+                    app:layout_constraintTop_toBottomOf="@id/userName"
+                    tools:text="₹ 0.00" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_refresh"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_refresh"
+                    android:tint="@color/text_grey_dark"
+                    app:layout_constraintBottom_toBottomOf="@id/amount"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toEndOf="@id/amount"
+                    app:layout_constraintTop_toTopOf="@id/amount" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.4" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_my_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/heebo_medium"
+                    android:text="@string/my_vip"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="3dp"
+                    android:src="@drawable/ic_right_arrow"
+                    android:tint="@color/text_grey_dark"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_my_vip"
+                    app:layout_constraintStart_toEndOf="@id/tv_my_vip"
+                    app:layout_constraintTop_toTopOf="@id/tv_my_vip" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_vip_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/heebo_medium"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/tv_my_vip"
+                    tools:text="@string/vip_points_vp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/cl_user_detail">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_betting_pass"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/bg_4_corner_shape_dark_grey"
+                    android:backgroundTint="@color/black"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_bettingpass"
+                    app:layout_constraintEnd_toStartOf="@id/img_rewards"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/userName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/heebo_bold"
-                        android:singleLine="true"
-                        android:text="User Name"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toTopOf="@id/amount"
-                        app:layout_constraintEnd_toStartOf="@id/iv_refresh"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_betting_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/betting_pass"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/img_betting_pass"
+                    app:layout_constraintStart_toStartOf="@id/img_betting_pass"
+                    app:layout_constraintTop_toBottomOf="@id/img_betting_pass" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/amount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/heebo_regular"
-                        android:singleLine="true"
-                        android:text="₹ 0"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/userName"
-                        app:layout_constraintTop_toBottomOf="@id/userName" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_rewards"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/bg_4_corner_shape_dark_grey"
+                    android:backgroundTint="@color/black"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_rewards"
+                    app:layout_constraintEnd_toStartOf="@id/img_referral"
+                    app:layout_constraintStart_toEndOf="@id/img_betting_pass"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_refresh"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/guideline"
-                        app:layout_constraintStart_toEndOf="@id/userName"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/grey_dark" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_rewards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/rewards"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/img_rewards"
+                    app:layout_constraintStart_toStartOf="@id/img_rewards"
+                    app:layout_constraintTop_toBottomOf="@id/img_rewards" />
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintGuide_percent="0.3"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_referral"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/bg_4_corner_shape_dark_grey"
+                    android:backgroundTint="@color/black"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_referral"
+                    app:layout_constraintEnd_toStartOf="@id/img_deposit"
+                    app:layout_constraintStart_toEndOf="@id/img_rewards"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/img_betting_pass"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginHorizontal="5dp"
-                        android:background="@drawable/bg_4_corner_shape_dark_grey"
-                        android:backgroundTint="@color/black"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_bettingpass"
-                        app:layout_constraintEnd_toStartOf="@id/img_rewards"
-                        app:layout_constraintStart_toStartOf="@id/guideline"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_referral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/referral"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/img_referral"
+                    app:layout_constraintStart_toStartOf="@id/img_referral"
+                    app:layout_constraintTop_toBottomOf="@id/img_referral" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_betting_pass"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/heebo_bold"
-                        android:text="@string/betting_pass"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/img_betting_pass"
-                        app:layout_constraintStart_toStartOf="@id/img_betting_pass"
-                        app:layout_constraintTop_toBottomOf="@id/img_betting_pass" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_deposit"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/bg_4_corner_shape_dark_grey"
+                    android:backgroundTint="@color/black"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_deposit"
+                    app:layout_constraintEnd_toStartOf="@id/img_withdrawal"
+                    app:layout_constraintStart_toEndOf="@id/img_referral"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/base_color_yellow" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/img_rewards"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginHorizontal="5dp"
-                        android:background="@drawable/bg_4_corner_shape_dark_grey"
-                        android:backgroundTint="@color/black"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_rewards"
-                        app:layout_constraintEnd_toStartOf="@id/img_referral"
-                        app:layout_constraintStart_toEndOf="@id/img_betting_pass"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_deposit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/deposit"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/img_deposit"
+                    app:layout_constraintStart_toStartOf="@id/img_deposit"
+                    app:layout_constraintTop_toBottomOf="@id/img_deposit" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_rewards"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/heebo_bold"
-                        android:text="@string/rewards"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/img_rewards"
-                        app:layout_constraintStart_toStartOf="@id/img_rewards"
-                        app:layout_constraintTop_toBottomOf="@id/img_rewards" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_withdrawal"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/bg_4_corner_shape_dark_grey"
+                    android:backgroundTint="@color/black"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_withdrawal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/img_deposit"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/img_referral"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginHorizontal="5dp"
-                        android:background="@drawable/bg_4_corner_shape_dark_grey"
-                        android:backgroundTint="@color/black"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_referral"
-                        app:layout_constraintEnd_toStartOf="@id/img_deposit"
-                        app:layout_constraintStart_toEndOf="@id/img_rewards"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_withdrawal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/withdrawal"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/img_withdrawal"
+                    app:layout_constraintStart_toStartOf="@id/img_withdrawal"
+                    app:layout_constraintTop_toBottomOf="@id/img_withdrawal" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_referral"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/heebo_bold"
-                        android:text="@string/referral"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/img_referral"
-                        app:layout_constraintStart_toStartOf="@id/img_referral"
-                        app:layout_constraintTop_toBottomOf="@id/img_referral" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/img_deposit"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginHorizontal="5dp"
-                        android:background="@drawable/bg_4_corner_shape_dark_grey"
-                        android:backgroundTint="@color/black"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_deposit"
-                        app:layout_constraintEnd_toStartOf="@id/img_withdrawal"
-                        app:layout_constraintStart_toEndOf="@id/img_referral"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/base_color_yellow" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_deposit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/heebo_bold"
-                        android:text="@string/deposit"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/img_deposit"
-                        app:layout_constraintStart_toStartOf="@id/img_deposit"
-                        app:layout_constraintTop_toBottomOf="@id/img_deposit" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/img_withdrawal"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@drawable/bg_4_corner_shape_dark_grey"
-                        android:backgroundTint="@color/black"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_withdrawal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/img_deposit"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_withdrawal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/heebo_bold"
-                        android:text="@string/withdrawal"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/img_withdrawal"
-                        app:layout_constraintStart_toStartOf="@id/img_withdrawal"
-                        app:layout_constraintTop_toBottomOf="@id/img_withdrawal" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </HorizontalScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/parent_RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                app:layout_constraintTop_toBottomOf="@id/H_ScrollView"
+                app:layout_constraintTop_toBottomOf="@id/cl_account"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_account_parent" />
 

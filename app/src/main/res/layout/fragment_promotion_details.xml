@@ -8,19 +8,19 @@
     tools:context=".ui.promotiondetails.PromotionDetailsFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="25dp"
         android:ellipsize="end"
-        android:fontFamily="@font/heebo_bold"
+        android:fontFamily="@font/heebo_medium"
         android:singleLine="true"
-        android:text="KAMA LO SLOT 50000"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="KAMA LO SLOT 50000" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_close"
@@ -28,20 +28,20 @@
         android:layout_height="24dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_wrong"
-        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_title"
+        app:layout_constraintTop_toTopOf="@id/tv_name"
         app:tint="@color/text_grey" />
 
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="12dp"
         android:background="@color/text_grey"
         app:layout_constraintEnd_toEndOf="@id/iv_close"
-        app:layout_constraintStart_toStartOf="@id/tv_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -59,8 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/img_promotion_details"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/img_app_download" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_promotion_period"
@@ -79,25 +79,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="2024-05-05 - 2024-05-06"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:fontFamily="@font/heebo_medium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_promotion_period" />
+                app:layout_constraintTop_toBottomOf="@id/tv_promotion_period"
+                tools:text="2024-05-05 - 2024-05-06" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_text"
+                android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12sp"
+                android:layout_marginTop="15dp"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                app:fontFamily="@font/heebo_bold"
+                app:fontFamily="@font/heebo_regular"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_date"
                 tools:text="@string/text_term_condition" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

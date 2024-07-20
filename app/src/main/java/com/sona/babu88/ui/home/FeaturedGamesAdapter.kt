@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sona.babu88.api.model.response.MatchImage
 import com.sona.babu88.databinding.ItemHomeFeaturedGamesBinding
-import com.sona.babu88.model.FishingList
 
 class FeaturedGamesAdapter : RecyclerView.Adapter<FeaturedGamesAdapter.ViewHolder>() {
-    var list = emptyList<FeaturedGameList?>()
+    var list = emptyList<MatchImage?>()
 
     private var onFeaturedItemClickListener: OnFeaturedItemClickListener? = null
 
-    fun setFeaturedGamesData(itemList: List<FeaturedGameList?>?) {
+    fun setFeaturedGamesData(itemList: List<MatchImage?>?) {
         if (itemList != null) {
             list = itemList
         }
@@ -55,8 +55,3 @@ class FeaturedGamesAdapter : RecyclerView.Adapter<FeaturedGamesAdapter.ViewHolde
         fun onFeaturedItemClickListener()
     }
 }
-
-
-data class FeaturedGameList(
-    val image: Int
-)

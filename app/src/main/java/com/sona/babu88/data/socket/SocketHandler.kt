@@ -7,8 +7,8 @@ import org.json.JSONObject
 import java.net.URISyntaxException
 
 enum class SocketUrl(val url : String){
-    Node7("http://node7.in"),
-    CricketPreminum("http://cricket.premiumsoccer.in")
+    Node7("http://node1.in"),  // "http://node7.in"
+    CricketPremium("http://cricket.premiumsoccer.in")
 }
 
 class SocketHandler {

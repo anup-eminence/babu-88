@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.GameImage
-import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.databinding.FragmentDetailsBinding
 import com.sona.babu88.model.HomeTab
 import com.sona.babu88.util.hideProgress
@@ -164,20 +164,32 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
 
     private fun findImage(type: String): Int {
         return when (type) {
-            "PP" -> R.drawable.pp
-            "PT" -> R.drawable.pt
             "JILI" -> R.drawable.jili
+            "KINGMAKER" -> R.drawable.kingmaker
+            "LUDO" -> R.drawable.ludo
+            "EVOLUTION" -> R.drawable.evolution
+            "REDTIGER" -> R.drawable.redtiger
             "JDB" -> R.drawable.jdb
-            "FC" -> R.drawable.fc
-            "RT" -> R.drawable.rt
-            "EVOPLAY" -> R.drawable.evoplay
-            "SEXY" -> R.drawable.sexy_
-            "EVO" -> R.drawable.evo
-            "BETGAMES" -> R.drawable.betgames
-            "ROYALGAMING" -> R.drawable.royalgaming_
+            "PGSOFT" -> R.drawable.pgsoft
             "EZUGI" -> R.drawable.ezugi
-            "SPRIBE" -> R.drawable.crash_spribe
-            "KM" -> R.drawable.km
+            "SPRIBE" -> R.drawable.spribe
+            "BOMBAYLIVE" -> R.drawable.bombaylive
+            "ROYALGAMING" -> R.drawable.royalgaming
+            "BETGAMES" -> R.drawable.betgames
+            "PRAGMATICPLAY" -> R.drawable.pragmaticplay
+            "PLAYTECH" -> R.drawable.playtech
+            "SEXYBCRT" -> R.drawable.sexybcrt
+            "BIGGAMING" -> R.drawable.biggaming
+            "SV388" -> R.drawable.sv388
+            "SUPERSPADE" -> R.drawable.superspade
+            "ONETOUCH" -> R.drawable.onetouch
+            "SPADEGAMING" -> R.drawable.spadegaming
+            "FC" -> R.drawable.fc
+            "DRAGONSOFT" -> R.drawable.dragonsoft
+            "YESBINGO" -> R.drawable.yesbingo
+            "FASTSPIN" -> R.drawable.fastspin
+            "EVOPLAY" -> R.drawable.evoplay
+            "YL" -> R.drawable.yl
             else -> -1
         }
     }
@@ -237,11 +249,11 @@ class DetailsFragment : Fragment(), DetailsTabAdapter.OnTabItemClickListener,
 
             "Crash" -> {
                 tabList.add(HomeTab(R.drawable.aura, "Aura"))
-                tabList.add(HomeTab(R.drawable.evo, "Evo"))
-                tabList.add(HomeTab(R.drawable.pt, "PT"))
-                tabList.add(HomeTab(R.drawable.pp, "Pragmatic"))
-                tabList.add(HomeTab(R.drawable.royalgaming_, "Royal"))
-                tabList.add(HomeTab(R.drawable.sexy_, "AE Casino"))
+                tabList.add(HomeTab(R.drawable.evolution, "Evo"))
+                tabList.add(HomeTab(R.drawable.playtech, "PT"))
+                tabList.add(HomeTab(R.drawable.pragmaticplay, "Pragmatic"))
+                tabList.add(HomeTab(R.drawable.royalgaming, "Royal"))
+                tabList.add(HomeTab(R.drawable.sexy, "AE Casino"))
                 tabList.add(HomeTab(R.drawable.ezugi, "Ezugi"))
             }
         }

@@ -43,6 +43,7 @@ import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
 import com.sona.babu88.api.model.response.SpecialGameListResponse
+import com.sona.babu88.api.model.response.TierCommDetailsResponse
 import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.api.model.response.UserDetailsResponse
 import com.sona.babu88.api.model.response.UserLoginActivityResponse
@@ -170,4 +171,13 @@ interface ApiServies {
 
     @POST(ApiConstants.GET_MESSAGE_WEBSITE)
     suspend fun getMessageWebsite(@Body generalRequest: GeneralRequest): Response<MessageWebsiteResponse>
+
+    @POST(ApiConstants.GET_PLAT_FORM_LIST)
+    suspend fun getPlatFormList(@Body generalRequest: GeneralRequest): Response<Any>
+
+    @POST(ApiConstants.GET_USER_SC_PACK)
+    suspend fun getUserSCPack(@Body generalRequest: GeneralRequest): Response<Any>
+
+    @POST(ApiConstants.GET_TIER_COMM_DETAILS)
+    suspend fun getTierCommDetails(@Body generalRequest: GeneralRequest): Response<TierCommDetailsResponse>
 }

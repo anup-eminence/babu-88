@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/roundedCorners8dp"
-        tools:src="@drawable/img_fea_game1" />
+        tools:src="@drawable/sexybcrt_banner" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_hot"

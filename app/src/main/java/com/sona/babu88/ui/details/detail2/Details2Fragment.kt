@@ -43,12 +43,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener, SocketListener, DetailsFancyAdapter.OnFancyItemClickListener {
+class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener, SocketListener, DetailsFancyAdapter.OnFancyItemClickListener,
+DetailsPremiumAdapter.OnItemClickListener {
     private lateinit var binding: FragmentDetails2Binding
     private lateinit var detailsAdapter: DetailsAdapter
     private val detailList = arrayListOf<DetailsList>()
     private val sportsViewModel: SportsViewModel by viewModels()
-    private var eventId = ""
     private lateinit var detailsHorizontalAdapter: DetailsHorizontalAdapter
     private var preMarketList = arrayListOf<PreMatchMarket>()
     private var getUserMatchDetailResponse: GetUserMatchDetailResponse? = null
@@ -70,8 +70,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private val socketFancy = "Fancy/Auto"
     private val socketPRMFancy = "PRMFancy/Auto"
     private lateinit var popupWindow: PopupWindow
-
-    private val testEventID = "33404900"
+    private var eventId = "33418775"
 
     private fun getPSelectionList(pos: Int): List<PSelection> {
         return preMarketList[pos].getPSelectionList()
@@ -80,7 +79,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            eventId = it.getString("id").toString()
+//            eventId = it.getString("id").toString()
         }
     }
 
@@ -116,9 +115,9 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         super.onResume()
         callSocket(socket, socketEvent1, eventId)
         callSocket(socket2, socketEvent2, eventId)
-        callSocket(socket3, socketToss, testEventID)
+        callSocket(socket3, socketToss, eventId)
         callSocket(socket4, socketFancy, eventId)
-        callSocketPRM(socketPremium, socketPRMFancy, testEventID)
+        callSocketPRM(socketPremium, socketPRMFancy, eventId)
     }
 
     override fun onPause() {
@@ -163,15 +162,15 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
                 btnClose.hide()
             }
 
-            layout1.cl1.setOnClickListener { handleLayout1Click(0, true, R.color.bg_bet1) }
-            layout1.cl2.setOnClickListener { handleLayout1Click(0, false, R.color.bg_bet2) }
-            layout1.cl3.setOnClickListener { handleLayout1Click(1, true, R.color.bg_bet1) }
-            layout1.cl4.setOnClickListener { handleLayout1Click(1, false, R.color.bg_bet2) }
+            layout1.cl1.setOnClickListener { handleOddsLayoutClick(0, true, R.color.bg_bet1) }
+            layout1.cl2.setOnClickListener { handleOddsLayoutClick(0, false, R.color.bg_bet2) }
+            layout1.cl3.setOnClickListener { handleOddsLayoutClick(1, true, R.color.bg_bet1) }
+            layout1.cl4.setOnClickListener { handleOddsLayoutClick(1, false, R.color.bg_bet2) }
 
-            layout2.cl1.setOnClickListener { handleLayout2Click(1, true, R.color.bg_bet1) }
-            layout2.cl2.setOnClickListener { handleLayout2Click(1, false, R.color.bg_bet2) }
-            layout2.cl3.setOnClickListener { handleLayout2Click(0, true, R.color.bg_bet1) }
-            layout2.cl4.setOnClickListener { handleLayout2Click(0, false, R.color.bg_bet2) }
+            layout2.cl1.setOnClickListener { handleBookMakerLayoutClick(1, true, R.color.bg_bet1) }
+            layout2.cl2.setOnClickListener { handleBookMakerLayoutClick(1, false, R.color.bg_bet2) }
+            layout2.cl3.setOnClickListener { handleBookMakerLayoutClick(0, true, R.color.bg_bet1) }
+            layout2.cl4.setOnClickListener { handleBookMakerLayoutClick(0, false, R.color.bg_bet2) }
 
             tvMatchOdds.setOnClickListener {
                 layout1.root.show()
@@ -198,28 +197,31 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         }
     }
 
-    private fun handleLayout1Click(
+    private fun handleOddsLayoutClick(
         index: Int,
         isBack: Boolean,
         color: Int
     ) {
         if (detailsResponse?.data?.isNullOrEmpty() == false && detailsResponse?.data?.get(0)?.runners?.isNullOrEmpty() == false) {
-            val price = if (isBack) {
-                detailsResponse?.data?.get(0)?.runners?.get(index)?.ex?.availableToBack?.get(0)?.price
-            } else {
-                detailsResponse?.data?.get(0)?.runners?.get(index)?.ex?.availableToLay?.get(0)?.price
+            val runner = detailsResponse?.data?.get(0)?.runners?.get(index)
+            if (runner != null) {
+                val price = if (isBack) {
+                    runner.ex?.availableToBack?.getOrNull(0)?.price
+                } else {
+                    runner.ex?.availableToLay?.getOrNull(0)?.price
+                }
+                showLayoutBet(color, (price ?: "").toString())
             }
-            showLayoutBet(color, price.toString())
         }
     }
 
-    private fun handleLayout2Click(
+    private fun handleBookMakerLayoutClick(
         index: Int,
         isBack: Boolean,
         color: Int
     ) {
         if (detailsBookMakerResponse?.data?.isNullOrEmpty() == false) {
-            val bm = detailsBookMakerResponse?.data?.get(0)?.bm1?.get(index)
+            val bm = detailsBookMakerResponse?.data?.get(0)?.bm1?.getOrNull(index)
             if (bm?.s == "ACTIVE") {
                 val price = if (isBack) bm.b1 else bm.l1
                 showLayoutBet(color, price ?: "")
@@ -354,7 +356,7 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     }
 
     private fun callSocketPRM(socket: SocketHandler, socketEvent: String, eventId: String){
-        socket.setSocket(SocketUrl.CricketPreminum)
+        socket.setSocket(SocketUrl.CricketPremium)
         socket.establishConnection(this@Details2Fragment)
         socket.setSocketEvent(socketEvent, eventId)
     }
@@ -393,10 +395,14 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
 
             socketToss -> {
                 detailTossResponse = json.decodeFromString<DetailTossResponse>(data.toString())
-                binding.layoutToss.tvMatchTitle.text = detailTossResponse?.data?.btype
-                binding.layoutToss.tvMatchTitle.text = detailTossResponse?.data?.mtype
-                println(">>>>>socket onSocketResponseReceived: $eventName $data")
-                println(">>>>>socket onSocketResponseReceived detailTossResponse:  $detailTossResponse")
+                if (detailTossResponse?.data?.status == "OPEN") {
+                    binding.layoutToss.apply {
+                        root.show()
+                        tvName.text = detailTossResponse?.data?.runnersname ?: ""
+                        tvMatchTitle.text = detailTossResponse?.data?.btype ?: ""
+                        tvMatchTitle2.text = detailTossResponse?.data?.mtype ?: ""
+                    }
+                } else binding.layoutToss.root.hide()
             }
 
             socketFancy -> {
@@ -407,7 +413,6 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
             }
 
             socketPRMFancy -> {
-                println(">>>>>socket onSocketResponseReceived: $eventName $data")
                 CoroutineScope(Dispatchers.IO).launch {
                     premiumFancyResponse =
                         json.decodeFromString<PremiumFancyResponse>(data.toString())
@@ -428,17 +433,32 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
         binding.layout1.apply {
             if (detailsResponse?.data.isNullOrEmpty()) return
             detailsResponse?.data?.get(0)?.apply {
-                if (!runners.isNullOrEmpty()) {
-                    tvPte.text = StringBuilder().append(getString(R.string.pte)).append(" ")
-                        .append(totalMatched)
-                    text1.text = runners[0]?.ex?.availableToBack?.get(0)?.price.toString()
-                    text2.text = runners[0]?.ex?.availableToBack?.get(0)?.size.toString()
-                    text3.text = runners[0]?.ex?.availableToLay?.get(0)?.price.toString()
-                    text4.text = runners[0]?.ex?.availableToLay?.get(0)?.size.toString()
-                    text5.text = runners[1]?.ex?.availableToBack?.get(0)?.price.toString()
-                    text6.text = runners[1]?.ex?.availableToBack?.get(0)?.size.toString()
-                    text7.text = runners[1]?.ex?.availableToLay?.get(0)?.price.toString()
-                    text8.text = runners[1]?.ex?.availableToLay?.get(0)?.size.toString()
+                tvPte.text = StringBuilder().append(getString(R.string.pte)).append(" ")
+                    .append(String.format("%.2f", totalMatched))
+
+                if (!runners?.get(0)?.ex?.availableToBack.isNullOrEmpty()) {
+                    text1.text =
+                        (runners?.get(0)?.ex?.availableToBack?.get(0)?.price ?: "-").toString()
+                    text2.text =
+                        (runners?.get(0)?.ex?.availableToBack?.get(0)?.size ?: "--").toString()
+                }
+                if (!runners?.get(0)?.ex?.availableToLay.isNullOrEmpty()) {
+                    text3.text =
+                        (runners?.get(0)?.ex?.availableToLay?.get(0)?.price ?: "-").toString()
+                    text4.text =
+                        (runners?.get(0)?.ex?.availableToLay?.get(0)?.size ?: "--").toString()
+                }
+                if (!runners?.get(1)?.ex?.availableToBack.isNullOrEmpty()) {
+                    text5.text =
+                        (runners?.get(1)?.ex?.availableToBack?.get(0)?.price ?: "-").toString()
+                    text6.text =
+                        (runners?.get(1)?.ex?.availableToBack?.get(0)?.size ?: "--").toString()
+                }
+                if (!runners?.get(1)?.ex?.availableToLay.isNullOrEmpty()) {
+                    text7.text =
+                        (runners?.get(1)?.ex?.availableToLay?.get(0)?.price ?: "-").toString()
+                    text8.text =
+                        (runners?.get(1)?.ex?.availableToLay?.get(0)?.size ?: "--").toString()
                 }
             }
         }
@@ -492,8 +512,16 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     private fun setUpPremiumAdapter() {
         binding.rvPremium.layoutManager = LinearLayoutManager(requireContext())
         detailsPremiumAdapter = DetailsPremiumAdapter()
+        detailsPremiumAdapter.setOnItemClickListener(this@Details2Fragment)
         binding.rvPremium.adapter = detailsPremiumAdapter
         binding.rvPremium.isNestedScrollingEnabled = false
+    }
+
+    override fun onItemClickListener(odds: String) {
+        showLayoutBet(
+            R.color.bg_bet1,
+            odds
+        )
     }
 
     override fun onDestroy() {
@@ -502,11 +530,11 @@ class Details2Fragment : Fragment(), DetailsHorizontalAdapter.OnTabClickListener
     }
 
     private fun destroySocket() {
-        socket.removeEventListener(socketEvent1, "33404373")
-        socket2.removeEventListener(socketEvent2, "33404373")
+        socket.removeEventListener(socketEvent1, eventId)
+        socket2.removeEventListener(socketEvent2, eventId)
         socket3.removeEventListener(socketToss, eventId)
         socket4.removeEventListener(socketFancy, eventId)
-        socketPremium.removeEventListener(socketPRMFancy, "33400625")
+        socketPremium.removeEventListener(socketPRMFancy, eventId)
     }
 
     private fun showPopup(view: View) {

@@ -11,6 +11,7 @@ class AuthorizationInterceptor : Interceptor {
         var request: Request = chain.request()
         val sessionId = "Your Session Id"
         request = request.newBuilder()
+            .addHeader("Origin","https://babu8.buzz")
             .addHeader("Auth", "${MySharedPreferences.readString(AppConstant.TOKEN,"")}").build()
         return chain.proceed(request)
     }

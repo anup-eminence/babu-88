@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sona.babu88.databinding.ItemCasinoBinding
 import com.sona.babu88.model.FishingList
-import com.sona.babu88.databinding.ItemFishingBinding
 
 class FishingAdapter : RecyclerView.Adapter<FishingAdapter.ViewHolder>() {
     var list = emptyList<FishingList?>()
@@ -23,11 +23,11 @@ class FishingAdapter : RecyclerView.Adapter<FishingAdapter.ViewHolder>() {
         this.onItemClickListener = onItemClickListener
     }
 
-    class ViewHolder(val binding: ItemFishingBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemCasinoBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemFishingBinding.inflate(
+            ItemCasinoBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )

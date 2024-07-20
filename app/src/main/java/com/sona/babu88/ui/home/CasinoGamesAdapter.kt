@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sona.babu88.api.model.response.CasinoImage
 import com.sona.babu88.databinding.ItemHotGamesBinding
-import com.sona.babu88.model.FishingList
 
 class CasinoGamesAdapter : RecyclerView.Adapter<CasinoGamesAdapter.ViewHolder>() {
-    var list = emptyList<FishingList?>()
+    var list = emptyList<CasinoImage?>()
 
     private var onCasinoItemClickListener: OnCasinoItemClickListener? = null
 
-    fun setCasinoGamesData(itemList: List<FishingList?>?) {
+    fun setCasinoGamesData(itemList: List<CasinoImage?>?) {
         if (itemList != null) {
             list = itemList
         }

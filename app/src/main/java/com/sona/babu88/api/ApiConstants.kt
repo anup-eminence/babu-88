@@ -43,4 +43,7 @@ object ApiConstants {
     const val GET_MATCH_RESULT_LIST = "$API_USER/getMatchResultList"
     const val GET_USER_LOGIN_ACTIVITY = "$API_USER/getUserLoginActivity"
     const val GET_MESSAGE_WEBSITE = "$API_USER/getMessageWebsite"
+    const val GET_PLAT_FORM_LIST = "$API_USER/getPlatFormList"
+    const val GET_USER_SC_PACK = "$API_USER/getUserSCPack"
+    const val GET_TIER_COMM_DETAILS = "$API_USER/getTierCommDetails"
 }

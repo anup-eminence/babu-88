@@ -46,9 +46,10 @@ class HistoryFragment : Fragment() {
         binding.viewPager.setCurrentItem(currentViewPagerItem, false)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Bet History"
-                1 -> tab.text = "TurnOver"
-                2 -> tab.text = "Wallet History"
+                0 -> tab.text = "Betting Records"
+                1 -> tab.text = "Turnover"
+                2 -> tab.text = "Transaction Records"
+                3 -> tab.text = "Profit Loss"
             }
         }.attach()
 
@@ -77,6 +78,9 @@ class HistoryFragment : Fragment() {
         } else if (tabPosition == "2") {
             binding.tabLayout.getTabAt(2)?.select()
             binding.viewPager.setCurrentItem(2, false)
+        } else if (tabPosition == "3") {
+            binding.tabLayout.getTabAt(3)?.select()
+            binding.viewPager.setCurrentItem(3, false)
         }
     }
 }

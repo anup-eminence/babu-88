@@ -111,7 +111,7 @@ object NavUtils {
                 new = false
             ),
             NavigationItem(
-                name = ContextCompat.getString(context, R.string.live_chat),
+                name = ContextCompat.getString(context, R.string.forum),
                 image = ContextCompat.getDrawable(context, R.drawable.ic_live_chat),
                 header = "",
                 hot = false,

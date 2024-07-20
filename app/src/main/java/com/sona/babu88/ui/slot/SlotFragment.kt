@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
-import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.databinding.FragmentSlotBinding
 import com.sona.babu88.model.SlotList
 import com.sona.babu88.util.OnSelectedFragmentListener
@@ -78,14 +78,22 @@ class SlotFragment : Fragment(), SlotAdapter.OnItemClickListener {
     }
 
     private fun findImage(type: String): Int {
-        return when (type.lowercase()) {
-            "pp" -> R.drawable.pp
-            "pt" -> R.drawable.pt
-            "jili" -> R.drawable.jili
-            "jdb" -> R.drawable.jdb
-            "fc" -> R.drawable.fc
-            "rt" -> R.drawable.rt
-            "evoplay" -> R.drawable.evoplay
+        return when (type) {
+            "JILI" -> R.drawable.jili
+            "KINGMAKER" -> R.drawable.kingmaker
+            "EVOLUTION" -> R.drawable.evolution
+            "REDTIGER" -> R.drawable.redtiger
+            "SPADEGAMING" -> R.drawable.spadegaming
+            "FC" -> R.drawable.fc
+            "JDB" -> R.drawable.jdb
+            "DRAGONSOFT" -> R.drawable.dragonsoft
+            "PRAGMATICPLAY" -> R.drawable.pragmaticplay
+            "PLAYTECH" -> R.drawable.playtech
+            "YESBINGO" -> R.drawable.yesbingo
+            "FASTSPIN" -> R.drawable.fastspin
+            "PGSOFT" -> R.drawable.pgsoft
+            "EVOPLAY" -> R.drawable.evoplay
+            "ONETOUCH" -> R.drawable.onetouch
             else -> -1
         }
     }

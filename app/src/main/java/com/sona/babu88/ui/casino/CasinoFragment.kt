@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
-import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.databinding.FragmentCasinoBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.util.OnSelectedFragmentListener
@@ -89,43 +89,21 @@ class CasinoFragment : Fragment(), CasinoAdapter.OnItemClickListener {
 
     private fun findImage(type: String): Int {
         return when (type) {
-            "SEXY" -> {
-                R.drawable.sexy_banner
-            }
-
-            "EVO" -> {
-                R.drawable.evo_banner
-            }
-
-            "PP" -> {
-                R.drawable.pp_banner
-            }
-
-            "PT" -> {
-                R.drawable.pt_banner
-            }
-
-            "BETGAMES" -> {
-                R.drawable.betgames_banner
-            }
-
-            "ROYALGAMING" -> {
-                R.drawable.royalgame_banner
-            }
-
-            "EZUGI" -> {
-                R.drawable.ezugi_banner
-            }
-
-            "EVOPLAY" -> {
-                R.drawable.evoplay_banner
-            }
-
-            else -> {
-                -1
-            }
+            "EVOLUTION" -> R.drawable.evolution_banner
+            "BETGAMES" -> R.drawable.betgames_banner
+            "PRAGMATICPLAY" -> R.drawable.pragmaticplay_banner
+            "PLAYTECH" -> R.drawable.playtech_banner
+            "SEXYBCRT" -> R.drawable.sexybcrt_banner
+            "BIGGAMING" -> R.drawable.biggaming_banner
+            "SV388" -> R.drawable.sv388_banner
+            "EZUGI" -> R.drawable.ezugi_banner
+            "SUPERSPADE" -> R.drawable.superspade_banner
+            "ONETOUCH" -> R.drawable.onetouch_banner
+            "SPRIBE" -> R.drawable.spribe_banner
+            "BOMBAYLIVE" -> R.drawable.bombaylive_banner
+            "ROYALGAMING" -> R.drawable.royalgaming_banner
+            else -> -1
         }
-
     }
 
     override fun onAttach(context: Context) {

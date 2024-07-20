@@ -10,7 +10,7 @@ import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
-import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.databinding.ActivityNewBinding
 import com.sona.babu88.ui.account.Account2Fragment
 import com.sona.babu88.ui.bets.BetsActivity

@@ -1,17 +1,20 @@
 package com.sona.babu88.ui.promotion
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sona.babu88.api.model.response.Promotion
 import com.sona.babu88.databinding.ItemPromotionBinding
 
 class PromotionAdapter : RecyclerView.Adapter<PromotionAdapter.ViewHolder>() {
-    var list = emptyList<PromotionList?>()
+    var list = emptyList<Promotion?>()
 
     private var onItemClickListener: OnItemClickListener? = null
 
-    fun setPromotionData(itemList: List<PromotionList?>?) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun setPromotionData(itemList: List<Promotion?>?) {
         if (itemList != null) {
             list = itemList
         }
@@ -39,12 +42,14 @@ class PromotionAdapter : RecyclerView.Adapter<PromotionAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.binding.apply {
-            Glide.with(root.context).load(item?.image).into(image)
-            tvText1.text = item?.text1
-            tvText2.text = item?.text2
+            Glide.with(root.context).load(item?.poster).into(image)
+            tvTitle.text = item?.title
+            tvName.text = item?.name
+            tvDate.text =
+                StringBuilder().append(item?.pstartDate).append(" ~ ").append(item?.pdrawDate)
 
             btnDetails.setOnClickListener {
-                onItemClickListener?.onBtnDetailsClickListener()
+                onItemClickListener?.onBtnDetailsClickListener(position)
             }
             btnApplyNow.setOnClickListener {
                 onItemClickListener?.onBtnApplyNowClickListener()
@@ -53,11 +58,7 @@ class PromotionAdapter : RecyclerView.Adapter<PromotionAdapter.ViewHolder>() {
     }
 
     interface OnItemClickListener {
-        fun onBtnDetailsClickListener()
+        fun onBtnDetailsClickListener(position: Int)
         fun onBtnApplyNowClickListener()
     }
 }
-
-data class PromotionList(
-    val image: Int, val text1: String, val text2: String
-)

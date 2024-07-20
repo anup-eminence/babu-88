@@ -1,19 +1,22 @@
 package com.sona.babu88.ui.promotion
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sona.babu88.R
+import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.databinding.ItemPromotionTabBinding
 
 class PromotionTabAdapter : RecyclerView.Adapter<PromotionTabAdapter.ViewHolder>() {
     private var selectedPosition = 0
     private var lastSelectedPosition = -1
-    var list = emptyList<PromotionTabList?>()
+    var list = emptyList<PromoFilterResponse?>()
     private var onTabItemClickListener: OnTabItemClickListener? = null
 
-    fun setTabData(itemList: List<PromotionTabList?>?) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun setFilterData(itemList: List<PromoFilterResponse?>?) {
         if (itemList != null) {
             list = itemList
         }
@@ -41,7 +44,7 @@ class PromotionTabAdapter : RecyclerView.Adapter<PromotionTabAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.binding.apply {
-            tvTab.text = item?.tab
+            tvTab.text = item?.productName
         }
 
         holder.binding.root.setOnClickListener {
@@ -64,7 +67,3 @@ class PromotionTabAdapter : RecyclerView.Adapter<PromotionTabAdapter.ViewHolder>
         fun onTabItemClickListener(position: Int)
     }
 }
-
-data class PromotionTabList(
-    val tab: String
-)

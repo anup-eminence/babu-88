@@ -10,14 +10,15 @@ class HistoryVPAdapter(
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int {
-        return 3
+        return 4
     }
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> BetHistoryFragment()
-            1 -> TurnoverHistoryFragment()
-            2 -> WalletHistoryFragment()
+            0 -> BettingRecordsFragment()
+            1 -> TurnoverFragment()
+            2 -> TransactionRecordsFragment()
+            3 -> ProfitLossFragment()
             else -> throw IndexOutOfBoundsException("Invalid position $position")
         }
     }

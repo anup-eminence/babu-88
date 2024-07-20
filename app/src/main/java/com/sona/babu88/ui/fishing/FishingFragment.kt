@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
-import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.databinding.FragmentFishingBinding
 import com.sona.babu88.model.FishingList
 import com.sona.babu88.util.OnSelectedFragmentListener
@@ -44,7 +44,7 @@ class FishingFragment : Fragment(), FishingAdapter.OnItemClickListener {
     }
 
     private fun setFishingAdapter() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         fishingAdapter = FishingAdapter()
         fishingAdapter.setOnItemClickListener(this@FishingFragment)
         binding.recyclerView.adapter = fishingAdapter
@@ -88,9 +88,13 @@ class FishingFragment : Fragment(), FishingAdapter.OnItemClickListener {
 
     private fun findImage(type: String): Int {
         return when (type) {
-            "JDB" -> R.drawable.fishing_jdb_banner
-            "FC" -> R.drawable.fishing_fc_banner
-            "JILI" -> R.drawable.fishing_jili_banner
+            "JILI" -> R.drawable.jili_banner
+            "SPADEGAMING" -> R.drawable.spadegaming_banner
+            "FC" -> R.drawable.fc_banner
+            "JDB" -> R.drawable.jdb_banner
+            "YL" -> R.drawable.yl_banner
+            "YESBINGO" -> R.drawable.yesbingo_banner
+            "FASTSPIN" -> R.drawable.fastspin_banner
             else -> -1
         }
     }

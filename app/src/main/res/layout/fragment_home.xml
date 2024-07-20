@@ -21,7 +21,7 @@
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_marquee"
@@ -40,7 +40,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/viewpager"
-                tools:text="@string/text_marquee" />
+                tools:text="@string/referral_text" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_home"
@@ -57,11 +57,12 @@
                     android:id="@+id/userName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/heebo_bold"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@id/amount"
                     app:layout_constraintEnd_toStartOf="@id/iv_refresh"
                     app:layout_constraintStart_toStartOf="parent"
@@ -72,27 +73,27 @@
                     android:id="@+id/amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/heebo_regular"
+                    android:fontFamily="@font/heebo_medium"
                     android:singleLine="true"
-                    android:text="₹ 0"
                     android:textColor="@color/black"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userName" />
+                    app:layout_constraintStart_toStartOf="@id/userName"
+                    app:layout_constraintTop_toBottomOf="@id/userName"
+                    tools:text="₹ 0" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_refresh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="15dp"
                     android:src="@drawable/ic_refresh"
+                    android:tint="@color/text_grey_dark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
                     app:layout_constraintStart_toEndOf="@id/userName"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/grey_dark" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline"
@@ -217,16 +218,16 @@
                 android:id="@+id/recyclerViewTab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="12dp"
+                android:fadeScrollbars="false"
+                android:scrollbarThumbHorizontal="@color/yellow"
+                android:scrollbarTrackHorizontal="@color/grey"
+                android:scrollbars="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_home"
                 tools:itemCount="1"
-                android:layout_marginHorizontal="8dp"
-                android:scrollbars="horizontal"
-                android:scrollbarThumbHorizontal="@color/yellow"
-                android:scrollbarTrackHorizontal="@color/grey"
-                android:fadeScrollbars="false"
                 tools:listitem="@layout/item_home_tab" />
 
             <androidx.fragment.app.FragmentContainerView
@@ -267,7 +268,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_featured_games"
                 tools:itemCount="1"
-                tools:listitem="@layout/item_home_featured_games"/>
+                tools:listitem="@layout/item_home_featured_games" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_casino_games"
@@ -355,10 +356,10 @@
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
                 android:padding="0.5dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/img_referal"
-                android:layout_marginBottom="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/tv_referrals"
                 app:layout_constraintStart_toStartOf="@id/tv_referrals"

@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.auth.CheckUserLogin
-import com.sona.babu88.data.HomeViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.data.viewmodel.AuthViewModel
 import com.sona.babu88.databinding.ActivityHomeBinding
 import com.sona.babu88.ui.account.AccountFragment
@@ -81,8 +81,6 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
         showSideDrawer()
         binding.bottomNav.selectedItemId = R.id.nav_home
         setBottomNav()
-        binding.layoutToolBar.toolbarImage.setOnClickListener { setFragment(HomeFragment(),binding.container.id) } //temp... added
-
         observer()
         loginUser()
     }
@@ -137,16 +135,16 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
         }
 
 
-        homeViewModel.getSpecialGameList()
+//        homeViewModel.getSpecialGameList()
 
-        homeViewModel.gameList.observe(this){
-            println(">>>>>gameList ${it.data}")
+//        homeViewModel.gameList.observe(this){
+//            println(">>>>>gameList ${it.data}")
+//
+//        }
 
-        }
-
-        homeViewModel.specialGameList.observe(this){
-            println(">>>>>>specialGameList ${it.data}")
-        }
+//        homeViewModel.specialGameList.observe(this){
+//            println(">>>>>>specialGameList ${it.data}")
+//        }
     }
 
     override fun onCloseCLick() {
@@ -211,15 +209,18 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
             "Agent Affiliate" -> { startActivity(Intent(this, AgentAffiliateActivity::class.java)) }
             "Language" -> { langDialog.show(supportFragmentManager, "language") }
             "FAQ" -> { setFragment(FAQFragment(), binding.container.id) }
+            "Forum" -> {}
+            "Download App" -> {}
             "Logout" -> { logout() }
         }
     }
 
     override fun onAccountClick(title: String) {
         when(title) {
-            "Bet History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "0"), binding.container.id) }
-            "Turnover History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "1"), binding.container.id) }
-            "Wallet History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "2"), binding.container.id) }
+            "Betting Records", "Bet History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "0"), binding.container.id) }
+            "Turnover" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "1"), binding.container.id) }
+            "Transaction Records" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "2"), binding.container.id) }
+            "Profit Loss" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "3"), binding.container.id) }
             "Claim Voucher" -> { setFragment(ClaimVoucherFragment(), binding.container.id) }
             "Lucky Spin" -> { setFragment(LuckySpinFragment(), binding.container.id) }
             "Daily Check In" -> { setFragment(RewardsFragment(), binding.container.id) }
@@ -321,6 +322,7 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
 
     private fun logout() {
         MySharedPreferences.writeString(TOKEN,"")
+        MySharedPreferences.clear()
         binding.bottomNav.hide()
         binding.bottomNav.selectedItemId = R.id.nav_home
         binding.login.root.show()
