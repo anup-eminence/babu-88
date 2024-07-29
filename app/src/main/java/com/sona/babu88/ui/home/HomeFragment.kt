@@ -13,10 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.UserData
-import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.data.socket.SocketHandler
 import com.sona.babu88.data.socket.SocketListener
 import com.sona.babu88.data.socket.SocketUrl
+import com.sona.babu88.data.viewmodel.AuthViewModel
+import com.sona.babu88.data.viewmodel.HomeViewModel
 import com.sona.babu88.databinding.FragmentHomeBinding
 import com.sona.babu88.model.HomeTab
 import com.sona.babu88.ui.adapter.ViewPagerAdapter
@@ -37,7 +38,6 @@ import com.sona.babu88.util.provideViewPagerList
 import com.sona.babu88.util.replaceFragment
 import com.sona.babu88.util.show
 import com.sona.babu88.util.showExitAlert
-import com.sona.babu88.util.showToast
 
 class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     FeaturedGamesAdapter.OnFeaturedItemClickListener, CasinoGamesAdapter.OnCasinoItemClickListener,
@@ -51,6 +51,7 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
     private var listener: OnAccountListener? = null
     private var userData : UserData?=null
     private val homeViewModel: HomeViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     private lateinit var socket : SocketHandler
     private lateinit var socket2 : SocketHandler
     private val socketEvent1 = "Event/Auto"
@@ -87,17 +88,17 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
             binding.clHome.hide()
         }
 
-        binding.ivRefresh.setOnClickListener {
-            /*val d = MyWebSocketClient()
-            d.start()*/
-           callSocket()
-        }
+//        binding.ivRefresh.setOnClickListener {
+//            /*val d = MyWebSocketClient()
+//            d.start()*/
+//           callSocket()
+//        }
 
-        binding.userName.setOnClickListener {
-            requireContext().showToast("clicked")
-            socket.removeEventListener(socketEvent1,"33353999")
-            socket2.removeEventListener(socketEvent2,"33353999")
-        }
+//        binding.userName.setOnClickListener {
+//            requireContext().showToast("clicked")
+//            socket.removeEventListener(socketEvent1,"33353999")
+//            socket2.removeEventListener(socketEvent2,"33353999")
+//        }
     }
 
 
@@ -118,17 +119,12 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
         userData = MySharedPreferences.getSavedObjectFromPreference(requireContext(), AppConstant.USER_DATA)
         val hotGamesFragment = HotGamesFragment()
         this.replaceFragment(binding.container.id, hotGamesFragment, false, "hot_games")
-        binding.userName.text = userData?.user?.userName
-        binding.amount.text = StringBuilder().append(
-            Html.fromHtml(
-                userData?.user?.symbol ?: "",
-                Html.FROM_HTML_MODE_LEGACY
-            )
-        ).append(" ").append(String.format("%.2f", userData?.user?.myBalance ?: 0.00))
+        setUserData(userData?.user?.myBalance)
     }
 
     private fun setOnClickListener() {
         binding.apply {
+            ivRefresh.setOnClickListener { observerUserDetails() }
             imgBettingPass.setOnClickListener { listener?.onAccountClick("Betting Pass") }
             imgRewards.setOnClickListener { listener?.onAccountClick("Rewards") }
             imgBetHistory.setOnClickListener { listener?.onAccountClick("Bet History") }
@@ -334,5 +330,41 @@ class HomeFragment : Fragment(), HomeTabAdapter.OnTabItemClickListener,
                 else -> {}
             }
         }
+    }
+
+    private fun observerUserDetails() {
+        authViewModel.getUserDetails()
+        authViewModel.userDetails.observe(viewLifecycleOwner) {
+            binding.apply {
+                when (it) {
+                    is ApiResult.Loading -> {
+                        progressBar.show()
+                        amount.hide()
+                    }
+
+                    is ApiResult.Success -> {
+                        progressBar.hide()
+                        amount.show()
+                        setUserData(it.data?.balance)
+                    }
+
+                    is ApiResult.Error -> {
+                        progressBar.hide()
+                        amount.show()
+                        setUserData(userData?.user?.myBalance)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setUserData(myBalance: Double?) {
+        binding.userName.text = userData?.user?.userName
+        binding.amount.text = StringBuilder().append(
+            Html.fromHtml(
+                userData?.user?.symbol ?: "",
+                Html.FROM_HTML_MODE_LEGACY
+            )
+        ).append(" ").append(String.format("%.2f", myBalance ?: 0.00))
     }
 }

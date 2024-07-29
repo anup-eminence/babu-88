@@ -10,14 +10,20 @@ import com.google.gson.reflect.TypeToken
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.RetrofitUtil
 import com.sona.babu88.api.model.request.GeneralRequest
+import com.sona.babu88.api.model.request.TotalUserAccountLogsRequest
 import com.sona.babu88.api.model.request.TransactionPLRequest
 import com.sona.babu88.api.model.request.TransactionPLRequestFull
 import com.sona.babu88.api.model.request.TransactionRecordRequest
+import com.sona.babu88.api.model.request.UsersPromotionRequest
 import com.sona.babu88.api.model.response.PlatFormListResponse
 import com.sona.babu88.api.model.response.Provider
+import com.sona.babu88.api.model.response.TotalUserAccountLogsResponse
+import com.sona.babu88.api.model.response.TransactionPLResponse
+import com.sona.babu88.api.model.response.TransactionsRecordsResponse
 import com.sona.babu88.api.model.response.Type
 import com.sona.babu88.api.model.response.UserSCPackResponse
 import com.sona.babu88.api.model.response.UserSCPackResponseItem
+import com.sona.babu88.api.model.response.UsersPromotionResponse
 import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.AppConstant.getTimeStamp
 import com.sona.babu88.util.getCurrrentDate
@@ -34,15 +40,15 @@ enum class TransactionType(shortKey: String) {
 
 class TransactionViewModel : ViewModel() {
 
-    private val _transactionPL = MutableLiveData<ApiResult<Any?>>()
-    val transactionPL: LiveData<ApiResult<Any?>> get() = _transactionPL
+    private val _transactionPL = MutableLiveData<ApiResult<TransactionPLResponse?>>()
+    val transactionPL: LiveData<ApiResult<TransactionPLResponse?>> get() = _transactionPL
 
 
     private val _transactionPLFull = MutableLiveData<ApiResult<Any?>>()
     val transactionPLFull: LiveData<ApiResult<Any?>> get() = _transactionPLFull
 
-    private val _transactionRecord = MutableLiveData<ApiResult<Any?>>()
-    val transactionRecord: LiveData<ApiResult<Any?>> get() = _transactionRecord
+    private val _transactionRecord = MutableLiveData<ApiResult<TransactionsRecordsResponse?>>()
+    val transactionRecord: LiveData<ApiResult<TransactionsRecordsResponse?>> get() = _transactionRecord
 
     private val _platFormList = MutableLiveData<ApiResult<PlatFormListResponse?>>()
     val platFormList: LiveData<ApiResult<PlatFormListResponse?>> get() = _platFormList
@@ -50,7 +56,17 @@ class TransactionViewModel : ViewModel() {
     private val _userSCPack = MutableLiveData<ApiResult<UserSCPackResponse?>>()
     val userSCPack: LiveData<ApiResult<UserSCPackResponse?>> get() = _userSCPack
 
+    private val _userPromotions = MutableLiveData<ApiResult<UsersPromotionResponse?>>()
+    val userPromotions: LiveData<ApiResult<UsersPromotionResponse?>> get() = _userPromotions
+
+    private val _totalUserAccountLogs = MutableLiveData<ApiResult<TotalUserAccountLogsResponse?>>()
+    val totalUserAccountLogs: LiveData<ApiResult<TotalUserAccountLogsResponse?>> get() = _totalUserAccountLogs
+
     fun getTransactionPl(
+        userId: String,
+        start: String,
+        end: String,
+        plat: String,
         gType: String
     ) {
         viewModelScope.launch {
@@ -58,10 +74,10 @@ class TransactionViewModel : ViewModel() {
                 _transactionPL.postValue(ApiResult.Loading())
                 val request = getTimeStamp()
                 val plRequest = TransactionPLRequest(
-                    userId = "ryzen2",
-                    start = getSeventhDayDate(),
-                    end = getCurrrentDate(),
-                    plat = "All",
+                    userId = userId,
+                    start = start,
+                    end = end,
+                    plat = plat,
                     gType = gType,
                     timeStamp = request[AppConstant.TIMESTAMP].toString(),
                     secretKey = request[AppConstant.SECRET_KEY].toString(),
@@ -112,18 +128,22 @@ class TransactionViewModel : ViewModel() {
     }
 
     fun getTransactionRecord(
-        transactionType: String
+        userId: String,
+        start: String,
+        end: String,
+        transactionType: String,
+        status: String
     ) {
         viewModelScope.launch {
             try {
                 _transactionRecord.postValue(ApiResult.Loading())
                 val request = getTimeStamp()
                 val transactionRecord = TransactionRecordRequest(
-                    userId = "ryzen2",
-                    start = getSeventhDayDate(),
-                    end = getCurrrentDate(),
+                    userId = userId,
+                    start = start,
+                    end = end,
                     type = transactionType,
-                    status = "app",
+                    status = status,
                     timeStamp = request[AppConstant.TIMESTAMP].toString(),
                     secretKey = request[AppConstant.SECRET_KEY] ?: ""
                 )
@@ -219,6 +239,64 @@ class TransactionViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _userSCPack.postValue(ApiResult.Error("Something went Went wrong!"))
+            }
+        }
+    }
+
+    fun getUsersPromotions(
+        pageNo: Int,
+        status: Int
+    ) {
+        viewModelScope.launch {
+            try {
+                _userPromotions.postValue(ApiResult.Loading())
+                val request = getTimeStamp()
+                val usersPromotionRequest = UsersPromotionRequest(
+                    timeStamp = request[AppConstant.TIMESTAMP].toString(),
+                    secretKey = request[AppConstant.SECRET_KEY].toString(),
+                    pageNo = pageNo,
+                    status = status
+                )
+                val verifyApi = RetrofitUtil.apiServies.verifyUser(usersPromotionRequest)
+                if (verifyApi.isSuccessful) {
+                    val response = RetrofitUtil.apiServies.getUsersPromotions(usersPromotionRequest)
+                    if (response.isSuccessful) {
+                        _userPromotions.postValue(ApiResult.Success(response.body()))
+                    } else {
+                        _userPromotions.postValue(ApiResult.Error("Something went Went wrong!"))
+                    }
+                }
+            } catch (e: Exception) {
+                _userPromotions.postValue(ApiResult.Error("Something went Went wrong!"))
+            }
+        }
+    }
+
+    fun getTotalUserAccountLogs(
+        pageNo: Int,
+        type: String
+    ) {
+        viewModelScope.launch {
+            try {
+                _totalUserAccountLogs.postValue(ApiResult.Loading())
+                val request = getTimeStamp()
+                val totalUserAccountLogsRequest = TotalUserAccountLogsRequest(
+                    timeStamp = request[AppConstant.TIMESTAMP].toString(),
+                    secretKey = request[AppConstant.SECRET_KEY].toString(),
+                    pageNo = pageNo,
+                    type = type
+                )
+                val verifyApi = RetrofitUtil.apiServies.verifyUser(totalUserAccountLogsRequest)
+                if (verifyApi.isSuccessful) {
+                    val response = RetrofitUtil.apiServies.getTotalUserAccountLogs(totalUserAccountLogsRequest)
+                    if (response.isSuccessful) {
+                        _totalUserAccountLogs.postValue(ApiResult.Success(response.body()))
+                    } else {
+                        _totalUserAccountLogs.postValue(ApiResult.Error("Something went Went wrong!"))
+                    }
+                }
+            } catch (e: Exception) {
+                _totalUserAccountLogs.postValue(ApiResult.Error("Something went Went wrong!"))
             }
         }
     }

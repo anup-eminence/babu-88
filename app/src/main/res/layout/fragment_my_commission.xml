@@ -138,36 +138,36 @@
                     android:id="@+id/tv_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/id_username"
-                    android:textColor="@color/grey_dark"
+                    android:textColor="@color/text_grey_dark"
                     android:textSize="14sp"
                     app:fontFamily="@font/heebo_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/id" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@string/referral_code_xirtufnrma5ykjtb3badoa"
-                    android:textColor="@color/grey_dark"
+                    android:textColor="@color/text_grey_dark"
                     android:textSize="14sp"
                     app:fontFamily="@font/heebo_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_id" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_id"
+                    tools:text="@string/referral_code" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_qr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:src="@drawable/img_qr"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_code" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_code"
+                    tools:src="@drawable/sexybcrt" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btn_share"
@@ -178,8 +178,8 @@
                     android:backgroundTint="@color/white"
                     android:drawableStart="@drawable/ic_share2"
                     android:drawablePadding="8dp"
-                    android:paddingHorizontal="15dp"
                     android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp"
                     android:text="@string/share_now"
                     android:textColor="@color/black"

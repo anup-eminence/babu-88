@@ -50,7 +50,7 @@ class HistoryTabAdapter : RecyclerView.Adapter<HistoryTabAdapter.ViewHolder>() {
         holder.binding.root.setOnClickListener {
             lastSelectedPosition = selectedPosition
             selectedPosition = holder.adapterPosition
-            onTabItemClickListener?.onTabItemClickListener(position)
+            onTabItemClickListener?.onTabItemClickListener(item)
             notifyItemChanged(lastSelectedPosition)
             notifyItemChanged(selectedPosition)
         }
@@ -96,6 +96,6 @@ class HistoryTabAdapter : RecyclerView.Adapter<HistoryTabAdapter.ViewHolder>() {
     }
 
     interface OnTabItemClickListener {
-        fun onTabItemClickListener(position: Int)
+        fun onTabItemClickListener(item: HomeTab?)
     }
 }

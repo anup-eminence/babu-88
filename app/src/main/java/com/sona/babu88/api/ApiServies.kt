@@ -19,12 +19,14 @@ import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.RegisterUserRequest
 import com.sona.babu88.api.model.request.SpecialGameListRequest
 import com.sona.babu88.api.model.request.SportsPLRequest
+import com.sona.babu88.api.model.request.TotalUserAccountLogsRequest
 import com.sona.babu88.api.model.request.TransactionPLRequest
 import com.sona.babu88.api.model.request.TransactionPLRequestFull
 import com.sona.babu88.api.model.request.TransactionRecordRequest
 import com.sona.babu88.api.model.request.UpdateBirthDayRequest
 import com.sona.babu88.api.model.request.UserBetListRequest
 import com.sona.babu88.api.model.request.UserLoginActivityRequest
+import com.sona.babu88.api.model.request.UsersPromotionRequest
 import com.sona.babu88.api.model.request.VerifyEmailCodeRequest
 import com.sona.babu88.api.model.request.VerifyEmailRequest
 import com.sona.babu88.api.model.response.ActiveMultiMarketResponse
@@ -39,15 +41,23 @@ import com.sona.babu88.api.model.response.GetUserMatchDetailResponse
 import com.sona.babu88.api.model.response.GetUserSideBarMatchesResponse
 import com.sona.babu88.api.model.response.InPlayMatchCountResponse
 import com.sona.babu88.api.model.response.MessageWebsiteResponse
+import com.sona.babu88.api.model.response.PointListResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
+import com.sona.babu88.api.model.response.RewardsBenefitsResponse
 import com.sona.babu88.api.model.response.SpecialGameListResponse
 import com.sona.babu88.api.model.response.TierCommDetailsResponse
+import com.sona.babu88.api.model.response.TotalUserAccountLogsResponse
+import com.sona.babu88.api.model.response.TransactionPLResponse
+import com.sona.babu88.api.model.response.TransactionsRecordsResponse
 import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.api.model.response.UserDetailsResponse
 import com.sona.babu88.api.model.response.UserLoginActivityResponse
 import com.sona.babu88.api.model.response.UserProfileResponse
+import com.sona.babu88.api.model.response.UserVipDetailsResponse
+import com.sona.babu88.api.model.response.UsersPromotionResponse
+import com.sona.babu88.api.model.response.VipLevelsResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -83,13 +93,13 @@ interface ApiServies {
     suspend fun validateUserSignup(@Body registerUserRequest: RegisterUserRequest) : Response<RegisterUserResponse>
 
     @POST(ApiConstants.GET_TRANSACTION_PL)
-    suspend fun getTransactionPl(@Body transactionPLRequest: TransactionPLRequest) : Response<Any>
+    suspend fun getTransactionPl(@Body transactionPLRequest: TransactionPLRequest) : Response<TransactionPLResponse>
 
     @POST(ApiConstants.GET_TRANSACTION_PL_FULL)
     suspend fun getTransactionPlFull(@Body transactionPLRequest: TransactionPLRequestFull) : Response<Any>
 
     @POST(ApiConstants.GET_TRANSACTION_RECORD)
-    suspend fun getTransactionRecord(@Body transactionRecordRequest: TransactionRecordRequest) : Response<Any>
+    suspend fun getTransactionRecord(@Body transactionRecordRequest: TransactionRecordRequest) : Response<TransactionsRecordsResponse>
 
     @POST(ApiConstants.GET_USER_DETAILS)
     suspend fun getUserDetails(@Body generalRequest: GeneralRequest) : Response<UserDetailsResponse>
@@ -119,7 +129,7 @@ interface ApiServies {
     suspend fun createDepositRequest(@Body createDepositRequest: CreateDepositRequest): Response<GeneralResponse>
 
     @POST(ApiConstants.GET_WITHDRAW_METHODS)
-    suspend fun getWithdrawMethods(@Body getBankingMethodsRequest: GetBankingMethodsRequest): Response<GeneralResponse>
+    suspend fun getWithdrawMethods(@Body getBankingMethodsRequest: GetBankingMethodsRequest): Response<GetBankingMethodsResponse>
 
     @POST(ApiConstants.GET_USER_LOCKED_AMOUNT)
     suspend fun getUserLockedAmount(@Body generalRequest: GeneralRequest): Response<GeneralResponse>
@@ -180,4 +190,22 @@ interface ApiServies {
 
     @POST(ApiConstants.GET_TIER_COMM_DETAILS)
     suspend fun getTierCommDetails(@Body generalRequest: GeneralRequest): Response<TierCommDetailsResponse>
+
+    @POST(ApiConstants.GET_USERS_PROMOTIONS)
+    suspend fun getUsersPromotions(@Body usersPromotionRequest: UsersPromotionRequest): Response<UsersPromotionResponse>
+
+    @POST(ApiConstants.GET_TOTAL_USER_ACCOUNT_LOGS)
+    suspend fun getTotalUserAccountLogs(@Body totalUserAccountLogsRequest: TotalUserAccountLogsRequest): Response<TotalUserAccountLogsResponse>
+
+    @POST(ApiConstants.GET_USER_VIP_DETAILS)
+    suspend fun getUserVipDetails(@Body generalRequest: GeneralRequest): Response<UserVipDetailsResponse>
+
+    @POST(ApiConstants.GET_VIP_LEVELS)
+    suspend fun getVipLevels(@Body generalRequest: GeneralRequest): Response<List<VipLevelsResponse>>
+
+    @POST(ApiConstants.GET_REW_AND_BEN)
+    suspend fun getRewAndBen(@Body generalRequest: GeneralRequest): Response<List<RewardsBenefitsResponse>>
+
+    @POST(ApiConstants.GET_POINT_LIST)
+    suspend fun getPointList(@Body generalRequest: GeneralRequest): Response<List<PointListResponse>>
 }

@@ -32,6 +32,7 @@ class DepositWithdrawalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setViewPagerAdapter()
+        binding.viewPager.isUserInputEnabled = false
     }
 
     private fun setViewPagerAdapter() {

@@ -21,6 +21,7 @@ import com.sona.babu88.api.model.response.GeneralResponse
 import com.sona.babu88.api.model.response.RegisterUserResponse
 import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.api.model.response.UserDetailsResponse
+import com.sona.babu88.api.model.response.UserVipDetailsResponse
 import com.sona.babu88.util.AppConstant
 import kotlinx.coroutines.launch
 
@@ -49,6 +50,9 @@ class AuthViewModel : ViewModel() {
 
     private val _changePassword = MutableLiveData<ApiResult<GeneralResponse?>>()
     val changePassword: LiveData<ApiResult<GeneralResponse?>> get() = _changePassword
+
+    private val _userVipDetails = MutableLiveData<ApiResult<UserVipDetailsResponse?>>()
+    val userVipDetails: LiveData<ApiResult<UserVipDetailsResponse?>> get() = _userVipDetails
 
     fun authenticateUser(
         userId: String?,
@@ -265,6 +269,30 @@ class AuthViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _changePassword.postValue(ApiResult.Error("Something Went Wrong!"))
+            }
+        }
+    }
+
+    fun getUserVipDetails() {
+        _userVipDetails.postValue(ApiResult.Loading())
+        viewModelScope.launch {
+            try {
+                val request = AppConstant.getTimeStamp()
+                val generalRequest = GeneralRequest(
+                    timeStamp = request[AppConstant.TIMESTAMP],
+                    secretKey = request[AppConstant.SECRET_KEY]
+                )
+                val verifyApi = RetrofitUtil.apiServies.verifyUser(generalRequest)
+                if (verifyApi.isSuccessful) {
+                    val codeResponse = RetrofitUtil.apiServies.getUserVipDetails(generalRequest)
+                    if (codeResponse.isSuccessful && codeResponse.code() == 200) {
+                        _userVipDetails.postValue(ApiResult.Success(codeResponse.body()))
+                    } else {
+                        _userVipDetails.postValue(ApiResult.Error(codeResponse.message()))
+                    }
+                }
+            } catch (e: Exception) {
+                _userVipDetails.postValue(ApiResult.Error("Something Went Wrong!"))
             }
         }
     }

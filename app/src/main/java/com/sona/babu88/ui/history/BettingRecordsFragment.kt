@@ -1,5 +1,6 @@
 package com.sona.babu88.ui.history
 
+import MySharedPreferences
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
 import com.sona.babu88.api.model.response.Provider
+import com.sona.babu88.api.model.response.UserData
 import com.sona.babu88.data.viewmodel.TransactionViewModel
 import com.sona.babu88.databinding.FragmentBettingRecordsBinding
 import com.sona.babu88.model.FishingList
+import com.sona.babu88.util.AppConstant
+import com.sona.babu88.util.hideProgress
+import com.sona.babu88.util.showProgress
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -31,6 +36,12 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
     private var selYear: Int = 0
     private var selMonth: Int = 0
     private var selDay: Int = 0
+    private lateinit var bettingRecordDataAdapter: BettingRecordDataAdapter
+    private var userData: UserData? = null
+    private var start = ""
+    private var end = ""
+    private var plat = ""
+    private var gType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +64,15 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
     private fun initView() {
         val currentDate =
             SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(cal.timeInMillis)
+        start = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.timeInMillis)
+        end = start
         binding.layoutDateSpinner.apply {
             tvStartDate.text = currentDate
             tvEndDate.text = currentDate
         }
+        userData = MySharedPreferences.getSavedObjectFromPreference(requireContext(), AppConstant.USER_DATA)
         setTabAdapter()
+        setBettingRecordDataAdapter()
         observerPlatFormList()
         observerUserSCPack()
         selectedYear = cal.get(Calendar.YEAR)
@@ -66,6 +81,7 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
         selYear = cal.get(Calendar.YEAR)
         selMonth = cal.get(Calendar.MONTH)
         selDay = cal.get(Calendar.DAY_OF_MONTH)
+        observerTransactionPl()
     }
 
     private fun setOnClickListener() {
@@ -84,7 +100,10 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
         binding.recyclerViewTab.adapter = bettingRecordsAdapter
     }
 
-    override fun onTabItemClickListener(item: FishingList?) {}
+    override fun onTabItemClickListener(item: FishingList?) {
+        plat = item?.title.toString()
+        observerTransactionPl()
+    }
 
     private fun observerPlatFormList() {
         transactionViewModel.getPlatFormList()
@@ -172,6 +191,8 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
                                         position: Int,
                                         id: Long
                                     ) {
+                                        gType = list[position]
+                                        observerTransactionPl()
                                     }
 
                                     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -202,6 +223,8 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
                 selectedDay = dayOfMonth
                 binding.layoutDateSpinner.tvStartDate.text =
                     formatDateString((monthOfYear), dayOfMonth, year)
+                start = formatDate((monthOfYear), dayOfMonth, year)
+                observerTransactionPl()
             }, selectedYear, selectedMonth, selectedDay
         )
         datePickerDialog.datePicker.maxDate = cal.timeInMillis
@@ -216,6 +239,8 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
                 selDay = dayOfMonth
                 binding.layoutDateSpinner.tvEndDate.text =
                     formatDateString(monthOfYear, dayOfMonth, year)
+                end = formatDate((monthOfYear), dayOfMonth, year)
+                observerTransactionPl()
             }, selYear, selMonth, selDay
         )
         datePickerDialog.datePicker.maxDate = cal.timeInMillis
@@ -228,5 +253,45 @@ class BettingRecordsFragment : Fragment(), BettingRecordsAdapter.OnTabItemClickL
         }
         val date = calendar.time
         return SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(date)
+    }
+
+    private fun setBettingRecordDataAdapter() {
+        binding.rvBettingRecords.layoutManager = LinearLayoutManager(requireContext())
+        bettingRecordDataAdapter = BettingRecordDataAdapter()
+        binding.rvBettingRecords.adapter = bettingRecordDataAdapter
+    }
+
+    private fun observerTransactionPl() {
+        if (plat.isEmpty()) plat = "All"
+        if (gType.isEmpty()) gType = "All"
+        transactionViewModel.getTransactionPl(
+            userId = userData?.user?.userId ?: "",
+            start = start,
+            end = end,
+            plat = plat,
+            gType = gType
+        )
+        transactionViewModel.transactionPL.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress()
+                }
+                is ApiResult.Success -> {
+                    this.hideProgress()
+                    bettingRecordDataAdapter.setTransactionData(it.data?.results)
+                }
+                is ApiResult.Error -> {
+                    this.hideProgress()
+                }
+            }
+        }
+    }
+
+    private fun formatDate(month: Int, day: Int, year: Int): String {
+        val calendar = Calendar.getInstance().apply {
+            set(year, month, day)
+        }
+        val date = calendar.time
+        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
     }
 }

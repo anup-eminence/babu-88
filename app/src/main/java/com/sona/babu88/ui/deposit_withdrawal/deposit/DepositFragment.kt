@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
 import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.ResultsItem
 import com.sona.babu88.data.viewmodel.DepositViewModel
 import com.sona.babu88.databinding.CustomDepositDialogBinding
 import com.sona.babu88.databinding.FragmentDepositBinding
@@ -103,7 +104,7 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener,
                 is ApiResult.Success -> {
                     this.hideProgress()
                     println("BankingMethods>>> ${it.data}")
-                    paymentMethodsAdapter.setPaymentMethodsData(getMethodsList(it.data?.results?.get(0)?.id.toString()))
+                    paymentMethodsAdapter.setPaymentMethodsData(getMethodsList(it.data?.results?.get(0)))
                 }
 
                 is ApiResult.Error -> {
@@ -283,15 +284,21 @@ class DepositFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener,
 
     override fun onTabItemClickListener(item: HomeTab?) {}
 
-    private fun getMethodsList(method: String?): List<HomeTab> {
+    private fun getMethodsList(item: ResultsItem?): List<HomeTab> {
         val tabList = ArrayList<HomeTab>()
-            tabList.add(HomeTab(findImage(method.toString()), method.toString()))
+        if (item?.isBkash == true) tabList.add(HomeTab(findImage("Bkash"), "Bkash"))
+        if (item?.isNagad == true) tabList.add(HomeTab(findImage("Nagad"), "Nagad"))
+        if (item?.isUpay == true) tabList.add(HomeTab(findImage("Upay"), "Upay"))
+        if (item?.isRocket == true) tabList.add(HomeTab(findImage("Rocket"), "Rocket"))
         return tabList
     }
 
     private fun findImage(type: String): Int {
         return when (type) {
             "Bkash" -> R.drawable.img_bkash
+            "Nagad" -> R.drawable.img_bkash
+            "Upay" -> R.drawable.img_bkash
+            "Rocket" -> R.drawable.img_bkash
             else -> -1
         }
     }

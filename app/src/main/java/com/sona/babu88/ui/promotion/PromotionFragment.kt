@@ -80,6 +80,7 @@ class PromotionFragment : Fragment(), PromotionAdapter.OnItemClickListener {
             when (it) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Success -> {
+                    promotionFilterList.clear()
                     promotionFilterList.add(0, PromoFilterResponse("", "", "All", ""))
                     it.data?.let { it1 -> promotionFilterList.addAll(it1) }
                     promotionTabAdapter.setFilterData(promotionFilterList)

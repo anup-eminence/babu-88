@@ -10,7 +10,7 @@ import com.sona.babu88.databinding.ItemPaymentMethodsBinding
 import com.sona.babu88.model.HomeTab
 
 class PaymentMethodsAdapter : RecyclerView.Adapter<PaymentMethodsAdapter.ViewHolder>() {
-    var selectedPosition = 0
+    var selectedPosition = -1
     private var lastSelectedPosition = -1
     var list = emptyList<HomeTab?>()
     private var onTabItemClickListener: OnTabItemClickListener? = null

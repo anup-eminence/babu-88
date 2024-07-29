@@ -13,10 +13,13 @@ import com.sona.babu88.api.model.request.PromotionListRequest
 import com.sona.babu88.api.model.request.SpecialGameListRequest
 import com.sona.babu88.api.model.response.GameListResponse
 import com.sona.babu88.api.model.response.MessageWebsiteResponse
+import com.sona.babu88.api.model.response.PointListResponse
 import com.sona.babu88.api.model.response.PromoFilterResponse
 import com.sona.babu88.api.model.response.PromotionListResponse
+import com.sona.babu88.api.model.response.RewardsBenefitsResponse
 import com.sona.babu88.api.model.response.SpecialGameListResponse
 import com.sona.babu88.api.model.response.TierCommDetailsResponse
+import com.sona.babu88.api.model.response.VipLevelsResponse
 import com.sona.babu88.util.AppConstant.SECRET_KEY
 import com.sona.babu88.util.AppConstant.TIMESTAMP
 import com.sona.babu88.util.AppConstant.getTimeStamp
@@ -41,6 +44,15 @@ class HomeViewModel : ViewModel() {
 
     private val _tierCommDetails = MutableLiveData<ApiResult<TierCommDetailsResponse?>>()
     val tierCommDetails: LiveData<ApiResult<TierCommDetailsResponse?>> get() = _tierCommDetails
+
+    private val _vipLevels = MutableLiveData<ApiResult<List<VipLevelsResponse>?>>()
+    val vipLevels: LiveData<ApiResult<List<VipLevelsResponse>?>> get() = _vipLevels
+
+    private val _rewardsBenefits = MutableLiveData<ApiResult<List<RewardsBenefitsResponse>?>>()
+    val rewardsBenefits: LiveData<ApiResult<List<RewardsBenefitsResponse>?>> get() = _rewardsBenefits
+
+    private val _pointList = MutableLiveData<ApiResult<List<PointListResponse>?>>()
+    val pointList: LiveData<ApiResult<List<PointListResponse>?>> get() = _pointList
 
     fun getGameList(
         provider: String,
@@ -208,6 +220,78 @@ class HomeViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _tierCommDetails.postValue(ApiResult.Error("Something Went Wrong!"))
+            }
+        }
+    }
+
+    fun getVipLevels() {
+        viewModelScope.launch {
+            try {
+                _vipLevels.postValue(ApiResult.Loading())
+                val request = getTimeStamp()
+                val generalRequest = GeneralRequest(
+                    timeStamp = request[TIMESTAMP].toString(),
+                    secretKey = request[SECRET_KEY].toString()
+                )
+                val verifyUser = RetrofitUtil.apiServies.verifyUser(generalRequest)
+                if (verifyUser.isSuccessful) {
+                    val response = RetrofitUtil.apiServies.getVipLevels(generalRequest)
+                    if (response.isSuccessful) {
+                        _vipLevels.postValue(ApiResult.Success(response.body()))
+                    } else {
+                        _vipLevels.postValue(ApiResult.Error("Something Went Wrong!"))
+                    }
+                }
+            } catch (e: Exception) {
+                _vipLevels.postValue(ApiResult.Error("Something Went Wrong!"))
+            }
+        }
+    }
+
+    fun getRewAndBen() {
+        viewModelScope.launch {
+            try {
+                _rewardsBenefits.postValue(ApiResult.Loading())
+                val request = getTimeStamp()
+                val generalRequest = GeneralRequest(
+                    timeStamp = request[TIMESTAMP].toString(),
+                    secretKey = request[SECRET_KEY].toString()
+                )
+                val verifyUser = RetrofitUtil.apiServies.verifyUser(generalRequest)
+                if (verifyUser.isSuccessful) {
+                    val response = RetrofitUtil.apiServies.getRewAndBen(generalRequest)
+                    if (response.isSuccessful) {
+                        _rewardsBenefits.postValue(ApiResult.Success(response.body()))
+                    } else {
+                        _rewardsBenefits.postValue(ApiResult.Error("Something Went Wrong!"))
+                    }
+                }
+            } catch (e: Exception) {
+                _rewardsBenefits.postValue(ApiResult.Error("Something Went Wrong!"))
+            }
+        }
+    }
+
+    fun getPointList() {
+        viewModelScope.launch {
+            try {
+                _pointList.postValue(ApiResult.Loading())
+                val request = getTimeStamp()
+                val generalRequest = GeneralRequest(
+                    timeStamp = request[TIMESTAMP].toString(),
+                    secretKey = request[SECRET_KEY].toString()
+                )
+                val verifyUser = RetrofitUtil.apiServies.verifyUser(generalRequest)
+                if (verifyUser.isSuccessful) {
+                    val response = RetrofitUtil.apiServies.getPointList(generalRequest)
+                    if (response.isSuccessful) {
+                        _pointList.postValue(ApiResult.Success(response.body()))
+                    } else {
+                        _pointList.postValue(ApiResult.Error("Something Went Wrong!"))
+                    }
+                }
+            } catch (e: Exception) {
+                _pointList.postValue(ApiResult.Error("Something Went Wrong!"))
             }
         }
     }

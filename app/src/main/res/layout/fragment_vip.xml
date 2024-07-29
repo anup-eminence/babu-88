@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.vip.VipFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#08293D">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_vip_club"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/vip_club"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_vip_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_vip_level"
+                app:layout_constraintTop_toBottomOf="@id/iv_vip_club">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_vip_silver"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="20dp"
+                    android:src="@drawable/silver"
+                    app:layout_constraintBottom_toTopOf="@id/view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_vip_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/vip_level"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@id/tv_level"
+                    app:layout_constraintStart_toEndOf="@id/iv_vip_silver"
+                    app:layout_constraintTop_toTopOf="@id/iv_vip_silver" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/heebo_bold"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_vip_silver"
+                    app:layout_constraintStart_toStartOf="@id/tv_vip_level"
+                    app:layout_constraintTop_toBottomOf="@id/tv_vip_level"
+                    tools:text="Silver" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_vip_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/bg_vip_yellow"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="12dp"
+                    android:src="@drawable/ic_vip_history"
+                    android:tint="@color/white"
+                    app:layout_constraintBottom_toTopOf="@id/view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_vip_view"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_vip_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:drawableEnd="@drawable/ic_vip_arrow"
+                    android:drawablePadding="12dp"
+                    android:drawableTint="#BFCCD5"
+                    android:fontFamily="@font/heebo_bold"
+                    android:padding="8dp"
+                    android:text="@string/view_vip_details"
+                    android:textColor="#BFCCD5"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/view"
+                    app:layout_constraintEnd_toEndOf="@id/view"
+                    app:layout_constraintTop_toTopOf="@id/view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_total_vp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/heebo_bold"
+                android:text="@string/total_vp"
+                android:textColor="#87969F"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/cl_vip_level"
+                app:layout_constraintTop_toBottomOf="@id/cl_vip_level" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/heebo_bold"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                app:layout_constraintStart_toStartOf="@id/cl_vip_level"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_vp"
+                tools:text="1100" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_vp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_vip_yellow"
+                android:backgroundTint="#092232"
+                android:fontFamily="@font/heebo_medium"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="2dp"
+                android:text="@string/vp"
+                android:textColor="#717F88"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/tv_points"
+                app:layout_constraintTop_toTopOf="@id/tv_points" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_vip_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_vip_yellow"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="12dp"
+                android:src="@drawable/ic_vip_points"
+                android:tint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/tv_points"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_points" />
+
+            <View
+                android:id="@+id/view_convert"
+                android:layout_width="4dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_4_solid_white"
+                android:backgroundTint="#C9A33D"
+                app:layout_constraintStart_toStartOf="@id/tv_points"
+                app:layout_constraintTop_toBottomOf="@id/tv_points" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_convert_vp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/heebo_bold"
+                android:text="@string/convert_vp"
+                android:textColor="#CFD5D8"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/view_convert"
+                app:layout_constraintStart_toEndOf="@id/view_convert"
+                app:layout_constraintTop_toTopOf="@id/view_convert" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_convert_vp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_vip_convert_vp"
+                app:layout_constraintTop_toBottomOf="@id/view_convert">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_coin_silver"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/coin_rotate_silver"
+                    app:layout_constraintBottom_toTopOf="@id/iv_down_arrow"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_down_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_double_arrow_down"
+                    android:tint="#C9A33D"
+                    app:layout_constraintBottom_toTopOf="@id/iv_coin_gold"
+                    app:layout_constraintEnd_toEndOf="@id/iv_coin_silver"
+                    app:layout_constraintStart_toStartOf="@id/iv_coin_silver"
+                    app:layout_constraintTop_toBottomOf="@id/iv_coin_silver" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_coin_gold"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/coin_rotate_gold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_down_arrow" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_vp2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/vp"
+                    android:textColor="#B0BFC6"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/iv_coin_silver"
+                    app:layout_constraintTop_toTopOf="@id/iv_coin_silver" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_min_vip_req"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/minimum_vp_required"
+                    android:textColor="#B0BFC6"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_vp2"
+                    app:layout_constraintTop_toTopOf="@id/tv_vp2" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/text_vp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_4_solid_white"
+                    android:backgroundTint="#1D4559"
+                    android:fontFamily="@font/heebo_bold"
+                    android:hint="@string/_0"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="8dp"
+                    android:singleLine="true"
+                    android:textColor="#B09027"
+                    android:textColorHint="#637E8A"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_coin_silver"
+                    app:layout_constraintTop_toBottomOf="@id/tv_vp2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_vp_conversion_ratio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/vp_conversion_ratio"
+                    android:textColor="#B0BFC6"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/text_vp"
+                    app:layout_constraintTop_toBottomOf="@id/text_vp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_real_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/heebo_bold"
+                    android:text="@string/real_money"
+                    android:textColor="#B0BFC6"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/text_vp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_vp_conversion_ratio" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_real_money"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/bg_4_solid_white"
+                    android:backgroundTint="#0E4D6B"
+                    android:fontFamily="@font/heebo_bold"
+                    android:hint="@string/_0"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="8dp"
+                    android:singleLine="true"
+                    android:textColor="#B09027"
+                    android:textColorHint="#637E8A"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_coin_silver"
+                    app:layout_constraintTop_toBottomOf="@id/tv_real_money" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_convert_to_real_money"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="15dp"
+                android:background="@drawable/bg_vip_convert_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_convert_vp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/vip_convert_button_bg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/heebo_bold"
+                    android:gravity="center"
+                    android:text="@string/convert_to_real_money"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

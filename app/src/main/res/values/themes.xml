@@ -75,4 +75,13 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="VipTabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorGravity">stretch</item>
+        <item name="tabIndicatorAnimationDuration">500</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabUnboundedRipple">true</item>
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabIndicator">@drawable/bg_vip_selected_tab</item>
+        <item name="tabIndicatorColor">@null</item>
+    </style>
 </resources>

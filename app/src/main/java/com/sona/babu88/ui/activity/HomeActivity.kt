@@ -39,6 +39,8 @@ import com.sona.babu88.ui.promotion.PromotionFragment
 import com.sona.babu88.ui.refer_earn.ReferEarnFragment
 import com.sona.babu88.ui.rewards.ClaimVoucherFragment
 import com.sona.babu88.ui.rewards.RewardsFragment
+import com.sona.babu88.ui.vip.VipFragment
+import com.sona.babu88.ui.vipdetails.VipDetailsFragment
 import com.sona.babu88.util.AppConstant.TOKEN
 import com.sona.babu88.util.AppConstant.USER_DATA
 import com.sona.babu88.util.CurrLangDialogFragment
@@ -83,6 +85,7 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
         setBottomNav()
         observer()
         loginUser()
+        binding.layoutToolBar.toolbarImage.setOnClickListener { setFragment(HomeFragment(),binding.container.id) } //temp... added
     }
 
 
@@ -217,6 +220,8 @@ class HomeActivity : BaseActivity(), CurrLangDialogFragment.OnItemClick, Navigat
 
     override fun onAccountClick(title: String) {
         when(title) {
+            "My VIP" -> { setFragment(VipFragment(), binding.container.id) }
+            "VipDetails" -> { setFragment(VipDetailsFragment(), binding.container.id) }
             "Betting Records", "Bet History" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "0"), binding.container.id) }
             "Turnover" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "1"), binding.container.id) }
             "Transaction Records" -> { setFragment(setFragmentArguments(HistoryFragment(), "tab", "2"), binding.container.id) }

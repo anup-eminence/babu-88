@@ -10,12 +10,13 @@ import com.sona.babu88.api.model.request.GeneralRequest
 import com.sona.babu88.api.model.request.GetBankingChannelListRequest
 import com.sona.babu88.api.model.request.GetBankingMethodsRequest
 import com.sona.babu88.api.model.response.GeneralResponse
+import com.sona.babu88.api.model.response.GetBankingMethodsResponse
 import com.sona.babu88.util.AppConstant
 import kotlinx.coroutines.launch
 
 class WithdrawViewModel : ViewModel() {
-    private val _withdrawMethods = MutableLiveData<ApiResult<GeneralResponse?>>()
-    val withdrawMethods: LiveData<ApiResult<GeneralResponse?>> get() = _withdrawMethods
+    private val _withdrawMethods = MutableLiveData<ApiResult<GetBankingMethodsResponse?>>()
+    val withdrawMethods: LiveData<ApiResult<GetBankingMethodsResponse?>> get() = _withdrawMethods
 
     private val _userLockedAmount = MutableLiveData<ApiResult<GeneralResponse?>>()
     val userLockedAmount: LiveData<ApiResult<GeneralResponse?>> get() = _userLockedAmount
@@ -43,7 +44,7 @@ class WithdrawViewModel : ViewModel() {
                     if (codeResponse.isSuccessful && codeResponse.code() == 200) {
                         _withdrawMethods.postValue(ApiResult.Success(codeResponse.body()))
                     } else {
-                        _withdrawMethods.postValue(ApiResult.Error(codeResponse.body()?.message))
+                        _withdrawMethods.postValue(ApiResult.Error(codeResponse.message()))
                     }
                 }
             } catch (e: Exception) {

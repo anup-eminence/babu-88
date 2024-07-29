@@ -11,17 +11,23 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sona.babu88.R
+import com.sona.babu88.api.ApiResult
+import com.sona.babu88.api.model.response.ResultsItem
 import com.sona.babu88.api.model.response.UserData
+import com.sona.babu88.data.viewmodel.WithdrawViewModel
 import com.sona.babu88.databinding.FragmentWithdrawalBinding
 import com.sona.babu88.model.HomeTab
 import com.sona.babu88.ui.deposit_withdrawal.deposit.PaymentMethodsAdapter
 import com.sona.babu88.util.AppConstant
 import com.sona.babu88.util.OnAccountListener
 import com.sona.babu88.util.hide
+import com.sona.babu88.util.hideProgress
 import com.sona.babu88.util.show
+import com.sona.babu88.util.showProgress
 import com.sona.babu88.util.showToast
 
 class WithdrawalFragment : Fragment(), DepositAmountAdapter.OnAmountClickListener,
@@ -33,6 +39,7 @@ class WithdrawalFragment : Fragment(), DepositAmountAdapter.OnAmountClickListene
     private var listener: OnAccountListener? = null
     private var userData: UserData? = null
     private lateinit var paymentMethodsAdapter: PaymentMethodsAdapter
+    private val withdrawViewModel: WithdrawViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +87,7 @@ class WithdrawalFragment : Fragment(), DepositAmountAdapter.OnAmountClickListene
         setPaymentMethodsAdapter()
         setDepositAmountAdapter()
         setDepositAmountData()
+        observerWithdrawMethods()
     }
 
     private fun setOnClickListener() {
@@ -125,11 +133,6 @@ class WithdrawalFragment : Fragment(), DepositAmountAdapter.OnAmountClickListene
         paymentMethodsAdapter = PaymentMethodsAdapter()
         paymentMethodsAdapter.setOnTabListener(this@WithdrawalFragment)
         binding.rvPaymentMethods.adapter = paymentMethodsAdapter
-
-        val tabList = ArrayList<HomeTab>()
-        tabList.add(HomeTab(R.drawable.img_bank, ""))
-        paymentMethodsAdapter.setPaymentMethodsData(tabList)
-        paymentMethodsAdapter.selectedPosition = -1
     }
 
     override fun onTabItemClickListener(item: HomeTab?) {
@@ -138,6 +141,48 @@ class WithdrawalFragment : Fragment(), DepositAmountAdapter.OnAmountClickListene
                 binding.clMobile.hide()
                 binding.clAddBankDetails.show()
             }
+        }
+    }
+
+    private fun observerWithdrawMethods() {
+        withdrawViewModel.getWithdrawMethods(websiteId = "665488a9be104576f70989e5")
+        withdrawViewModel.withdrawMethods.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResult.Loading -> {
+                    this.showProgress()
+                }
+
+                is ApiResult.Success -> {
+                    this.hideProgress()
+                    println("WithdrawMethods>>> ${it.data}")
+                    paymentMethodsAdapter.setPaymentMethodsData(getMethodsList(it.data?.results?.get(0)))
+                }
+
+                is ApiResult.Error -> {
+                    this.hideProgress()
+                    requireContext().showToast(it.message.toString())
+                }
+            }
+        }
+    }
+
+    private fun getMethodsList(item: ResultsItem?): List<HomeTab> {
+        val tabList = ArrayList<HomeTab>()
+        if (item?.isBkash == true) tabList.add(HomeTab(findImage("Bkash"), "Bkash"))
+        if (item?.isNagad == true) tabList.add(HomeTab(findImage("Nagad"), "Nagad"))
+        if (item?.isUpay == true) tabList.add(HomeTab(findImage("Upay"), "Upay"))
+        if (item?.isRocket == true) tabList.add(HomeTab(findImage("Rocket"), "Rocket"))
+        tabList.add(tabList.size, HomeTab(R.drawable.img_bank, ""))
+        return tabList
+    }
+
+    private fun findImage(type: String): Int {
+        return when (type) {
+            "Bkash" -> R.drawable.img_bkash
+            "Nagad" -> R.drawable.img_bkash
+            "Upay" -> R.drawable.img_bkash
+            "Rocket" -> R.drawable.img_bkash
+            else -> -1
         }
     }
 

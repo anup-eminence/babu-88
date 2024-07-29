@@ -46,4 +46,10 @@ object ApiConstants {
     const val GET_PLAT_FORM_LIST = "$API_USER/getPlatFormList"
     const val GET_USER_SC_PACK = "$API_USER/getUserSCPack"
     const val GET_TIER_COMM_DETAILS = "$API_USER/getTierCommDetails"
+    const val GET_USERS_PROMOTIONS = "$API_USER/getUsersPromotions"
+    const val GET_TOTAL_USER_ACCOUNT_LOGS = "$API_USER/getTotalUserAccountLogs"
+    const val GET_USER_VIP_DETAILS = "$API_USER/getUserVipDetails"
+    const val GET_VIP_LEVELS = "$API_USER/getVipLevels"
+    const val GET_REW_AND_BEN = "$API_USER/getRewAndBen"
+    const val GET_POINT_LIST = "$API_USER/getPointList"
 }
